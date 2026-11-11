@@ -461,8 +461,68 @@ Use these in `SeedData` so previews match the mocks. Currency MYR.
 
 Total 9,776. Adding 300 crosses the 10,000 milestone, which is the easiest way to demo the effects.
 
-## 15. Open items for the owner (not blockers)
+## 15. App icon
 
-- Final bundle id, app name for the App Store, and app icon concept.
+Concept: **"The overflowing honeypot"**, in the Jade & Gold vibe. A gold pot on deep jade, coins spilling over the rim, a drip of honey and a lacquer-red band. The coins are classic round game coins (milled edge, star in the middle), not square-holed coins. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
+
+Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhcj9L3UibLwe
+
+**Deliverables**
+- Three 1024×1024 PNGs in `Assets.xcassets/AppIcon`: Any Appearance, Dark, Tinted.
+- No alpha channel and no pre-rounded corners (iOS applies the mask). Keep key shapes inside the central 80%.
+
+**Composition (1024 canvas)**
+- Ground: flat jade with a soft radial glow and a faint gold diagonal lattice (45 degrees, lines every 160 px, 7 to 16% opacity).
+- Pot: round-bellied gold body (about 450 wide, 320 tall), darker gold rim ellipse with a dark opening.
+- Coins: three gold coins rising from the opening (radius 64, the top one 10% larger). Each coin has a solid disc with a darker edge stroke, a dashed milled-edge ring (radius 56), a solid inner ring (radius 44) and a five-point star in the centre (outer radius about 32, inner about 13) in the darker edge color.
+- Honey: an amber drip down the left side of the pot.
+- Band: a lacquer-red rounded rectangle (440×38, radius 19) around the pot's neck.
+- A shadow under the pot and two flat coins lying at the base.
+- Shading uses flat 20 to 30% white or black overlays. No gradients inside the pot.
+
+**Colors**
+
+| Part | Light | Dark | Tinted (grayscale) |
+|---|---|---|---|
+| Ground | #0B3B2E | #04170F | #0E0E0F |
+| Pot | #E0B83E | #C9A23A | #E8E8E8 |
+| Rim, coin edge | #B98A1E | #94701A | #9A9A9A |
+| Coin face | #F2CE5B | #E2BE55 | #F5F5F5 |
+| Coin ring and star | #A8801C | #86650F | #7A7A7A |
+| Red band | #C8362C | #A92D25 | #8A8A8A |
+| Honey | #FFB627 | #E39A1C | #CFCFCF |
+| Lattice | #D4AF37 | #D4AF37 | #FFFFFF |
+
+**Checks**: at 40 px the pot, coins and red band must still read.
+
+## 16. Releasing to the App Store
+
+Do this after phase 12, with the owner doing the account steps. The agent prepares files and checklists but cannot enrol, sign in to App Store Connect, or submit.
+
+1. **Apple Developer Program.** Owner enrols (US$99 per year, individual is simplest). Needed for TestFlight and App Store.
+2. **Finalize the app.** Set the final bundle id and display name. Add the icon (section 15). Set version `1.0` and build `1`. In Xcode: Signing & Capabilities, choose the team, automatic signing.
+3. **Info.plist and compliance.** Set `ITSAppUsesNonExemptEncryption` to `NO` (no custom encryption). Confirm `NSFaceIDUsageDescription` and the font entries are present. Confirm there are no network calls and no tracking, so no `NSUserTrackingUsageDescription`.
+4. **Create the app in App Store Connect.** New app, platform iOS, name, primary language, bundle id, SKU. Category: Finance or Lifestyle. Complete the age rating questionnaire.
+5. **Privacy.**
+   - App Privacy answers: **Data Not Collected** (nothing leaves the device).
+   - A **privacy policy URL** is required. Publish a short page (GitHub Pages is enough) stating that all data is stored only on the device, nothing is collected or shared, and exports are created only when the user requests them.
+   - A **support URL** is required (a page or contact page).
+6. **Store listing.** Description, subtitle, keywords, 1024 icon, and iPhone screenshots at the currently required size (6.9"). Use screenshots of the three vibes: home list, insights pie, hall of fame, add sheet. Do not show real personal data; use the seed data in section 14.
+7. **Build and upload.** In Xcode: select "Any iOS Device (arm64)", Product, Archive, Distribute App, App Store Connect, Upload. Wait for processing.
+8. **TestFlight.** Internal testers need no review. Optionally add external testers (up to 10,000, short beta review). Test on a real device: first-run onboarding, add and edit, exchange-rate conversion, Face ID, reminders permission, backup then erase then restore, all three themes, smallest and largest iPhones, Dynamic Type at large sizes, airplane mode.
+9. **Submit for review.**
+   - Pick the build, fill in review notes: "No login or account. Face ID is optional. All data is stored locally on the device."
+   - Choose release method (manual recommended for the first release) and pricing (free or paid).
+   - Submit. Review usually takes a day or two. If rejected, read the message in Resolution Center, fix, and resubmit.
+10. **After release.** Keep a backup of the signing assets and the source. Plan updates by bumping the build number for each upload.
+
+**Without a public release**: a free Apple account lets the owner install from Xcode to their own phone (the build expires after 7 days). A paid account lets the owner share via TestFlight with friends and family and builds last 90 days, with no public listing.
+
+Note for the store description and in-app Settings: the app has no cloud. iPhone device backups (iCloud or computer) include the app's data by default, and the in-app JSON backup is the user's own extra safety net.
+
+## 17. Open items for the owner (not blockers)
+
+- Final bundle id and App Store display name. "Count 'Em Blessingz" is the working title and fits the 30-character limit; "Blessingz" is a short option for the home screen label.
+- Final icon sign-off, then export the three PNGs.
 - Whether restore should offer a "merge" option later.
 - Whether to add iCloud backup as an opt-in v2 (kept out of v1 on purpose).
