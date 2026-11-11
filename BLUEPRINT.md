@@ -69,7 +69,9 @@ CountEmBlessingz/
     CurrencyConverter.swift
     BlesserResolver.swift            // find-or-create by name
     MilestoneService.swift
-    ExportService.swift              // CSV, JSON backup, restore
+    ExportService.swift              // CSV, backup, .blessingz share file
+    ImportService.swift              // parse file, build ImportPlan, commit, snapshot and undo
+    DuplicateDetector.swift          // person matching and entry status (pure, unit-tested)
     BiometricLock.swift
     ReminderService.swift            // local notifications
     SeedData.swift                   // DEBUG and previews only
@@ -87,6 +89,7 @@ CountEmBlessingz/
     Insights/ (InsightsView, DonutChart, LegendList)
     HallOfFame/ (HallView, PodiumView, MilestoneStrip, GratitudeQueue, YearReviewCard)
     Settings/ (SettingsView, CurrencyRateSheet, VibePicker)
+    Import/ (ImportReviewView, ImportPersonSection, ImportRow)
     Lock/ (LockView)
     Effects/ (CoinRainView, ChapterCardView, CountUpText)
   Resources/
@@ -132,6 +135,7 @@ final class Blessing {
     @Attribute(.externalStorage) var photoData: Data?
     var originalAmount: Decimal?         // set on first currency conversion, never overwritten
     var originalCurrencyCode: String?
+    var updatedAt: Date                  // set on create and on every edit; used by merge import
     var blesser: Blesser?
 
     var occasion: Occasion { get { Occasion(rawValue: occasionRaw) ?? .other } set { occasionRaw = newValue.rawValue } }
@@ -148,6 +152,9 @@ final class AppSettings {                // exactly one row; create on first lau
     var hideAmounts: Bool = false
     var goal: Decimal = 20000
     var reminderDays: Int = 3            // 0 = reminders off
+    var deviceID: UUID = UUID()          // identifies this install in exported files
+    var deviceLabel: String = ""         // shown in the import preview, default: device name
+    var lastExportAt: Date?
     init() {}
 }
 
@@ -176,6 +183,7 @@ Rules:
 - Matching a typed name to an existing `Blesser` goes through `BlesserResolver` (case-insensitive, trimmed). Never create two blessers with the same `nameKey`.
 - Deleting a blessing leaves the blesser if they still have other blessings. If a blesser ends up with none, delete them too.
 - Create the single `AppSettings` row in `RootView` on first appearance if the query returns empty.
+- Set `Blessing.updatedAt = .now` on creation and on every edit. Deletes are hard deletes. Import only adds or updates entries and never propagates deletions.
 
 ## 6. Services
 
@@ -189,12 +197,63 @@ Rules:
 
 **ExportService**
 - CSV: columns `date(ISO8601),name,amount,currency,occasion,method,note`. Write to a temp file and present with `ShareLink`.
-- JSON backup: Codable `BackupFile { schemaVersion: Int; exportedAt: Date; settings; blessers; blessings; conversions }`, `schemaVersion = 1`. Photos are base64 inside the JSON.
-- Restore: `.fileImporter` for `.json`. Show a confirmation ("Replace everything on this device?"). Replace, not merge, in v1. Validate `schemaVersion`.
+- Backup and sharing file: `ExchangeFile` (section 6.1), extension `.blessingz`, `schemaVersion = 2`. Photos are base64 inside the JSON. A full backup also carries settings and the conversion log.
+- Restore: `.fileImporter` for `.blessingz`. Show a confirmation ("Replace everything on this device?"). Restore replaces; merging is done by Import (section 6.1 and 9.9). Validate `schemaVersion`.
 
 **BiometricLock**: `LAContext.evaluatePolicy(.deviceOwnerAuthentication, ...)`. Lock on scene `.background`, require auth when `.active` again. Cover the app with a privacy view while `.inactive` so the app switcher snapshot shows nothing sensitive.
 
 **ReminderService**: `UNUserNotificationCenter` local notifications only. Request permission the first time the user turns reminders on (not at launch). Schedule one notification per pending blesser, `reminderDays` after the blessing date, text: "Say thanks to {name}." Cancel on mark-thanked, delete, or reminders off. Notification identifier: `thank-{blesser.id}`.
+
+### 6.1 Merge import (several people, no cloud)
+
+Goal: several people each record blessings on their own phone, then bring entries together by sharing a file. The import must never silently change the pot. Every incoming entry is shown in a preview, the user picks which to keep, and likely duplicates are flagged using the person's last amounts, while a genuine second blessing of the same amount is still allowed.
+
+**Exchange file.** Extension `.blessingz`, JSON, `schemaVersion = 2`:
+```swift
+struct ExchangeFile: Codable {
+    var schemaVersion: Int            // 2
+    var exportedAt: Date
+    var exportedBy: String            // AppSettings.deviceLabel, for example "Mum's iPhone"
+    var deviceID: UUID
+    var currencyCode: String
+    var kind: Kind                    // .full or .sinceLastExport
+    var blessers: [BlesserDTO]        // id, name, nameKey
+    var blessings: [BlessingDTO]      // id, blesserID, amount, currencyCode, date, occasion, method, note, updatedAt, photo (base64, optional)
+    enum Kind: String, Codable { case full, sinceLastExport }
+}
+```
+Backup and restore use the same file with `kind = .full`. Restore still replaces everything. Import merges.
+
+**Sharing and opening.** Declare a custom UTI `com.example.countemblessingz.exchange` (extension `blessingz`, conforms to `public.json`) with `UTExportedTypeDeclarations` and `CFBundleDocumentTypes`, so that tapping the file in AirDrop, Messages or Files opens the app. Handle with `.onOpenURL`, and also offer Settings, Data, "Import from file" using `.fileImporter`. Export through `ShareLink`. Offer "Share all my entries" and "Share changes since last export" (updates `AppSettings.lastExportAt`). Parse off the main thread. Friendly errors: "This isn't a Count 'Em Blessingz file." and "This file is from a newer version of the app."
+
+**Rule zero.** Building the preview writes nothing. Cancel or closing the preview leaves the store untouched. Import never deletes anything and never propagates deletions.
+
+**Person matching** (`DuplicateDetector.matchPerson`), tried in order:
+1. Same blesser id as a local blesser.
+2. Same normalized name. Normalize by trimming, collapsing spaces, lowercasing and stripping diacritics.
+3. Similar name (edit distance 2 or less, or one name contains the other, both at least 4 characters): returned as `.similar(existing)`. Never merged automatically. The preview shows "Looks like {existing}. Same person?" with two choices, "Same person" and "Keep separate". Default is Keep separate.
+4. Otherwise `.newPerson`.
+
+**Entry status** for each incoming entry, once its person is matched (`DuplicateDetector.status`):
+
+| Status | Rule | Default |
+|---|---|---|
+| `alreadyImported` | A local blessing has the same id and the incoming `updatedAt` is not newer | Unselected and locked, labelled "Already in your pot" |
+| `updated` | Same id, incoming `updatedAt` is newer and content differs | Selected. Shows old to new values. Import overwrites that entry |
+| `possibleDuplicate` | Different id, same person, same amount (compared after currency conversion, rounded to the currency's minor unit) and the dates are within `duplicateWindow` (named constant, default 72 hours) | Unselected. Shows the matching local entry and how far apart they are. The user may tick it to import anyway |
+| `duplicateWithinFile` | Two entries in the same file for the same person, same amount, within the window | The later one is unselected |
+| `new` | Everything else, including the same amount from the same person far apart in time (for example a birthday gift a year apart) | Selected |
+
+**Last amount.** For every matched (existing) person the preview always shows their most recent local blessing (amount, occasion, date) and their local blessing count, even when no entry is flagged. That lets the user judge a genuine repeat by eye. A `possibleDuplicate` row additionally shows the specific local entry it matched.
+
+**Currency.** If `ExchangeFile.currencyCode` differs from the local currency, show a banner and require one of: set a rate with `CurrencyRateSheet` (same swap UX as section 7, applied only to the incoming amounts), or "Import the numbers as {local currency}" with no conversion. Duplicate detection runs after this step. Imported entries that were converted get `originalAmount` and `originalCurrencyCode` set.
+
+**Commit** (`ImportService.commit(plan)`), only when the user taps Import:
+1. Write an automatic snapshot (a full `ExchangeFile`) to Application Support, `ImportSnapshots/`, and keep the last 3.
+2. In one `modelContext` transaction, for each selected entry: attach it to the matched blesser (or create the new blesser using the file's blesser id and name), insert the blessing keeping the file's id, date, occasion, method, note and `updatedAt`, or overwrite the fields for an `updated` entry. Blessers with no selected entries are not created.
+3. Imported entries do not set `thankYouPending` on existing blessers, new blessers created by import start with `thankYouPending = false`, and no reminders are scheduled.
+4. Run `MilestoneService` on the total before and after. Fire the theme effect once if a threshold was crossed.
+5. Show a toast, "Imported 7 blessings. Undo". Settings, Data, "Undo last import" restores the latest snapshot until the next import or 7 days pass.
 
 ## 7. Currency and conversion
 
@@ -363,11 +422,29 @@ Tab bar (custom, themed) with 4 tabs: Blessings, Insights, Hall, Settings. A flo
 - Vibe: three selectable cards with live preview.
 - Privacy: Face ID lock toggle (verify with a prompt before enabling), Hide amounts by default toggle.
 - Gratitude: Reminder delay (Off, 1, 3, 7 days).
-- Data (stays on this device): Export CSV, Back up to file (JSON), Restore from backup, Erase all data (two-step confirm: first tap changes the label to "Tap again to erase everything", plus a system confirmation dialog).
+- Sharing name: a text field for `deviceLabel`, shown to others in the import preview.
+- Data (stays on this device): Export CSV, Share my entries (all, or changes since last export), Import from file (opens the review in 9.9), Undo last import, Back up to file, Restore from backup (replaces everything), Erase all data (two-step confirm: first tap changes the label to "Tap again to erase everything", plus a system confirmation dialog).
 - Footer: "No cloud, no account. Back up regularly: if you lose this phone, the honeypot is gone."
 
 ### 9.8 Lock screen
 Shown when Face ID is enabled and the app is locked. Themed background, an unlock button, and an automatic attempt on appearance.
+
+### 9.9 Import review (preview before merging)
+Opened by tapping a `.blessingz` file or Settings, Data, Import from file. Nothing is written until the footer button is tapped.
+
+- **Header**: "From {exportedBy} · exported {date}", and a summary line: "{total} in file: {new} new, {updated} updated, {possibleDuplicates} possible duplicates, {already} already in your pot." If the file's currency differs, a banner above the list with "Set rate" (section 7 sheet) and "Import numbers as {currency}".
+- **Controls**: filter segmented control (All, New, Possible duplicates, Already in pot), a search field, and a menu with "Select all new", "Select all", "Select none".
+- **List, grouped by person**. Each person section header shows:
+  - Name and a status chip: "New person", "Existing person" or "Looks like {existing}" with the "Same person" and "Keep separate" choice.
+  - For an existing person: "{n} blessings · Last: {amount} · {occasion} · {date}" (their latest local blessing).
+  - A tri-state checkbox that selects or deselects all selectable entries for that person.
+- **Entry rows**: a checkbox, amount, occasion, date and time, note, and a status badge (New, Updated, Possible duplicate, Already in your pot, Duplicate within file).
+  - Possible duplicate rows show a second line: "Matches {amount} · {occasion} · {date} ({n} days apart)", with the row unselected by default and tappable to override.
+  - Updated rows show the changed fields as old to new.
+  - Already in your pot rows are greyed and cannot be selected.
+- **Footer** (sticky): "Import {selected} of {selectable} · {sum}" and a Cancel button. Disabled when nothing is selected. A second line notes how many new people will be created.
+- **After import**: close, show the toast with Undo, and scroll Home to the newest imported entry.
+- Accessibility: every checkbox and badge has a VoiceOver label that includes the status ("Possible duplicate of 500 from 14 January"), and the list works at the largest Dynamic Type size.
 
 ## 10. Feature checklist (all in scope for v1)
 
@@ -382,7 +459,8 @@ Shown when Face ID is enabled and the app is locked. Themed background, an unloc
 - [ ] Hall of Fame (podium, milestones), milestone effects per theme
 - [ ] Thank-you tracking and local reminders
 - [ ] Hide amounts and Face ID lock
-- [ ] CSV export, JSON backup and restore
+- [ ] CSV export, backup and restore
+- [ ] Share entries as a `.blessingz` file and merge-import with a preview, per-entry selection, last-amount display and duplicate flags
 - [ ] Three themes, swappable, with live preview
 - [ ] Photo attachment
 - [ ] Year-in-review share card
@@ -427,13 +505,25 @@ Each phase ends with: it builds, tests pass, previews render in all themes, and 
 
 **Phase 10, export and backup.** CSV, JSON backup, restore with confirmation, erase-all. *Accept: backup then erase then restore returns identical data (compare counts and totals); bad files show a friendly error.*
 
+**Phase 10b, merge import.** `ExchangeFile` v2, `updatedAt` and device fields, share and open `.blessingz` files, `DuplicateDetector`, `ImportService`, the Import review screen (section 9.9), snapshot and undo. *Accept: see the cases below.*
+- A file with a person and amount that already exist within 72 hours shows "Possible duplicate", unselected, with the matching local entry shown.
+- The same person and amount a year apart shows "New", selected, and the person header still shows their last local amount.
+- An entry with an id already in the pot and no newer `updatedAt` is "Already in your pot", greyed out and locked.
+- Same id with a newer `updatedAt` and changed content is "Updated" with old and new values.
+- "aunt  mei" matches "Aunt Mei" automatically. "Aunty Mei" is only suggested, and defaults to Keep separate.
+- Deselecting every entry disables the Import button. Cancel leaves the database identical (no writes).
+- Tapping Import adds exactly the selected entries in one transaction, creates only the people who have a selected entry, sets no thank-you reminders, and Undo last import restores the earlier snapshot.
+- A file in another currency requires setting a rate (or importing the numbers as-is) before the Import button enables, and duplicate detection uses the converted amounts.
+- A corrupt or newer-version file shows a friendly error and changes nothing.
+
 **Phase 11, reminders.** Permission request on first enable, schedule, cancel on thanked, reminder delay setting. *Accept: a pending blesser produces one notification at the right delay; marking thanked removes it.*
 
 **Phase 12, widget and polish (optional but planned).** Move the store to an App Group container, add a WidgetKit small widget showing the honeypot total (respect hide-amounts), app icon, launch screen, final accessibility pass, empty states, haptics review. *Accept: widget updates after an add; no regressions in earlier phases.*
 
 ## 13. Testing
 
-- Unit: models, converter, resolver, milestone, CSV output, backup round trip, rate parsing for `,` and `.` locales.
+- Unit: models, converter, resolver, milestone, CSV output, backup round trip, rate parsing for `,` and `.` locales, and `DuplicateDetector` (table-driven tests covering every row of the status table in 6.1, including the 72-hour boundary, rounding after conversion, and name normalization and similarity).
+- Two-device check: export from one device, import on another, edit an entry on each, and merge again. Nothing duplicates and nothing is lost.
 - UI (basic): onboarding, add a blessing, see it in the list and in Insights, change vibe, change currency.
 - Manual checklist before release: all three themes on small (SE) and large (Pro Max) screens, Dynamic Type at the largest accessibility size, VoiceOver on Home and Insights, airplane mode (everything must still work), delete and reinstall to confirm the first-run flow.
 
@@ -525,5 +615,5 @@ Note for the store description and in-app Settings: the app has no cloud. iPhone
 
 - Final bundle id and App Store display name. "Count 'Em Blessingz" is the working title and fits the 30-character limit; "Blessingz" is a short option for the home screen label.
 - Final icon sign-off, then export the three PNGs.
-- Whether restore should offer a "merge" option later.
+- Whether the duplicate window (default 72 hours) should be adjustable in Settings.
 - Whether to add iCloud backup as an opt-in v2 (kept out of v1 on purpose).
