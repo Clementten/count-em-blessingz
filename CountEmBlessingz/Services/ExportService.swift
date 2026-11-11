@@ -1,7 +1,8 @@
 import SwiftData
 import Foundation
 
-// MARK: - Backup file format (schemaVersion 1)
+// MARK: - Legacy backup format (schemaVersion 1)
+// Kept so backups made before the exchange format still restore. New backups are ExchangeFile (schema 2).
 
 struct BackupFile: Codable {
     static let currentSchemaVersion = 1
@@ -59,15 +60,24 @@ enum ExportError: LocalizedError, Equatable {
     case notABackup
     case unsupportedVersion(Int)
     case corrupt
+    case unreadable
+    case olderBackup
+    case notAFullBackup
 
     var errorDescription: String? {
         switch self {
         case .notABackup:
-            String(localized: "That file isn't a Count 'Em Blessingz backup.")
-        case .unsupportedVersion(let version):
-            String(localized: "This backup is from a newer version of the app (format \(version)). Update the app and try again.")
+            String(localized: "This isn't a Count 'Em Blessingz file.")
+        case .unsupportedVersion:
+            String(localized: "This file is from a newer version of the app.")
         case .corrupt:
-            String(localized: "This backup file is damaged, so nothing was changed.")
+            String(localized: "This file is damaged, so nothing was changed.")
+        case .unreadable:
+            String(localized: "That file couldn't be read.")
+        case .olderBackup:
+            String(localized: "This is an older backup. Use Restore from backup instead.")
+        case .notAFullBackup:
+            String(localized: "This file only has some entries, so it can't replace everything. Use Import from file to merge it.")
         }
     }
 }
@@ -78,9 +88,6 @@ struct ExportService {
     let context: ModelContext
 
     private static let posix = Locale(identifier: "en_US_POSIX")
-
-    private static func text(_ value: Decimal) -> String { "\(value)" }
-    private static func decimal(_ text: String) -> Decimal? { Decimal(string: text, locale: posix) }
 
     // MARK: CSV
 
@@ -94,7 +101,7 @@ struct ExportService {
             let fields = [
                 formatter.string(from: blessing.date),
                 blessing.blesser?.name ?? "",
-                Self.text(blessing.amount),
+                DecimalCoding.text(blessing.amount),
                 blessing.currencyCode,
                 blessing.occasion.title,
                 blessing.method.title,
@@ -121,133 +128,151 @@ struct ExportService {
         return url
     }
 
-    // MARK: Backup
+    // MARK: Exchange files and backup
 
-    func backupFile(now: Date = .now) throws -> BackupFile {
+    /// Entries (and the people they belong to) as an exchange file.
+    /// `.full` is everything; `includeBackupExtras` adds settings, conversion log and per-person and
+    /// per-entry details so Restore is lossless. `.sinceLastExport` is only entries edited after the last share.
+    func exchangeFile(kind: ExchangeFile.Kind, includeBackupExtras: Bool = false, now: Date = .now) throws -> ExchangeFile {
         let settings = try context.fetch(FetchDescriptor<AppSettings>()).first ?? AppSettings()
-        let blessers = try context.fetch(FetchDescriptor<Blesser>(sortBy: [SortDescriptor(\.createdAt)]))
-        let blessings = try context.fetch(FetchDescriptor<Blessing>(sortBy: [SortDescriptor(\.date)]))
-        let conversions = try context.fetch(FetchDescriptor<CurrencyConversion>(sortBy: [SortDescriptor(\.date)]))
-        return BackupFile(
-            schemaVersion: BackupFile.currentSchemaVersion,
-            exportedAt: now,
-            settings: .init(
+        let allBlessers = try context.fetch(FetchDescriptor<Blesser>(sortBy: [SortDescriptor(\.createdAt)]))
+        var blessings = try context.fetch(FetchDescriptor<Blessing>(sortBy: [SortDescriptor(\.date)]))
+        if kind == .sinceLastExport {
+            let since = settings.lastExportAt ?? .distantPast
+            blessings = blessings.filter { $0.updatedAt > since }
+        }
+        let referenced = Set(blessings.compactMap { $0.blesser?.id })
+        let blessers = kind == .full ? allBlessers : allBlessers.filter { referenced.contains($0.id) }
+        let extras = includeBackupExtras && kind == .full
+
+        var settingsDTO: ExchangeFile.SettingsDTO?
+        var conversions: [ExchangeFile.ConversionDTO]?
+        if extras {
+            settingsDTO = .init(
                 hasOnboarded: settings.hasOnboarded, countryCode: settings.countryCode,
                 currencyCode: settings.currencyCode, themeID: settings.themeID,
                 faceIDEnabled: settings.faceIDEnabled, hideAmounts: settings.hideAmounts,
-                goal: Self.text(settings.goal), reminderDays: settings.reminderDays
-            ),
+                goal: settings.goal, reminderDays: settings.reminderDays
+            )
+            let log = try context.fetch(FetchDescriptor<CurrencyConversion>(sortBy: [SortDescriptor(\.date)]))
+            conversions = log.map {
+                .init(date: $0.date, fromCode: $0.fromCode, toCode: $0.toCode, rate: $0.rate,
+                      convertedAmounts: $0.convertedAmounts, count: $0.count)
+            }
+        }
+        return ExchangeFile(
+            schemaVersion: ExchangeFile.currentSchemaVersion, exportedAt: now,
+            exportedBy: settings.effectiveDeviceLabel, deviceID: settings.deviceID,
+            currencyCode: settings.currencyCode, kind: kind,
             blessers: blessers.map {
-                .init(id: $0.id, name: $0.name, thankYouPending: $0.thankYouPending, createdAt: $0.createdAt)
+                .init(id: $0.id, name: $0.name, nameKey: $0.nameKey,
+                      thankYouPending: extras ? $0.thankYouPending : nil, createdAt: extras ? $0.createdAt : nil)
             },
             blessings: blessings.map {
                 .init(
-                    id: $0.id, amount: Self.text($0.amount), currencyCode: $0.currencyCode, date: $0.date,
-                    occasionRaw: $0.occasionRaw, methodRaw: $0.methodRaw, note: $0.note, photoData: $0.photoData,
-                    originalAmount: $0.originalAmount.map(Self.text), originalCurrencyCode: $0.originalCurrencyCode,
-                    blesserID: $0.blesser?.id
+                    id: $0.id, blesserID: $0.blesser?.id, amount: $0.amount, currencyCode: $0.currencyCode,
+                    date: $0.date, occasion: $0.occasionRaw, method: $0.methodRaw, note: $0.note,
+                    updatedAt: $0.updatedAt, photo: $0.photoData,
+                    originalAmount: extras ? $0.originalAmount : nil,
+                    originalCurrencyCode: extras ? $0.originalCurrencyCode : nil
                 )
             },
-            conversions: conversions.map {
-                .init(date: $0.date, fromCode: $0.fromCode, toCode: $0.toCode, rate: Self.text($0.rate),
-                      convertedAmounts: $0.convertedAmounts, count: $0.count)
-            }
+            settings: settingsDTO, conversions: conversions
         )
     }
 
+    /// How many entries "Share changes since last export" would include.
+    func changedEntryCount() throws -> Int {
+        let since = try context.fetch(FetchDescriptor<AppSettings>()).first?.lastExportAt ?? .distantPast
+        return try context.fetchCount(FetchDescriptor<Blessing>(predicate: #Predicate { $0.updatedAt > since }))
+    }
+
+    /// The lossless backup: a `.full` exchange file with all extras.
+    func backupFile(now: Date = .now) throws -> ExchangeFile {
+        try exchangeFile(kind: .full, includeBackupExtras: true, now: now)
+    }
+
     func backupData(now: Date = .now) throws -> Data {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        return try encoder.encode(backupFile(now: now))
+        try ExchangeFileCodec.encode(backupFile(now: now))
     }
 
     func writeBackup(now: Date = .now) throws -> URL {
-        let url = Self.tempURL(name: "CountEmBlessingz-backup-\(Self.dayStamp(now)).json")
+        let url = Self.tempURL(name: "CountEmBlessingz-backup-\(Self.dayStamp(now)).\(ExchangeFile.fileExtension)")
         try backupData(now: now).write(to: url, options: .atomic)
         return url
     }
 
     // MARK: Restore
 
-    /// Replaces everything on this device with the backup. Validates first; rolls back if inserting fails.
+    /// Replaces everything on this device with the file. Validates first; rolls back if inserting fails.
+    /// Accepts current `.full` files and schema-1 backups. A file without extras (a plain "share all")
+    /// replaces the entries and keeps this device's settings.
     func restore(from data: Data) throws {
-        let file = try Self.decode(data)
-        try Self.validate(file)
+        let file = try ExchangeFileCodec.decode(data, allowLegacy: true)
+        guard file.kind == .full else { throw ExportError.notAFullBackup }
         let rollback = try backupFile()
+        let previousExport = try context.fetch(FetchDescriptor<AppSettings>()).first?.lastExportAt
         do {
             try replaceAll(with: file)
         } catch {
             try? replaceAll(with: rollback)
+            try? context.fetch(FetchDescriptor<AppSettings>()).first?.lastExportAt = previousExport
             throw error
         }
     }
 
-    private static func decode(_ data: Data) throws -> BackupFile {
-        struct Header: Decodable { let schemaVersion: Int }
-        guard let header = try? JSONDecoder().decode(Header.self, from: data) else { throw ExportError.notABackup }
-        guard header.schemaVersion == BackupFile.currentSchemaVersion else {
-            throw ExportError.unsupportedVersion(header.schemaVersion)
-        }
-        guard let file = try? JSONDecoder().decode(BackupFile.self, from: data) else { throw ExportError.corrupt }
-        return file
-    }
-
-    private static func validate(_ file: BackupFile) throws {
-        let blesserIDs = file.blessers.map(\.id)
-        guard Set(blesserIDs).count == blesserIDs.count,
-              Set(file.blessings.map(\.id)).count == file.blessings.count,
-              decimal(file.settings.goal) != nil,
-              file.blessings.allSatisfy({
-                  decimal($0.amount) != nil && ($0.originalAmount.map { decimal($0) != nil } ?? true)
-                      && ($0.blesserID.map { Set(blesserIDs).contains($0) } ?? true)
-              }),
-              file.conversions.allSatisfy({ decimal($0.rate) != nil })
-        else { throw ExportError.corrupt }
-    }
-
-    private func replaceAll(with file: BackupFile) throws {
+    private func replaceAll(with file: ExchangeFile) throws {
         try deleteAllData()
         try context.save()
 
         let settings = try context.fetch(FetchDescriptor<AppSettings>()).first ?? {
             let created = AppSettings(); context.insert(created); return created
         }()
-        let s = file.settings
-        settings.hasOnboarded = s.hasOnboarded
-        settings.countryCode = s.countryCode
-        settings.currencyCode = s.currencyCode
-        settings.themeID = s.themeID
-        settings.faceIDEnabled = s.faceIDEnabled
-        settings.hideAmounts = s.hideAmounts
-        settings.goal = Self.decimal(s.goal) ?? 20_000
-        settings.reminderDays = s.reminderDays
+        // This phone keeps its own identity (deviceID, sharing name). Nothing was shared since the replace.
+        settings.lastExportAt = nil
+        if let s = file.settings {
+            settings.hasOnboarded = s.hasOnboarded
+            settings.countryCode = s.countryCode
+            settings.currencyCode = s.currencyCode
+            settings.themeID = s.themeID
+            settings.faceIDEnabled = s.faceIDEnabled
+            settings.hideAmounts = s.hideAmounts
+            settings.goal = s.goal
+            settings.reminderDays = s.reminderDays
+        } else if settings.currencyCode != file.currencyCode {
+            // Entries carry their own currency; keep the pot's currency consistent with them.
+            settings.currencyCode = file.currencyCode
+            if let country = CountryCatalog.all.first(where: { $0.currencyCode == file.currencyCode }) {
+                settings.countryCode = country.code
+            }
+        }
 
         var blessersByID: [UUID: Blesser] = [:]
         for dto in file.blessers {
             let blesser = Blesser(name: dto.name)
             blesser.id = dto.id
-            blesser.thankYouPending = dto.thankYouPending
-            blesser.createdAt = dto.createdAt
+            blesser.thankYouPending = dto.thankYouPending ?? false
+            blesser.createdAt = dto.createdAt ?? .now
             context.insert(blesser)
             blessersByID[dto.id] = blesser
         }
         for dto in file.blessings {
-            let blessing = Blessing(amount: Self.decimal(dto.amount) ?? 0, currencyCode: dto.currencyCode, date: dto.date)
+            let blessing = Blessing(amount: dto.amount, currencyCode: dto.currencyCode, date: dto.date)
             blessing.id = dto.id
-            blessing.occasionRaw = dto.occasionRaw
-            blessing.methodRaw = dto.methodRaw
+            blessing.occasionRaw = dto.occasion
+            blessing.methodRaw = dto.method
             blessing.note = dto.note
-            blessing.photoData = dto.photoData
-            blessing.updatedAt = dto.date
-            blessing.originalAmount = dto.originalAmount.flatMap(Self.decimal)
+            blessing.photoData = dto.photo
+            blessing.updatedAt = dto.updatedAt
+            blessing.originalAmount = dto.originalAmount
             blessing.originalCurrencyCode = dto.originalCurrencyCode
             context.insert(blessing)
             blessing.blesser = dto.blesserID.flatMap { blessersByID[$0] }
         }
-        for dto in file.conversions {
+        for dto in file.conversions ?? [] {
             context.insert(CurrencyConversion(
                 date: dto.date, fromCode: dto.fromCode, toCode: dto.toCode,
-                rate: Self.decimal(dto.rate) ?? 1, convertedAmounts: dto.convertedAmounts, count: dto.count
+                rate: dto.rate, convertedAmounts: dto.convertedAmounts, count: dto.count
             ))
         }
         try context.save()

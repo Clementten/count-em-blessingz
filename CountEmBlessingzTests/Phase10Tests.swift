@@ -130,9 +130,10 @@ struct BackupTests {
         #expect(throws: ExportError.corrupt) { try service.restore(from: try encoder.encode(file)) }
 
         // Valid shape, unparseable amount.
-        var badAmount = try service.backupFile()
-        badAmount.blessings[0].amount = "lots"
-        #expect(throws: ExportError.corrupt) { try service.restore(from: try encoder.encode(badAmount)) }
+        var json = try #require(String(data: try service.backupData(), encoding: .utf8))
+        let marker = try #require(json.range(of: "\"amount\" : \""))
+        json.insert(contentsOf: "lots", at: marker.upperBound)
+        #expect(throws: ExportError.corrupt) { try service.restore(from: Data(json.utf8)) }
 
         let after = try snapshot(context)
         #expect(after.blessings == before.blessings && after.total == before.total)
@@ -151,7 +152,7 @@ struct BackupTests {
         let service = ExportService(context: try makeContext())
         let csv = try service.writeCSV()
         let json = try service.writeBackup()
-        #expect(csv.pathExtension == "csv" && json.pathExtension == "json")
+        #expect(csv.pathExtension == "csv" && json.pathExtension == "blessingz")
         #expect(FileManager.default.fileExists(atPath: csv.path) && FileManager.default.fileExists(atPath: json.path))
     }
 }

@@ -18,6 +18,20 @@ targets:
       properties:
         UILaunchScreen:
           UIColorName: LaunchBackground
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: com.example.countemblessingz.exchange
+            UTTypeDescription: Count 'Em Blessingz file
+            UTTypeConformsTo:
+              - public.json
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - blessingz
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Count 'Em Blessingz file
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Owner
+            LSItemContentTypes:
+              - com.example.countemblessingz.exchange
         UIAppFonts:
           - PlayfairDisplay-Medium.ttf
           - PlayfairDisplay-Bold.ttf

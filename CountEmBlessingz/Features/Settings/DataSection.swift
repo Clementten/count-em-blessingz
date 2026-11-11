@@ -20,13 +20,13 @@ struct DataSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             action("Export CSV", systemImage: "tablecells") { share { try service.writeCSV() } }
-            action("Back up to file (JSON)", systemImage: "externaldrive") { share { try service.writeBackup() } }
+            action("Back up to file", systemImage: "externaldrive") { share { try service.writeBackup() } }
             action("Restore from backup", systemImage: "arrow.counterclockwise") { importing = true }
             action(eraseArmed ? "Tap again to erase everything" : "Erase all data",
                    systemImage: "trash", destructive: true, action: eraseTapped)
         }
         .sheet(item: $shareURL) { ShareSheet(url: $0).presentationDetents([.medium, .large]) }
-        .fileImporter(isPresented: $importing, allowedContentTypes: [.json]) { result in
+        .fileImporter(isPresented: $importing, allowedContentTypes: [.blessingzExchange, .json]) { result in
             handleImport(result)
         }
         .confirmationDialog("Replace everything on this device?", isPresented: restoreBinding, titleVisibility: .visible) {
