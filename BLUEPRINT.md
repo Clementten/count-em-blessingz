@@ -463,7 +463,7 @@ Total 9,776. Adding 300 crosses the 10,000 milestone, which is the easiest way t
 
 ## 15. App icon
 
-Concept: **"The overflowing honeypot"**, in the Jade & Gold vibe. A gold pot on deep jade, coins spilling over the rim, a drip of honey and a lacquer-red band. The coins are plain round gold coins (raised rim, inner ring, one highlight), with no hole, no star and no dashes. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
+Concept: **"The honey pot"**. A round, clay-colored honey pot in the classic storybook shape: a wide mouth with a thick lip, a plump belly and a plain cream label with a honeycomb mark. The honey fills the pot, bulges over the rim and runs down the front in drips of different lengths, on a deep jade ground. No text and no characters, only the shape. Flat shapes with one consistent edge weight so it holds up at 40 px and recolors cleanly for dark and tinted modes.
 
 Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhcj9L3UibLwe
 
@@ -471,29 +471,28 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 - Three 1024×1024 PNGs in `Assets.xcassets/AppIcon`: Any Appearance, Dark, Tinted.
 - No alpha channel and no pre-rounded corners (iOS applies the mask). Keep key shapes inside the central 80%.
 
-**Composition (1024 canvas)**
-- Ground: flat jade with a soft radial glow and a faint gold diagonal lattice (45 degrees, lines every 160 px, 7 to 16% opacity).
-- Pot: round-bellied gold body (about 450 wide, 320 tall), darker gold rim ellipse with a dark opening.
-- Coins: three gold coins rising from the opening (radius 64, the top one 10% larger). Each coin has a solid disc with a darker edge stroke (7 wide), a solid inner ring (radius 45, 5 wide, 75% opacity) and one white highlight arc (7 wide, 55% opacity) in the upper left. Avoid fine details such as dashes or small emblems, which look jagged at small sizes.
-- Honey: an amber drip down the left side of the pot.
-- Band: a lacquer-red rounded rectangle (440×38, radius 19) around the pot's neck.
-- A shadow under the pot and two flat coins lying at the base, built the same way (edge stroke 7, inner ring 5) so every graphic has the same line weight and quality.
-- Shading uses flat 20 to 30% white or black overlays. No gradients inside the pot.
+**Composition (1024 canvas; the whole artwork is shifted up 90 px so it sits centred)**
+- Ground: flat jade with a soft white radial glow (centre 512,520, radius 640, 16% to 0% opacity).
+- Shadow: a black 30% ellipse under the pot (centre 512,900, rx 330, ry 34).
+- Pot body: path `M330 425 C220 460 200 640 250 750 C300 850 400 890 512 890 C624 890 724 850 774 750 C824 640 804 460 694 425 Z` (about 575 wide at the belly, 465 tall). Shading clipped to the body: a black 20% ellipse on the right (770,660, rx 170, ry 300) and a tilted white 25% highlight ellipse on the left (282,650, rx 30, ry 140, rotate 10).
+- Label: cream rounded rectangle (382,655, 260×150, radius 28) with a honeycomb hexagon (radius 44, centre 512,730) filled honey with a honey-edge stroke 7 wide, round joins.
+- Rim: a thick lip ellipse (centre 512,432, rx 216, ry 50) in the dark clay color, with an opening ellipse (rx 204, ry 46) in the honey-edge color.
+- Honey: a dome `M308 432 Q512 338 716 432 Q512 478 308 432 Z`, plus one front sheet shape that follows the rim's front arc and ends in four rounded drips of different lengths (x centres about 380, 482, 581, 672; lengths about 95, 150, 60, 130 px below the rim). All honey shapes are filled honey with a 5 px honey-edge stroke and round joins.
+- Highlights: one white 60% ellipse on the dome (420,396, rx 70, ry 13, rotate -10), one small white dot (600,402, r 7), and thin white 55% lines (8 px, round caps) down the drips.
+- No gradients. Flat fills with overlays only.
 
 **Colors**
 
 | Part | Light | Dark | Tinted (grayscale) |
 |---|---|---|---|
 | Ground | #0B3B2E | #04170F | #0E0E0F |
-| Pot | #E0B83E | #C9A23A | #E8E8E8 |
-| Rim, coin edge | #B98A1E | #94701A | #9A9A9A |
-| Coin face | #F2CE5B | #E2BE55 | #F5F5F5 |
-| Coin edge and ring | #A8801C | #86650F | #7A7A7A |
-| Red band | #C8362C | #A92D25 | #8A8A8A |
-| Honey | #FFB627 | #E39A1C | #CFCFCF |
-| Lattice | #D4AF37 | #D4AF37 | #FFFFFF |
+| Pot (clay) | #B8692F | #8C4E26 | #8F8F8F |
+| Lip (dark clay) | #8A4A20 | #6B3A19 | #6E6E6E |
+| Label | #FFF1D0 | #E9DDBA | #E0E0E0 |
+| Honey | #FFB627 | #E39A1C | #F5F5F5 |
+| Honey edge | #E8940A | #C27A0A | #BDBDBD |
 
-**Checks**: at 40 px the pot, coins and red band must still read.
+**Checks**: at 120, 80, 60, 40 and 29 px the pot silhouette, the honey drips and the label must still read. In the tinted version the honey must stay clearly brighter than the pot. Render the three variants and look at them before exporting the PNGs.
 
 ## 16. Releasing to the App Store
 
