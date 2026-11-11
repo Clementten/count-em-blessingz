@@ -54,6 +54,7 @@ struct BlessingSnapshot {
     let originalCurrencyCode: String?
     let blesserName: String
     let blesserPending: Bool
+    let updatedAt: Date
 }
 
 struct BlessingService {
@@ -96,6 +97,7 @@ struct BlessingService {
         blessing.method = draft.method
         blessing.note = draft.note
         blessing.photoData = draft.photoData
+        blessing.updatedAt = .now
         if let previous, previous !== target, !previous.blessings.contains(where: { $0 !== blessing }) {
             context.delete(previous)
         }
@@ -109,7 +111,8 @@ struct BlessingService {
             date: blessing.date, occasionRaw: blessing.occasionRaw, methodRaw: blessing.methodRaw,
             note: blessing.note, photoData: blessing.photoData,
             originalAmount: blessing.originalAmount, originalCurrencyCode: blessing.originalCurrencyCode,
-            blesserName: blessing.blesser?.name ?? "", blesserPending: blessing.blesser?.thankYouPending ?? false
+            blesserName: blessing.blesser?.name ?? "", blesserPending: blessing.blesser?.thankYouPending ?? false,
+            updatedAt: blessing.updatedAt
         )
         let blesser = blessing.blesser
         context.delete(blessing)
@@ -131,6 +134,7 @@ struct BlessingService {
         blessing.originalAmount = snapshot.originalAmount
         blessing.originalCurrencyCode = snapshot.originalCurrencyCode
         blessing.blesser = blesser
+        blessing.updatedAt = snapshot.updatedAt
         context.insert(blessing)
     }
 }

@@ -14,6 +14,7 @@ final class Blessing {
     var originalAmount: Decimal?         // set on first currency conversion, never overwritten
     var originalCurrencyCode: String?
     var blesser: Blesser?
+    var updatedAt: Date = Date.now       // bumped on every edit; merge import compares it
 
     var occasion: Occasion {
         get { Occasion(rawValue: occasionRaw) ?? .other }
@@ -32,7 +33,8 @@ final class Blessing {
         method: PaymentMethod = .cash,
         note: String = "",
         photoData: Data? = nil,
-        blesser: Blesser? = nil
+        blesser: Blesser? = nil,
+        updatedAt: Date = .now
     ) {
         self.id = UUID()
         self.amount = amount
@@ -43,5 +45,6 @@ final class Blessing {
         self.note = note
         self.photoData = photoData
         self.blesser = blesser
+        self.updatedAt = updatedAt
     }
 }

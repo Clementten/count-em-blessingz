@@ -53,6 +53,7 @@
 		765D74D028AC169CF42A241D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEEF13420194786A5E451B /* SettingsView.swift */; };
 		7BC0FFC347B09B1756D98ED0 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E07CEBB628099671597412DA /* Inter-SemiBold.ttf */; };
 		7E5795FE284573050654F2B1 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE34E518C55B8690E2DF5DF /* AppSettings.swift */; };
+		855CAB5ED0CE66D4A7687052 /* MergeModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1005C6A4018724C601562638 /* MergeModelTests.swift */; };
 		858E27A73C095BE381530987 /* CurrencyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE3D894EC1A88F49F462BFC /* CurrencyConverter.swift */; };
 		882ED10BA6F285C03E24AF02 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BF18553B76DFA9D6A645AC /* Haptics.swift */; };
 		89B26E4473FD7BF7FFA2EC45 /* SeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DDB943D2DE254C19A7B6DC /* SeedData.swift */; };
@@ -151,6 +152,7 @@
 		0DEE82BC57BC145942335147 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0EC96DD77FCA693A1113B9C2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		0FF58487DA9F9F3A13E9BC32 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
+		1005C6A4018724C601562638 /* MergeModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeModelTests.swift; sourceTree = "<group>"; };
 		10E816C8A74BA041FA756EC3 /* BlessingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlessingService.swift; sourceTree = "<group>"; };
 		13DDB943D2DE254C19A7B6DC /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
 		15362FF814184324634D465E /* CormorantGaramond-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantGaramond-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 		14189836B2B37340FA66D259 /* CountEmBlessingzTests */ = {
 			isa = PBXGroup;
 			children = (
+				1005C6A4018724C601562638 /* MergeModelTests.swift */,
 				9EFA73C8BB41D4F3AB53F2D6 /* Phase1Tests.swift */,
 				DB615D822BFAE81EA0624E78 /* Phase4Tests.swift */,
 				FFEAC5D4C52CABEA6972F48D /* Phase5Tests.swift */,
@@ -725,6 +728,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				855CAB5ED0CE66D4A7687052 /* MergeModelTests.swift in Sources */,
 				DDCDA4A084DE846E850C4274 /* Phase10Tests.swift in Sources */,
 				E310693F40D7548D3019022F /* Phase11Tests.swift in Sources */,
 				AE6308A6291C659EB4666D43 /* Phase1Tests.swift in Sources */,

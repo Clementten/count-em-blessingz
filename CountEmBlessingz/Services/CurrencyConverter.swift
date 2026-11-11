@@ -59,6 +59,7 @@ enum CurrencyConverter {
                     blessing.amount = convert(blessing.amount, rate: effectiveRate, to: target)
                 }
                 blessing.currencyCode = target
+                blessing.updatedAt = .now
             }
             if !labelOnly {
                 settings.goal = convertGoal(settings.goal, rate: effectiveRate)

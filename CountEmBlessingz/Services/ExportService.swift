@@ -238,6 +238,7 @@ struct ExportService {
             blessing.methodRaw = dto.methodRaw
             blessing.note = dto.note
             blessing.photoData = dto.photoData
+            blessing.updatedAt = dto.date
             blessing.originalAmount = dto.originalAmount.flatMap(Self.decimal)
             blessing.originalCurrencyCode = dto.originalCurrencyCode
             context.insert(blessing)

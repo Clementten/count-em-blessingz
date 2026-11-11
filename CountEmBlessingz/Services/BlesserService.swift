@@ -59,7 +59,10 @@ struct BlesserService {
     /// The target stays thank-you pending if either blesser was.
     func merge(_ source: Blesser, into target: Blesser) {
         guard source !== target else { return }
-        for blessing in source.blessings { blessing.blesser = target }
+        for blessing in source.blessings {
+            blessing.blesser = target
+            blessing.updatedAt = .now
+        }
         target.thankYouPending = target.thankYouPending || source.thankYouPending
         context.delete(source)
     }
