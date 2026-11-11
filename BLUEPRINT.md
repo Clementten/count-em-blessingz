@@ -463,7 +463,7 @@ Total 9,776. Adding 300 crosses the 10,000 milestone, which is the easiest way t
 
 ## 15. App icon
 
-Concept: **"Honey, brimming and overflowing"**, in the Jade & Gold vibe. A red lacquer honey pot with a gold band, filled to a glossy dome of honey that spills over the rim and runs down the sides in thick drips. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
+Concept: **"Golden oil, brimming over"**, in the Jade & Gold vibe. A classic round-bellied pot with a gold rim and a cream label, filled to the brim with translucent golden oil that bulges above the rim, wraps over the front edge, runs down the sides in two streams and pools at the base. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
 
 Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhcj9L3UibLwe
 
@@ -473,10 +473,10 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 
 **Composition (1024 canvas)**
 - Ground: flat jade with a soft radial glow and a faint gold diagonal lattice (45 degrees, lines every 160 px, 7 to 16% opacity).
-- Pot: round-bellied body (about 450 wide, 320 tall) in lacquer red, with a gold band across the belly and a darker gold rim ellipse at the top.
-- Honey: a glossy dome rising about 200 px above the rim, a thin sheet over the front rim, and four drips of different lengths running down the body (rounded ends). A white highlight blob on the dome and thin white highlight lines on the drips.
-- A soft shadow under the pot.
-- Shading uses flat 14 to 28% white or black overlays. No gradients inside the pot.
+- Pot: round-bellied body in lacquer red (about 460 wide at the belly, 330 tall), narrower neck, a thick gold rim ellipse (rx 214, ry 46) with a dark opening (rx 188, ry 32). A cream rounded-rectangle label (152×124) on the belly with a small oil-drop emblem.
+- Oil: translucent amber (about 80% opacity) with a thin darker edge line. A convex lens bulging about 90 px above the rim, a band wrapping over the front rim, two streams down the body (one short on the left, one long on the right, rounded ends), and a flat translucent pool (about 60% opacity) at the base. Because it is translucent, the dark opening and the red pot show through. White highlight streaks on the bulge and the streams.
+- A soft shadow under the pot and pool.
+- Shading uses flat 20 to 28% white or black overlays. No gradients inside the pot.
 
 **Colors**
 
@@ -484,12 +484,15 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 |---|---|---|---|
 | Ground | #0B3B2E | #04170F | #0E0E0F |
 | Pot | #C8362C | #A92D25 | #8F8F8F |
-| Band | #E0B83E | #C9A23A | #CFCFCF |
-| Rim | #B98A1E | #94701A | #6E6E6E |
-| Honey | #FFB627 | #E39A1C | #F5F5F5 |
+| Rim | #E0B83E | #C9A23A | #CFCFCF |
+| Pot opening | #2A1B05 | #1C1203 | #1A1A1A |
+| Oil | #FFC83A | #E8B130 | #F5F5F5 |
+| Oil edge | #E59A00 | #C07C00 | #BDBDBD |
+| Label | #FFF4D6 | #E9DDBA | #E0E0E0 |
+| Drop emblem | #D98E00 | #B8730A | #6E6E6E |
 | Lattice | #D4AF37 | #D4AF37 | #FFFFFF |
 
-**Checks**: at 40 px the honey dome, drips and gold band must still read. In the tinted version the honey must stay clearly brighter than the pot.
+**Checks**: at 40 px the pot silhouette, the oil bulge and the streams must still read. In the tinted version the oil must stay clearly brighter than the pot.
 
 ## 16. Releasing to the App Store
 
