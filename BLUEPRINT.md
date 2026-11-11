@@ -463,7 +463,7 @@ Total 9,776. Adding 300 crosses the 10,000 milestone, which is the easiest way t
 
 ## 15. App icon
 
-Concept: **"The overflowing honeypot"**, in the Jade & Gold (Crazy Rich Asians) vibe. A gold pot on deep jade, coins spilling over the rim, a drip of honey and a lacquer-red band. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
+Concept: **"Honey, brimming and overflowing"**, in the Jade & Gold vibe. A red lacquer honey pot with a gold band, filled to a glossy dome of honey that spills over the rim and runs down the sides in thick drips. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
 
 Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhcj9L3UibLwe
 
@@ -473,25 +473,23 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 
 **Composition (1024 canvas)**
 - Ground: flat jade with a soft radial glow and a faint gold diagonal lattice (45 degrees, lines every 160 px, 7 to 16% opacity).
-- Pot: round-bellied gold body (about 450 wide, 320 tall), darker gold rim ellipse with a dark opening, coins rising from the opening (three gold coins, each with an inner ring and a square hole).
-- Honey: an amber drip down the left side of the pot.
-- Band: a lacquer-red rounded rectangle (440×38, radius 19) around the pot's neck.
-- A shadow under the pot and two coins lying at the base.
-- Shading uses flat 20 to 30% white or black overlays. No gradients inside the pot.
+- Pot: round-bellied body (about 450 wide, 320 tall) in lacquer red, with a gold band across the belly and a darker gold rim ellipse at the top.
+- Honey: a glossy dome rising about 200 px above the rim, a thin sheet over the front rim, and four drips of different lengths running down the body (rounded ends). A white highlight blob on the dome and thin white highlight lines on the drips.
+- A soft shadow under the pot.
+- Shading uses flat 14 to 28% white or black overlays. No gradients inside the pot.
 
 **Colors**
 
 | Part | Light | Dark | Tinted (grayscale) |
 |---|---|---|---|
 | Ground | #0B3B2E | #04170F | #0E0E0F |
-| Pot | #E0B83E | #C9A23A | #E8E8E8 |
-| Rim, coin edge | #B98A1E | #94701A | #9A9A9A |
-| Red band | #C8362C | #A92D25 | #8A8A8A |
-| Honey | #FFB627 | #E39A1C | #CFCFCF |
-| Coins | #F2CE5B | #E2BE55 | #F5F5F5 |
+| Pot | #C8362C | #A92D25 | #8F8F8F |
+| Band | #E0B83E | #C9A23A | #CFCFCF |
+| Rim | #B98A1E | #94701A | #6E6E6E |
+| Honey | #FFB627 | #E39A1C | #F5F5F5 |
 | Lattice | #D4AF37 | #D4AF37 | #FFFFFF |
 
-**Checks**: at 40 px the pot, coins and red band must still read.
+**Checks**: at 40 px the honey dome, drips and gold band must still read. In the tinted version the honey must stay clearly brighter than the pot.
 
 ## 16. Releasing to the App Store
 
@@ -521,6 +519,6 @@ Note for the store description and in-app Settings: the app has no cloud. iPhone
 ## 17. Open items for the owner (not blockers)
 
 - Final bundle id and App Store display name. "Count 'Em Blessingz" is the working title and fits the 30-character limit; "Blessingz" is a short option for the home screen label.
-- Icon refinements to consider (see the owner's notes), then export the final PNGs.
+- Final icon sign-off, then export the three PNGs.
 - Whether restore should offer a "merge" option later.
 - Whether to add iCloud backup as an opt-in v2 (kept out of v1 on purpose).
