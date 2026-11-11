@@ -59,6 +59,7 @@
 		85B45F0C7611486BF56FCEE5 /* ExchangeFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B2B804D3BB9075C399D43 /* ExchangeFile.swift */; };
 		882ED10BA6F285C03E24AF02 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BF18553B76DFA9D6A645AC /* Haptics.swift */; };
 		89B26E4473FD7BF7FFA2EC45 /* SeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DDB943D2DE254C19A7B6DC /* SeedData.swift */; };
+		8A690B72BFEED5CDA411982D /* DuplicateDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D03A8C4A22F3D1E7AEB135 /* DuplicateDetector.swift */; };
 		914B8C58D05F9EF334AAA0C8 /* HallLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BA3158BBAD691AD5B693AA /* HallLogic.swift */; };
 		944C8EEBEA6FB01012B72674 /* HomeListLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC1024481FD877006385188 /* HomeListLogic.swift */; };
 		97DE4B6BD893BEA935A71E7C /* BlessingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E816C8A74BA041FA756EC3 /* BlessingService.swift */; };
@@ -70,6 +71,7 @@
 		A595E41F28501C2C0D66F678 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC96DD77FCA693A1113B9C2 /* OnboardingView.swift */; };
 		ACEE4036A3D2319F3A60D5DA /* CountEmBlessingzWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3772C2D5F0AA5C695B35762D /* CountEmBlessingzWidget.swift */; };
 		AD554C80B701E4DF13534976 /* CoinRainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99352A6A750558897A68E8A2 /* CoinRainView.swift */; };
+		ADA68AC0F87EABBAAE1E6D59 /* DuplicateDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED2A8A04C85DF623501E5E2 /* DuplicateDetectorTests.swift */; };
 		AE0675A3D6E2EB69129CA028 /* Occasion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F39FF72901490AFCFAF2A2F /* Occasion.swift */; };
 		AE5EE597EF451330AA575BB3 /* VibePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC90A2A2C31AA94979972DA7 /* VibePicker.swift */; };
 		AE6308A6291C659EB4666D43 /* Phase1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EFA73C8BB41D4F3AB53F2D6 /* Phase1Tests.swift */; };
@@ -171,6 +173,7 @@
 		23C5AB223847C47071FD9C00 /* GratitudeQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GratitudeQueue.swift; sourceTree = "<group>"; };
 		26A7FE5F810DA33AEC3FA5FE /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		2C735D47EE2682B3258F8A80 /* OFL-playfairdisplay.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-playfairdisplay.txt"; sourceTree = "<group>"; };
+		2ED2A8A04C85DF623501E5E2 /* DuplicateDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateDetectorTests.swift; sourceTree = "<group>"; };
 		2EE34E518C55B8690E2DF5DF /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		34D067A678242636EC878BA5 /* OFL-cormorantgaramond.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-cormorantgaramond.txt"; sourceTree = "<group>"; };
 		35C888F04A5DDB4F1C190E9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -194,6 +197,7 @@
 		616F260644EA6D6B57BEE739 /* PodiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodiumView.swift; sourceTree = "<group>"; };
 		6370EE1EAF32F6ECA65F170B /* CormorantGaramond-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantGaramond-Medium.ttf"; sourceTree = "<group>"; };
 		6454AF483B3BC27AA783959C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		64D03A8C4A22F3D1E7AEB135 /* DuplicateDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateDetector.swift; sourceTree = "<group>"; };
 		65CE4841ECB7BBCD7FF79C92 /* BlessingEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlessingEditorSheet.swift; sourceTree = "<group>"; };
 		693B1758C9CF1BA3449D6FEA /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
 		6FF559B54EA672566D24257B /* OFL-jost.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-jost.txt"; sourceTree = "<group>"; };
@@ -262,6 +266,7 @@
 		14189836B2B37340FA66D259 /* CountEmBlessingzTests */ = {
 			isa = PBXGroup;
 			children = (
+				2ED2A8A04C85DF623501E5E2 /* DuplicateDetectorTests.swift */,
 				A6DA767D37ACA041444D51C5 /* ExchangeFileTests.swift */,
 				1005C6A4018724C601562638 /* MergeModelTests.swift */,
 				9EFA73C8BB41D4F3AB53F2D6 /* Phase1Tests.swift */,
@@ -461,6 +466,7 @@
 				10E816C8A74BA041FA756EC3 /* BlessingService.swift */,
 				C108D2950D5F8F6FCB5BFA0A /* CountryCatalog.swift */,
 				EDE3D894EC1A88F49F462BFC /* CurrencyConverter.swift */,
+				64D03A8C4A22F3D1E7AEB135 /* DuplicateDetector.swift */,
 				218B2B804D3BB9075C399D43 /* ExchangeFile.swift */,
 				88FD16348C3287121BFEAA6C /* ExportService.swift */,
 				23BF18553B76DFA9D6A645AC /* Haptics.swift */,
@@ -671,6 +677,7 @@
 				5B41CBB5C6923D98BBBDBCC5 /* CurrencyRateSheet.swift in Sources */,
 				9843CC429377E3EE8E2099F9 /* DataSection.swift in Sources */,
 				E0A3119E0E4825273299B5B6 /* DonutChart.swift in Sources */,
+				8A690B72BFEED5CDA411982D /* DuplicateDetector.swift in Sources */,
 				85B45F0C7611486BF56FCEE5 /* ExchangeFile.swift in Sources */,
 				572BF2ED5FFDD4F7274392A1 /* ExportService.swift in Sources */,
 				D6FBD3B70D521B939C126FCC /* Fonts.swift in Sources */,
@@ -735,6 +742,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADA68AC0F87EABBAAE1E6D59 /* DuplicateDetectorTests.swift in Sources */,
 				81343C836751BCBD92F8FFB6 /* ExchangeFileTests.swift in Sources */,
 				855CAB5ED0CE66D4A7687052 /* MergeModelTests.swift in Sources */,
 				DDCDA4A084DE846E850C4274 /* Phase10Tests.swift in Sources */,
