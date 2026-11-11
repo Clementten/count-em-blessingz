@@ -463,7 +463,7 @@ Total 9,776. Adding 300 crosses the 10,000 milestone, which is the easiest way t
 
 ## 15. App icon
 
-Concept: **"Golden oil, brimming over"**, in the Jade & Gold vibe. A classic round-bellied pot with a gold rim and a cream label, filled to the brim with translucent golden oil that bulges above the rim, wraps over the front edge, runs down the sides in two streams and pools at the base. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
+Concept: **"The overflowing honeypot"**, in the Jade & Gold vibe. A gold pot on deep jade, coins spilling over the rim, a drip of honey and a lacquer-red band. The coins are classic round game coins (milled edge, star in the middle), not square-holed coins. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
 
 Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhcj9L3UibLwe
 
@@ -473,26 +473,27 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 
 **Composition (1024 canvas)**
 - Ground: flat jade with a soft radial glow and a faint gold diagonal lattice (45 degrees, lines every 160 px, 7 to 16% opacity).
-- Pot: round-bellied body in lacquer red (about 460 wide at the belly, 330 tall), narrower neck, a thick gold rim ellipse (rx 214, ry 46) with a dark opening (rx 188, ry 32). A cream rounded-rectangle label (152×124) on the belly with a small oil-drop emblem.
-- Oil: translucent amber (about 80% opacity) with a thin darker edge line. A convex lens bulging about 90 px above the rim, a band wrapping over the front rim, two streams down the body (one short on the left, one long on the right, rounded ends), and a flat translucent pool (about 60% opacity) at the base. Because it is translucent, the dark opening and the red pot show through. White highlight streaks on the bulge and the streams.
-- A soft shadow under the pot and pool.
-- Shading uses flat 20 to 28% white or black overlays. No gradients inside the pot.
+- Pot: round-bellied gold body (about 450 wide, 320 tall), darker gold rim ellipse with a dark opening.
+- Coins: three gold coins rising from the opening (radius 64, the top one 10% larger). Each coin has a solid disc with a darker edge stroke, a dashed milled-edge ring (radius 56), a solid inner ring (radius 44) and a five-point star in the centre (outer radius about 32, inner about 13) in the darker edge color.
+- Honey: an amber drip down the left side of the pot.
+- Band: a lacquer-red rounded rectangle (440×38, radius 19) around the pot's neck.
+- A shadow under the pot and two flat coins lying at the base.
+- Shading uses flat 20 to 30% white or black overlays. No gradients inside the pot.
 
 **Colors**
 
 | Part | Light | Dark | Tinted (grayscale) |
 |---|---|---|---|
 | Ground | #0B3B2E | #04170F | #0E0E0F |
-| Pot | #C8362C | #A92D25 | #8F8F8F |
-| Rim | #E0B83E | #C9A23A | #CFCFCF |
-| Pot opening | #2A1B05 | #1C1203 | #1A1A1A |
-| Oil | #FFC83A | #E8B130 | #F5F5F5 |
-| Oil edge | #E59A00 | #C07C00 | #BDBDBD |
-| Label | #FFF4D6 | #E9DDBA | #E0E0E0 |
-| Drop emblem | #D98E00 | #B8730A | #6E6E6E |
+| Pot | #E0B83E | #C9A23A | #E8E8E8 |
+| Rim, coin edge | #B98A1E | #94701A | #9A9A9A |
+| Coin face | #F2CE5B | #E2BE55 | #F5F5F5 |
+| Coin ring and star | #A8801C | #86650F | #7A7A7A |
+| Red band | #C8362C | #A92D25 | #8A8A8A |
+| Honey | #FFB627 | #E39A1C | #CFCFCF |
 | Lattice | #D4AF37 | #D4AF37 | #FFFFFF |
 
-**Checks**: at 40 px the pot silhouette, the oil bulge and the streams must still read. In the tinted version the oil must stay clearly brighter than the pot.
+**Checks**: at 40 px the pot, coins and red band must still read.
 
 ## 16. Releasing to the App Store
 
