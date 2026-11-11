@@ -463,7 +463,7 @@ Total 9,776. Adding 300 crosses the 10,000 milestone, which is the easiest way t
 
 ## 15. App icon
 
-Concept: **"The pot of gold"**, in the Jade & Gold vibe. A big round gold pot on deep jade with a lacquer-red band, heaped with coins that spill out of the top, and a few coins resting beside it. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
+Concept: **"The overflowing honeypot"**, in the Jade & Gold vibe. A gold pot on deep jade, coins spilling over the rim, a drip of honey and a lacquer-red band. The coins are plain round gold coins (raised rim, inner ring, one highlight), with no hole, no star and no dashes. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
 
 Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhcj9L3UibLwe
 
@@ -473,13 +473,12 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 
 **Composition (1024 canvas)**
 - Ground: flat jade with a soft radial glow and a faint gold diagonal lattice (45 degrees, lines every 160 px, 7 to 16% opacity).
-- Pot: a round-bellied gold body that fills the frame. Path: `M312 430 C232 470 200 560 220 650 C240 750 330 840 512 840 C694 840 784 750 804 650 C824 560 792 470 712 430 Z` (about 584 wide at the belly, 410 tall). A darker gold rim ellipse (center 512,430, rx 212, ry 52) with a dark opening (rx 188, ry 38).
-- Band: a lacquer-red ribbon curving across the belly (y about 585 to 650 at the sides, bowing down 80 px at the centre), clipped to the pot body, with 8 px darker gold lines along both edges.
-- Coins heaped in the opening: four coins drawn back to front (top at 512,292 scale 1.22; left 398,366 and right 626,366 scale 1.16; front 512,404 scale 1.02). A front lip (the lower half of the rim ring, in pot gold with a darker edge) is drawn over the coins so they sit inside the pot.
-- Coin construction (base radius 64): solid disc with a darker edge stroke (7 wide), a solid inner ring (radius 45, 5 wide, 75% opacity) and one white highlight arc (7 wide, 55% opacity) in the upper left. No hole, no star, no dashes. Avoid fine details, which look jagged at small sizes.
-- Two flat coins resting at the base, left (226,822) and right (808,822), each an ellipse (rx 96, ry 30) with a darker edge underneath and the same stroke weights (7 and 5), so every coin has the same line weight and quality.
-- A soft shadow ellipse under the pot.
-- Shading: flat overlays clipped to the pot body: a black 20% ellipse on the right side, and a tilted white 30% highlight ellipse on the left. No gradients inside the pot.
+- Pot: round-bellied gold body (about 450 wide, 320 tall), darker gold rim ellipse with a dark opening.
+- Coins: three gold coins rising from the opening (radius 64, the top one 10% larger). Each coin has a solid disc with a darker edge stroke (7 wide), a solid inner ring (radius 45, 5 wide, 75% opacity) and one white highlight arc (7 wide, 55% opacity) in the upper left. Avoid fine details such as dashes or small emblems, which look jagged at small sizes.
+- Honey: an amber drip down the left side of the pot.
+- Band: a lacquer-red rounded rectangle (440×38, radius 19) around the pot's neck.
+- A shadow under the pot and two flat coins lying at the base, built the same way (edge stroke 7, inner ring 5) so every graphic has the same line weight and quality.
+- Shading uses flat 20 to 30% white or black overlays. No gradients inside the pot.
 
 **Colors**
 
@@ -487,14 +486,14 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 |---|---|---|---|
 | Ground | #0B3B2E | #04170F | #0E0E0F |
 | Pot | #E0B83E | #C9A23A | #E8E8E8 |
-| Rim, coin underside | #B98A1E | #94701A | #9A9A9A |
-| Pot opening | #2A1B05 | #1C1203 | #1A1A1A |
+| Rim, coin edge | #B98A1E | #94701A | #9A9A9A |
 | Coin face | #F2CE5B | #E2BE55 | #F5F5F5 |
 | Coin edge and ring | #A8801C | #86650F | #7A7A7A |
 | Red band | #C8362C | #A92D25 | #8A8A8A |
+| Honey | #FFB627 | #E39A1C | #CFCFCF |
 | Lattice | #D4AF37 | #D4AF37 | #FFFFFF |
 
-**Checks**: at 120, 80, 60, 40 and 29 px the pot, the coin heap and the red band must still read. Render the three variants and look at them before exporting the PNGs.
+**Checks**: at 40 px the pot, coins and red band must still read.
 
 ## 16. Releasing to the App Store
 
