@@ -463,7 +463,7 @@ Total 9,776. Adding 300 crosses the 10,000 milestone, which is the easiest way t
 
 ## 15. App icon
 
-Concept: **"The overflowing honeypot"**, in the Jade & Gold vibe. A gold pot on deep jade, coins spilling over the rim, a drip of honey and a lacquer-red band. The coins are classic round game coins (milled edge, star in the middle), not square-holed coins. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
+Concept: **"The overflowing honeypot"**, in the Jade & Gold (Crazy Rich Asians) vibe. A gold pot on deep jade, coins spilling over the rim, a drip of honey and a lacquer-red band. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
 
 Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhcj9L3UibLwe
 
@@ -474,7 +474,7 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 **Composition (1024 canvas)**
 - Ground: flat jade with a soft radial glow and a faint gold diagonal lattice (45 degrees, lines every 160 px, 7 to 16% opacity).
 - Pot: round-bellied gold body (about 450 wide, 320 tall), darker gold rim ellipse with a dark opening.
-- Coins: three gold coins rising from the opening (radius 64, the top one 10% larger). Each coin has a solid disc with a darker edge stroke, a dashed milled-edge ring (radius 56), a solid inner ring (radius 44) and a five-point star in the centre (outer radius about 32, inner about 13) in the darker edge color.
+- Coins: three gold coins rising from the opening (radius 64, the top one 10% larger). Each coin has a solid disc with a darker edge stroke (7 wide), an inner ring (radius 46, 5 wide, 70% opacity) and a small square hole in the centre (30×30, radius 3) filled with the ground color.
 - Honey: an amber drip down the left side of the pot.
 - Band: a lacquer-red rounded rectangle (440×38, radius 19) around the pot's neck.
 - A shadow under the pot and two flat coins lying at the base.
@@ -486,14 +486,15 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 |---|---|---|---|
 | Ground | #0B3B2E | #04170F | #0E0E0F |
 | Pot | #E0B83E | #C9A23A | #E8E8E8 |
-| Rim, coin edge | #B98A1E | #94701A | #9A9A9A |
+| Rim, coin underside | #B98A1E | #94701A | #9A9A9A |
+| Pot opening | #2A1B05 | #1C1203 | #1A1A1A |
 | Coin face | #F2CE5B | #E2BE55 | #F5F5F5 |
-| Coin ring and star | #A8801C | #86650F | #7A7A7A |
+| Coin edge and ring | #A8801C | #86650F | #7A7A7A |
 | Red band | #C8362C | #A92D25 | #8A8A8A |
 | Honey | #FFB627 | #E39A1C | #CFCFCF |
 | Lattice | #D4AF37 | #D4AF37 | #FFFFFF |
 
-**Checks**: at 40 px the pot, coins and red band must still read.
+**Checks**: at 40 px the pot, coins and red band must still read. Render the three variants and look at them before exporting the PNGs.
 
 ## 16. Releasing to the App Store
 
