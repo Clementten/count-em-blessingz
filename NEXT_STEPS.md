@@ -7,34 +7,36 @@ Time: about 4 to 6 hours of your own time in total, spread over a few days (Appl
 ## 1. Git and GitHub (15 minutes)
 
 - [ ] **Check the push.** `main` on GitHub should now show the merge commit "Merge feature/merge-import". If it does not, run `git push origin main` from the project folder.
-- [ ] **Delete the leftover branches you no longer need.** Two branches from earlier design sessions are still on GitHub. They are not merged, so Git will not delete them for you without an explicit command. Decide for each:
+- [ ] **Tidy the two leftover branches on GitHub.** They come from earlier design sessions and were never merged. Neither is future work: both are finished, and `main` already has what mattered.
 
-  | Branch | What is on it | Safe to delete? |
+  | Branch | What is on it | What to do |
   |---|---|---|
-  | `claude/adoring-knuth-7pyy43` | The final app icon. The PNGs are already in `main`, and the three SVG sources were copied into `main` under `design/app-icon/`. | **Yes.** Nothing unique is left on it. |
-  | `claude/exciting-brown-4nq3zg` | An earlier written spec of the merge-import feature (97 lines added to `BLUEPRINT.md`). The feature is built, and section 18 of the blueprint documents it. | **Yes, if you do not need the original wording.** To keep a copy first: `git tag archive/merge-spec origin/claude/exciting-brown-4nq3zg && git push origin archive/merge-spec`. |
+  | `claude/adoring-knuth-7pyy43` | The final app icon. No pull request was ever opened for it. The PNGs are already in `main`, and the three SVG sources were copied into `main` under `design/app-icon/`. | **Delete it.** Nothing unique is left on it. |
+  | `claude/exciting-brown-4nq3zg` | **Open pull request #4**, "Blueprint: merge import with preview and duplicate flags": the written spec of merge import. The feature is built and documented in section 18 of the blueprint, with one exception (see "Decisions you can make later"). Merging it now would only conflict with the blueprint, which has since changed a lot. | **Close PR #4 with a comment, then delete the branch.** Deleting the branch of an open PR closes it without a note, so close it first. To keep the original wording: `git tag archive/merge-spec origin/claude/exciting-brown-4nq3zg && git push origin archive/merge-spec`. |
 
   Commands (run them in the project folder):
 
   ```bash
-  # see which branches exist and which are already merged into main
   git fetch --prune
-  git branch -a
-  git branch -r --merged origin/main        # branches fully merged (none of the two above are)
+  git branch -a                              # what exists
+  git branch -r --merged origin/main         # remote branches already merged (neither of the two above is)
 
-  # delete the two remote branches (this is permanent on GitHub; there is no "safe" mode for remote branches)
+  # the icon branch: nothing unique is left on it
   git push origin --delete claude/adoring-knuth-7pyy43
+
+  # the spec branch: close its open pull request first, then delete the branch
+  gh pr close 4 --comment "Implemented on main; see BLUEPRINT.md section 18 and NEXT_STEPS.md."
   git push origin --delete claude/exciting-brown-4nq3zg
 
-  # tidy your local copy of the remote branch list
-  git fetch --prune
+  git fetch --prune                          # tidy your local list of remote branches
 
-  # local branches: -d only deletes a branch that is fully merged, and refuses otherwise
+  # local branches in other clones: -d deletes only if fully merged and refuses otherwise;
+  # -D forces it (you lose commits only that branch has). Use -D only if you are sure.
   git branch -d <branch-name>
-  # -D force-deletes even if unmerged (you lose any commits only that branch has). Use only if you are sure.
   ```
 
-  If you work from other clones or worktrees, repeat `git fetch --prune` there and delete any local copies with `git branch -d <name>`.
+  Deleting a remote branch is permanent (there is no "safe" mode). Repeat `git fetch --prune` in any other clone or worktree.
+
 - [ ] **Publish the public pages** (needed for the App Store). First put your real email in `docs/privacy-policy.md` and `docs/support.md` (search for `[your contact email]`), commit and push. Then on GitHub: **Settings > Pages > Source: Deploy from a branch > Branch `main`, folder `/docs` > Save.** After a minute open `https://<your-github-name>.github.io/<repository-name>/privacy-policy/` and `.../support/` and check they load. Write both URLs down.
 
 ## 2. Provide your details and decisions (15 minutes)
@@ -78,6 +80,7 @@ Follow **[release/submission-guide.md](release/submission-guide.md)** step by st
 - iCloud backup as an opt-in in a future version (left out of version 1 on purpose).
 - More languages (version 1 is English only).
 - Whether tapping the tab you are already on should return to its first screen (today it does nothing).
+- **One item from the merge-import spec was not built:** after an import, scroll Home to the newest imported entry (the spec in PR #4 asks for it). Today the import closes, the toast appears and Home stays where it was. It is a small change if you want it.
 
 ## If something goes wrong
 
