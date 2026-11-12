@@ -5,7 +5,7 @@ permalink: /support/
 
 # Count 'Em Blessingz support
 
-Need help? Email **[your contact email]** and say which iPhone and iOS version you use. Please do not email your data files unless asked to.
+Need help? Email **sherlock10holmes@hotmail.com** and say which iPhone and iOS version you use. Please do not email your data files unless asked to.
 
 ## Frequently asked questions
 

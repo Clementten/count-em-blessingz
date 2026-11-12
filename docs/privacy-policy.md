@@ -55,4 +55,4 @@ If the app ever changes how it handles data, this page will be updated and the d
 
 ## Contact
 
-Questions about this policy: **[your contact email]**
+Questions about this policy: **sherlock10holmes@hotmail.com**
