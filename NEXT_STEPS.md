@@ -6,8 +6,8 @@ Time: about 4 to 6 hours of your own time in total, spread over a few days (Appl
 
 ## 1. Git and GitHub (15 minutes)
 
-- [ ] **Check the push.** `main` on GitHub should now show the merge commit "Merge feature/merge-import". If it does not, run `git push origin main` from the project folder.
-- [ ] **Tidy the two leftover branches on GitHub.** They come from earlier design sessions and were never merged. Neither is future work: both are finished, and `main` already has what mattered.
+- [x] **Check the push.** `main` on GitHub should now show the merge commit "Merge feature/merge-import". If it does not, run `git push origin main` from the project folder.
+- [x] **Tidy the two leftover branches on GitHub.** They come from earlier design sessions and were never merged. Neither is future work: both are finished, and `main` already has what mattered.
 
   | Branch | What is on it | What to do |
   |---|---|---|
@@ -42,19 +42,19 @@ Time: about 4 to 6 hours of your own time in total, spread over a few days (Appl
 ## 2. Provide your details and decisions (15 minutes)
 
 - [ ] Fill in **[release/owner-inputs.md](release/owner-inputs.md)**: bundle id, contact email, legal name, price and the other decisions. It tells you where each value is used.
-- [ ] Join the **Apple Developer Program** if you have not (US$99 per year, individual is simplest). You need it for TestFlight, the App Store and the widget.
+- [x] Join the **Apple Developer Program** if you have not (US$99 per year, individual is simplest). You need it for TestFlight, the App Store and the widget.
 - [ ] Check that the **app name** `Count 'Em Blessingz` is free in App Store Connect (names are unique). If it is taken, choose a variant of 30 characters or fewer.
 
 ## 3. Make the project yours in Xcode (30 minutes)
 
 - [x] Run `release/set-identifiers.sh com.yourname.countemblessingz` (your bundle id). It replaces the placeholder ids everywhere and regenerates the project. Then run the tests (Command-U) to confirm.
 - [x] Open `CountEmBlessingz.xcodeproj`. For **both** targets (`CountEmBlessingz` and `CountEmBlessingzWidget`): Signing & Capabilities > tick *Automatically manage signing* > choose your **Team**. Check that the App Groups capability lists `group.<your bundle id>`.
-- [ ] Run the app on your own iPhone.
+- [x] Run the app on your own iPhone.
 
 ## 4. Test on real phones (1 to 2 hours)
 
-- [ ] Work through **[release/real-device-checklist.md](release/real-device-checklist.md)**. These are the things a simulator cannot check: Face ID, notifications, the widget, AirDrop, WhatsApp and Telegram, and merging between two phones. Use a second iPhone (family is fine) for the merge test.
-- [ ] If anything fails, note exactly what you did and what happened, and fix or ask for a fix before submitting.
+- [x] Work through **[release/real-device-checklist.md](release/real-device-checklist.md)**. These are the things a simulator cannot check: Face ID, notifications, the widget, AirDrop, WhatsApp and Telegram, and merging between two phones. Use a second iPhone (family is fine) for the merge test.
+- [x] If anything fails, note exactly what you did and what happened, and fix or ask for a fix before submitting.
 
 ## 5. App Store Connect (1 to 2 hours)
 

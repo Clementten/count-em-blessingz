@@ -9,7 +9,7 @@ Read the whole file first, then build phase by phase (section 12). Commit after 
 
 ## Implementation status
 
-The app builds without warnings for iPhone (Debug and Release). **205 unit tests, 11 UI tests and an automatic accessibility audit of 14 screens pass.** (The three App Store screenshot tests are skipped unless `TEST_RUNNER_SCREENSHOT_DIR` is set.) All work is on `main`. Nothing has been run on a physical iPhone yet; the steps that need a real phone, an Apple account or your decisions are listed in [`NEXT_STEPS.md`](NEXT_STEPS.md) (see "What is left").
+The app builds without warnings for iPhone (Debug and Release). **205 unit tests, 11 UI tests and an automatic accessibility audit of 14 screens pass.** (The three App Store screenshot tests are skipped unless `TEST_RUNNER_SCREENSHOT_DIR` is set.) All work is on `main`. The real-device checklist has been run by the owner (see Known limitations); the remaining steps that need a real phone, an Apple account or your decisions are listed in [`NEXT_STEPS.md`](NEXT_STEPS.md) (see "What is left").
 
 ### How to build and test
 
@@ -69,7 +69,7 @@ The app builds without warnings for iPhone (Debug and Release). **205 unit tests
 
 ### Known limitations and not yet verified
 
-- **Not tested on a real iPhone**: Face ID, notification delivery, widget refresh, and the AirDrop, WhatsApp and Telegram hand-off. The simulator has none of these. `release/real-device-checklist.md` is the test plan.
+- **Real-device testing (2026-11-12):** the owner ran `release/real-device-checklist.md` on a physical iPhone (Face ID, notifications, widget, AirDrop, WhatsApp, Telegram, merging) and reported that everything worked. The device models and iOS versions were not recorded, and the results are the owner's report, not something verified by the automated tests. The simulator has none of these features, so they remain outside the automated suites.
 - **What the simulator did confirm**: the app appears as a share target for `.blessingz` files and opens them into the review screen; the share sheet shows the file correctly; the software keyboard hides the tab bar and "+"; the small iPhone SE layouts; the largest text size.
 - **Undo last import** restores the whole snapshot, so anything added or changed after the import is lost. The confirmation says so. (A smarter undo that reverts only what the import changed is a possible later change.)
 - **App Group and signing**: the store lives in an App Group container so the widget can read it. A free personal team cannot use App Groups, so a device build needs a paid team. If the group is unavailable the app falls back to a private store and the widget shows nothing.
@@ -684,7 +684,7 @@ Themed like the other screens. Header "From {name} · exported {date}" and a sum
 - **11 UI tests** (XCUITest): first-run onboarding then adding a blessing and seeing it in Home and Insights; the vibe step's Back button; tabs keeping their place (fails on the old behaviour) and inactive tabs hidden from accessibility; changing the vibe; changing currency end to end; the Home share sheet; the share-changes marker (only moves when really shared); import review selection and cancel; importing lands on Home with the imported entry showing (a wiring check only, the demo data cannot prove scroll distance; the unit tests cover which entry is chosen); the largest text size.
 - **Accessibility audit**: Apple's automatic audit (contrast, hit areas, element descriptions, clipped text, traits) over Home, Insights, Hall of Fame and Settings in all three themes, plus the Add sheet and the import review. It fails on any real finding; documented exceptions are in the test file.
 - Also run by hand on an iPhone SE (3rd generation) simulator: the UI tests pass and all four tabs were inspected.
-- Thin spots, which need a real device: the Face ID and notification wrappers, the App Group fallback, and the real AirDrop, WhatsApp and Telegram hand-off.
+- Thin spots in the automated tests: the Face ID and notification wrappers, the App Group fallback, and the real AirDrop, WhatsApp and Telegram hand-off. These were checked by hand on a real iPhone (see Known limitations).
 
 ### 19.2 Review findings that were fixed
 
