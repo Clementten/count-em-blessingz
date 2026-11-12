@@ -50,9 +50,11 @@ How the merge works, the file format and the duplicate rules are in **section 18
 
 ## Documents
 
+- **[NEXT_STEPS.md](NEXT_STEPS.md)** is the checklist of what only the owner can do: GitHub, signing, real-device testing and the App Store, in order.
 - **[BLUEPRINT.md](BLUEPRINT.md)** is the original design and plan, with the implementation status, deviations and known limitations at the top, and the as-built merge import (section 18) and quality status (section 19).
-- **[release/](release/)** is everything for publishing: a fill-in sheet of what only the owner can provide, a step-by-step App Store submission guide, the listing text, 18 ready screenshots, a real-device test checklist, a script that sets your bundle id, and a sample import file for App Review.
+- **[release/](release/)** has the detail behind the checklist: a fill-in sheet, the submission guide, the listing text, 18 ready screenshots, a real-device test checklist, a script that sets your bundle id, and a sample import file for App Review.
 - **[docs/](docs/)** holds the public privacy policy and support pages (published with GitHub Pages).
+- **[design/app-icon/](design/app-icon/)** holds the SVG sources of the app icon.
 
 ## Privacy
 

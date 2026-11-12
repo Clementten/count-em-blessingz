@@ -9,7 +9,7 @@ Read the whole file first, then build phase by phase (section 12). Commit after 
 
 ## Implementation status
 
-The app builds without warnings for iPhone (Debug and Release). **202 unit tests, 10 UI tests and an automatic accessibility audit of 14 screens pass.** All work is merged into `main` of the local repository. Nothing has been run on a physical iPhone yet; the steps that need a real phone, an Apple account or your decisions are prepared in [`release/`](release/README.md) (see "What is left").
+The app builds without warnings for iPhone (Debug and Release). **202 unit tests, 10 UI tests and an automatic accessibility audit of 14 screens pass.** All work is on `main`. Nothing has been run on a physical iPhone yet; the steps that need a real phone, an Apple account or your decisions are listed in [`NEXT_STEPS.md`](NEXT_STEPS.md) (see "What is left").
 
 ### How to build and test
 
@@ -79,7 +79,7 @@ The app builds without warnings for iPhone (Debug and Release). **202 unit tests
 
 ### What is left
 
-Everything below needs you, an Apple account or a real phone. It is all prepared in [`release/`](release/README.md):
+Everything below needs you, an Apple account or a real phone. It is laid out in order in [`NEXT_STEPS.md`](NEXT_STEPS.md), with the detail in [`release/`](release/):
 
 - Provide the owner inputs (`release/owner-inputs.md`): bundle id, contact email, legal name, price, and so on.
 - Run `release/set-identifiers.sh <your bundle id>`, choose your signing team for the app and the widget, and test on real phones with `release/real-device-checklist.md`.
@@ -552,7 +552,7 @@ Total 9,776. Adding 300 crosses the 10,000 milestone, which is the easiest way t
 
 ## 15. App icon
 
-> **As built: superseded.** The icon in the app is the later design "The angpao fan": three red envelopes fanned at -24, 0 and +24 degrees, a gold coin seal on the front flap, on deep jade with a faint gold lattice, in light, dark and tinted variants (1024 px, no alpha). It was installed from branch `claude/adoring-knuth-7pyy43` of the repository; its SVG sources are in `design/app-icon/` on that branch, not on this one. The "overflowing honeypot" concept below was an earlier draft and is kept for reference only.
+> **As built: superseded.** The icon in the app is the later design "The angpao fan": three red envelopes fanned at -24, 0 and +24 degrees, a gold coin seal on the front flap, on deep jade with a faint gold lattice, in light, dark and tinted variants (1024 px, no alpha). It was installed from a design branch of the repository; its SVG sources are in `design/app-icon/`. The "overflowing honeypot" concept below was an earlier draft and is kept for reference only.
 
 Concept: **"The overflowing honeypot"**, in the Jade & Gold (Crazy Rich Asians) vibe. A gold pot on deep jade, coins spilling over the rim, a drip of honey and a lacquer-red band. Flat shapes so it holds up at 40 px and recolors cleanly for dark and tinted modes.
 
@@ -589,7 +589,7 @@ Preview (private link, owner can share): https://claude.ai/artifact/28s8uApjANhc
 
 ## 16. Releasing to the App Store
 
-> **As built:** the technical preparation is done (version 1.0 build 1, `ITSAppUsesNonExemptEncryption` set to `NO`, Face ID text, fonts, final icon, no network code). The steps below that need you are turned into ready-to-use material in [`release/`](release/README.md): a fill-in sheet, a step-by-step guide with values to paste, the listing text, 18 screenshots, a real-device test checklist, a script that sets your bundle id, and a sample file for App Review. The privacy policy and support pages are in [`docs/`](docs/) (publish them with GitHub Pages; the guide shows how).
+> **As built:** the technical preparation is done (version 1.0 build 1, `ITSAppUsesNonExemptEncryption` set to `NO`, Face ID text, fonts, final icon, no network code). The steps below that need you are turned into ready-to-use material in [`release/`](release/) and [`NEXT_STEPS.md`](NEXT_STEPS.md): a fill-in sheet, a step-by-step guide with values to paste, the listing text, 18 screenshots, a real-device test checklist, a script that sets your bundle id, and a sample file for App Review. The privacy policy and support pages are in [`docs/`](docs/) (publish them with GitHub Pages; the guide shows how).
 
 Do this after phase 12, with the owner doing the account steps. The agent prepares files and checklists but cannot enrol, sign in to App Store Connect, or submit.
 
