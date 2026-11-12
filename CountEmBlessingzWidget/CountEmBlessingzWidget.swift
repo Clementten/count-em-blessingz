@@ -28,7 +28,7 @@ struct PotProvider: TimelineProvider {
     /// Reads the shared store read-only. Anything unreadable shows an empty pot rather than failing.
     private func load() -> PotEntry {
         guard let container = try? SharedStore.makeContainer(readOnly: true) else {
-            return PotEntry(date: .now, total: 0, goal: 20_000, currency: "MYR", hideAmounts: false, themeID: "jade")
+            return PotEntry(date: .now, total: 0, goal: 0, currency: "MYR", hideAmounts: false, themeID: "jade")
         }
         let context = ModelContext(container)
         let settings = (try? context.fetch(FetchDescriptor<AppSettings>()))?.first ?? AppSettings()

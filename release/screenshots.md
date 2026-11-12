@@ -21,7 +21,11 @@ App Store Connect currently asks for **6.9 inch** screenshots (1320 x 2868). App
 
 Upload order = display order: drag to rearrange after uploading.
 
-## Optional: add headlines
+## Captioned set (recommended)
+
+`screenshots-captioned/` holds the same six screens in each look with a headline on top, 1320 x 2868, no transparency. **Upload these instead of the plain ones**, in file order (`01-home`, `02-insights`, `03-import-review`, `04-hall-of-fame`, `05-add-blessing`, `06-vibes`). Headlines: "Every angpao, safely in one place", "See who has blessed you", "Merge family lists, no cloud", "Never forget to say thanks", "Add a blessing in seconds", "Pick the look you love". Regenerate with `swift release/caption-screenshots.swift` (macOS, AppKit; reads `screenshots/`). The raw screens still show a 20,000 goal and a charging battery icon in the status bar; that is harmless.
+
+## Optional: add headlines (older notes)
 
 Plain screenshots are accepted. If you want caption text on top, suggested headlines are:
 

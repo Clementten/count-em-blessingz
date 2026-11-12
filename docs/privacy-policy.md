@@ -36,7 +36,7 @@ Thank-you reminders are local notifications scheduled on your device. They menti
 
 Data leaves your device only when you ask it to:
 
-- **Share buttons** open the standard iOS share sheet with a file containing your entries (names, amounts, notes and photos). It goes to the app or person you choose, such as AirDrop, Messages, WhatsApp, Telegram, Mail or Files. We are not involved, and what those services do with the file is covered by their own policies.
+- **Share buttons** open the standard iOS share sheet with a file containing your entries (names, amounts, notes and photos) and your *sharing name* (the name shown in Settings, which is your phone's name unless you change it). It goes to the app or person you choose, such as AirDrop, Messages, WhatsApp, Telegram, Mail or Files. We are not involved, and what those services do with the file is covered by their own policies.
 - **Export and backup** create a file you save or send yourself.
 - **Safety copies before an import.** Before you merge a file from someone else, the app keeps up to three copies of your data on your device so you can undo the import. They are removed automatically after a few imports, and they are excluded from device backups.
 - **Device backups.** iOS may include the app's data in your iPhone backup (iCloud or a computer), according to your own settings. We have no access to those backups.

@@ -23,10 +23,10 @@ Copy and paste these into App Store Connect (App Store tab, version 1.0). Every 
 Keep every angpao, birthday gift and wedding blessing in one private place. No account, no cloud. See who blessed you, say thanks, and merge lists with family.
 ```
 
-**Keywords** (100/100, comma separated, no spaces after commas):
+**Keywords** (98/100, comma separated, no spaces after commas; Apple combines the single words into phrases such as "duit raya" and "ang bao", and the name and subtitle are indexed already):
 
 ```
-angpao,ang pao,red packet,hongbao,money gift,gift tracker,wedding gift,birthday,CNY,thank you,family
+duit,raya,hari,ang,bao,pow,pao,angbao,hongbao,red,packet,cny,lunar,wedding,birthday,gift,money,thr
 ```
 
 **Description** (2211/4000):

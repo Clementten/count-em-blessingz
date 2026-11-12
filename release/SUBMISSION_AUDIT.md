@@ -1,6 +1,6 @@
 # Submission audit (2026-11-12)
 
-Read-only audit of the code and docs against the App Store material. **Nothing in the app, `release/listing.md` or `docs/` has been changed.** Items that need a code or text change are marked *needs approval*. Line numbers refer to `main` at a623f3c. Apple pages used: age ratings values and definitions, DSA trader requirements, screenshot best practices, app preview specifications (developer.apple.com, fetched today). Apple's questionnaire wording and the live App Store Connect form could not be seen, so re-check them on screen.
+Audit of the code and docs against the App Store material. **Status after approval (build 2, see the end of section 7):** items marked *needs approval* below were approved and applied unless noted; the findings are kept as written so the reasoning stays visible. Line numbers refer to `main` at a623f3c. Apple pages used: age ratings values and definitions, DSA trader requirements, screenshot best practices, app preview specifications (developer.apple.com, fetched today). Apple's questionnaire wording and the live App Store Connect form could not be seen, so re-check them on screen.
 
 ## 1. Claims verified against the code
 
@@ -36,7 +36,7 @@ Read-only audit of the code and docs against the App Store material. **Nothing i
 | App Group identical in app, widget and code | OK | `project.yml:56,93`; both entitlements files; `SharedStore.swift:7` | None |
 | Widget privacy | OK | Hides total when Face ID lock is on (`CountEmBlessingzWidget.swift:39`) | None |
 | **Widget fallback shows a goal** | **Inconsistent** | `CountEmBlessingzWidget.swift:31` falls back to `goal: 20_000` when the store cannot be read; with goals now optional it would show "0% of goal". Edge case only. | *Needs approval:* use `goal: 0`. Trivial. |
-| **Widget version literals** | **Latent risk** | `CountEmBlessingzWidget/Info.plist:20,22` hard-code "1.0" and "1" instead of `$(MARKETING_VERSION)` and `$(CURRENT_PROJECT_VERSION)`. If you raise the app build to 2, the widget stays at 1; App Store Connect can reject an extension whose version does not match its app. I could not verify the exact rule today. | *Needs approval:* switch both literals to the build-setting variables. Do this before build 2. |
+| **Widget version literals** | **Latent risk (later checked: not a real bug)** | `CountEmBlessingzWidget/Info.plist:20,22` hard-code "1.0" and "1" instead of `$(MARKETING_VERSION)` and `$(CURRENT_PROJECT_VERSION)`. If you raise the app build to 2, the widget stays at 1; App Store Connect can reject an extension whose version does not match its app. I could not verify the exact rule today. | *Needs approval:* switch both literals to the build-setting variables. **Correction:** the built app and widget already took the build number from the build settings (checked in the built bundles), so build 2 would have been fine. `project.yml` now writes the variables anyway, and a test checks it. |
 | `.blessingz` type | OK | Exported UTI `com.clemzzz.countemblessingz.exchange` conforming to `public.json`, extension `blessingz` (`project.yml:22-28`); role Viewer, rank Owner (`:34`); not opened in place (`:29`). Standard pattern. | None |
 | Debug-only code in Release | OK | Theme gallery and demo flags are inside `#if DEBUG` (`SettingsView.swift:91-94`, `ThemeGalleryView.swift:1,44`, `MainView.swift:9-13`). | None |
 | **Third-party names in the UI** | **Rejection risk (medium)** | `Theme/Themes.swift:5,32,59` describe the looks as "Crazy Rich Asians", "Wes Anderson" and "Succession", and `Features/Onboarding/VibeStep.swift:47` shows that text on screen. Naming other people's films, shows or a person is an intellectual-property flag (App Review Guideline 5.2). The App Store screenshots do not show it (`VibePicker` does not use the text). | *Needs approval:* replace the three descriptions with neutral text, for example "Deep jade, gold leaf and lacquer red.", "Candy pink, plum and a touch of theatre.", "Old money, muted brass, no shouting." Ships in build 2. |
@@ -144,7 +144,7 @@ Apple's guidance (asset best practices): up to 3 screenshots show in search resu
 
 Changes from `screenshots.md`: warmer and more specific to angpao; the merge screen moves to slot 3 (your differentiator); no "most generous" ranking language (can read as competitive); no claims about Face ID or the widget because there is no screenshot of them. The demo screenshots show a 20,000 goal; the description now says "if you set one", so this is consistent.
 
-**Decision for you (I will not generate anything until you answer):** (A) a script in `release/` that overlays these captions with the system font and writes 1320 x 2868 PNGs (reproducible, about 120 lines of Swift or Python, outputs 18 images); or (B) a design brief for Figma or Keynote.
+**Decision made: option A.** `swift release/caption-screenshots.swift` regenerates the set in `release/screenshots-captioned/` (file order = upload order: home, insights, import review, hall of fame, add, vibes). The six headlines are in the script. The app preview video was declined.
 
 ## 6. App preview video (optional)
 
@@ -165,9 +165,16 @@ Changes from `screenshots.md`: warmer and more specific to angpao; the merge scr
 
 ## 7. Final report
 
-**(a) Fixes applied:** none to the app or listing. This file is the only change.
+**(a) Fixes applied (build 2, version 1.0):**
+- Look descriptions no longer name films, shows or people (`Themes.swift`).
+- Face ID text: "Count 'Em Blessingz uses Face ID to keep your blessings private. You can also unlock with your passcode." (104 characters, `project.yml`).
+- `PrivacyInfo.xcprivacy` added to the app and the widget (tracking false, nothing collected, no Required Reason APIs).
+- Widget fallback no longer invents a 20,000 goal; both `Info.plist` files use the version variables; build number is 2 for the app and the widget.
+- Keywords replaced in `listing.md` (98/100); privacy policy now mentions the sharing name in shared files; submission guide updated.
+- Captioned screenshots: `release/caption-screenshots.swift` writes 18 PNGs (1320 x 2868, no transparency) to `release/screenshots-captioned/`.
+- Tests: `Build2GuardTests` (13 checks, written first and seen failing) keep each of these from coming back.
 
-**(b) Needs your approval** (listed in order of risk reduction):
+**(b) Still needs your approval** (items 1 to 7 below were approved and are done; the rest remain open):
 1. Remove film and director names from the look descriptions (`Themes.swift:5,32,59`, shown at `VibeStep.swift:47`) *medium rejection risk; ships in build 2.*
 2. Better Face ID usage text (`project.yml:71`) *build 2.*
 3. Widget `Info.plist` version literals to build-setting variables (`CountEmBlessingzWidget/Info.plist:20,22`) *before build 2.*

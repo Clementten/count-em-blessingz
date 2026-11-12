@@ -2,7 +2,7 @@ import SwiftUI
 
 enum Themes {
     static let jade = AppTheme(
-        id: "jade", name: "Jade & Gold", blurb: "Crazy Rich Asians: deep jade, gold leaf, lacquer red.",
+        id: "jade", name: "Jade & Gold", blurb: "Deep jade, gold leaf and lacquer red.",
         colorScheme: .dark,
         background: Color(hex: 0x0B3B2E), surface: Color(hex: 0x123F33),
         textPrimary: Color(hex: 0xF6EBCB), textMuted: Color(hex: 0xD9CDA8),
@@ -29,7 +29,7 @@ enum Themes {
     )
 
     static let grand = AppTheme(
-        id: "grand", name: "The Grand Ledger", blurb: "Wes Anderson: candy pink, plum and a touch of theatre.",
+        id: "grand", name: "The Grand Ledger", blurb: "Candy pink, plum and a touch of theatre.",
         colorScheme: .light,
         background: Color(hex: 0xFFE9EE), surface: Color(hex: 0xF7C6D0),
         textPrimary: Color(hex: 0x3D1D40), textMuted: Color(hex: 0x5A2D55),
@@ -56,7 +56,7 @@ enum Themes {
     )
 
     static let quiet = AppTheme(
-        id: "quiet", name: "Quiet Fortune", blurb: "Succession: old money, muted brass, no shouting.",
+        id: "quiet", name: "Quiet Fortune", blurb: "Old money, muted brass, no shouting.",
         colorScheme: .dark,
         background: Color(hex: 0x15171A), surface: Color(hex: 0x1F2226),
         textPrimary: Color(hex: 0xEDE6D6), textMuted: Color(hex: 0xA9ADB5),

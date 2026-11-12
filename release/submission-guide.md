@@ -45,7 +45,7 @@ If you would rather use your own website, publish the same text there instead.
 1. Open `CountEmBlessingz.xcodeproj`.
 2. Select the project, then the target **CountEmBlessingz** > **Signing & Capabilities**. Tick **Automatically manage signing** and choose your **Team**. Do the same for the target **CountEmBlessingzWidget**.
 3. Check that **App Groups** lists `group.<your bundle id>` for both targets (Xcode adds it from the entitlements). If a red message appears, click **Try Again** or **Register**.
-4. **General** tab: Version `1.0`, Build `1`. (Each upload needs a higher build number than the last.)
+4. **General** tab: Version `1.0`, Build `2` (build `1` was already uploaded; each upload needs a higher build number than the last).
 5. Run on a real iPhone (Product > Destination > your iPhone, then Run) and go through [real-device-checklist.md](real-device-checklist.md).
 
 ## 5. Create the app in App Store Connect
@@ -67,7 +67,7 @@ Open the app > the **1.0 Prepare for Submission** page.
 
 | Section | What to do |
 |---|---|
-| Screenshots | Upload the 6.9 inch screenshots from [screenshots/](screenshots/) (see [screenshots.md](screenshots.md) for the order and which look to use). |
+| Screenshots | Upload the captioned 6.9 inch screenshots from [screenshots-captioned/](screenshots-captioned/), Jade & Gold set first (see [screenshots.md](screenshots.md)). The plain versions are in [screenshots/](screenshots/). |
 | Promotional text, Description, Keywords, What's New | Paste from [listing.md](listing.md). |
 | Support URL, Marketing URL | From owner-inputs. |
 | Copyright | `2026 <your name>` |
@@ -100,6 +100,6 @@ Open the app > the **1.0 Prepare for Submission** page.
 |---|---|
 | "Does the app need an account?" | No. All data is local (this is also in the review notes). |
 | "Why does the app ask for notification permission?" | For optional local thank-you reminders. It asks only when you first save a blessing or turn reminders on, never at launch. |
-| "Why Face ID?" | Optional app lock. The usage description reads "Unlock your honeypot". |
+| "Why Face ID?" | Optional app lock. The usage description reads "Count 'Em Blessingz uses Face ID to keep your blessings private. You can also unlock with your passcode." |
 | "How can we test sharing and import?" | Open the attached `sample-import.blessingz` from the Files app, or use the share button and share a file to yourself. |
 | "Where is your privacy policy?" | The privacy policy URL on the app page. |

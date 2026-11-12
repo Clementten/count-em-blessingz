@@ -24,6 +24,7 @@
 		135464AFBBCFCCC5D2F02864 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05C24EEA67E508DC517E0D5C /* Montserrat-Medium.ttf */; };
 		1632677BBA87985C2FC0F856 /* HardeningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76065B64F8EFE3785FF1ECB0 /* HardeningTests.swift */; };
 		1738B0A5FD09471D91B8C8CD /* Jost-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6E9379DB1A08309BF655E0D /* Jost-ExtraBold.ttf */; };
+		184602E790D90450ACB55538 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A2C6BEAE3EB8F4DAFBD75F1E /* PrivacyInfo.xcprivacy */; };
 		1DD9BAFCDB645468F31F65A3 /* PodiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616F260644EA6D6B57BEE739 /* PodiumView.swift */; };
 		211904357A78918A706AAD41 /* HallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A68C7D6514639F098EA0AE6 /* HallView.swift */; };
 		22757171D3ADA73DC3267D9B /* OFL-jost.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6FF559B54EA672566D24257B /* OFL-jost.txt */; };
@@ -38,6 +39,7 @@
 		3CEA82805F566A5CF01288EB /* Blessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CDC94A50D4BCFBAFCE85FA /* Blessing.swift */; };
 		3F299D9F0E5361147140F617 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6454AF483B3BC27AA783959C /* Fonts.swift */; };
 		405D12E4BD315763969B71F7 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EF136A17621829DD339CD /* Montserrat-Regular.ttf */; };
+		43470CEE75638BC63319485B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6CA8B88E508DC047F7213217 /* PrivacyInfo.xcprivacy */; };
 		44DCB8D49A2A26FBD517EBB2 /* CurrencyConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF28AC41E9C67EFCB38E152 /* CurrencyConversion.swift */; };
 		4C7A5FBE40AA1115EAE62EDA /* CountEmBlessingzWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D93B6C862E8C0CAAFE790C5A /* CountEmBlessingzWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4CA22B6515E263F6B25883B6 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A58D6B3EC25A11EB2AF5654B /* Montserrat-SemiBold.ttf */; };
@@ -83,6 +85,7 @@
 		A430060DE92548E12A694F1C /* ImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DE8D0BFB18739830F803DB /* ImportService.swift */; };
 		A595E41F28501C2C0D66F678 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC96DD77FCA693A1113B9C2 /* OnboardingView.swift */; };
 		A5E8A9F8CD8BD98B98E8A52A /* AccessibilityAuditUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389C3F54A34280B7EDC7EA97 /* AccessibilityAuditUITests.swift */; };
+		AA2B3DAC738478928D31A19C /* Build2GuardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D2059CB0BA59E376984632 /* Build2GuardTests.swift */; };
 		ACEE4036A3D2319F3A60D5DA /* CountEmBlessingzWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3772C2D5F0AA5C695B35762D /* CountEmBlessingzWidget.swift */; };
 		AD554C80B701E4DF13534976 /* CoinRainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99352A6A750558897A68E8A2 /* CoinRainView.swift */; };
 		ADA68AC0F87EABBAAE1E6D59 /* DuplicateDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED2A8A04C85DF623501E5E2 /* DuplicateDetectorTests.swift */; };
@@ -221,6 +224,7 @@
 		45A19B9BE586B43555BBBE1B /* NameField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameField.swift; sourceTree = "<group>"; };
 		4633930BB4E4D4CC9F983EBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		46A4383F232C0E42CDD8652E /* BiometricLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricLock.swift; sourceTree = "<group>"; };
+		48D2059CB0BA59E376984632 /* Build2GuardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Build2GuardTests.swift; sourceTree = "<group>"; };
 		4979D29847819BCAE219C5DC /* VibeStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibeStep.swift; sourceTree = "<group>"; };
 		4A374F78DDD6A3CD1FF27C43 /* HeroPotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroPotView.swift; sourceTree = "<group>"; };
 		4A5BA8B2C2DC79F72C5F8EEC /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
@@ -238,6 +242,7 @@
 		64D03A8C4A22F3D1E7AEB135 /* DuplicateDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateDetector.swift; sourceTree = "<group>"; };
 		65CE4841ECB7BBCD7FF79C92 /* BlessingEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlessingEditorSheet.swift; sourceTree = "<group>"; };
 		693B1758C9CF1BA3449D6FEA /* ReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderService.swift; sourceTree = "<group>"; };
+		6CA8B88E508DC047F7213217 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6FF559B54EA672566D24257B /* OFL-jost.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-jost.txt"; sourceTree = "<group>"; };
 		708A8D649814F58EE5F3F4E5 /* ThemeGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeGalleryView.swift; sourceTree = "<group>"; };
 		715BD1EB9F85398FED341860 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -264,6 +269,7 @@
 		9CEEEF13420194786A5E451B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9EFA73C8BB41D4F3AB53F2D6 /* Phase1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase1Tests.swift; sourceTree = "<group>"; };
 		A2AB24B3BAF8F71FD67A664C /* CountEmBlessingzUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CountEmBlessingzUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2C6BEAE3EB8F4DAFBD75F1E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A32DB786F5009BD5CE71707C /* ReleaseAssetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseAssetsTests.swift; sourceTree = "<group>"; };
 		A58D6B3EC25A11EB2AF5654B /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		A6DA767D37ACA041444D51C5 /* ExchangeFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeFileTests.swift; sourceTree = "<group>"; };
@@ -319,6 +325,7 @@
 		14189836B2B37340FA66D259 /* CountEmBlessingzTests */ = {
 			isa = PBXGroup;
 			children = (
+				48D2059CB0BA59E376984632 /* Build2GuardTests.swift */,
 				C9D3FA4CC99762EC698FA561 /* DeviceFamilyTests.swift */,
 				2ED2A8A04C85DF623501E5E2 /* DuplicateDetectorTests.swift */,
 				A6DA767D37ACA041444D51C5 /* ExchangeFileTests.swift */,
@@ -485,6 +492,7 @@
 			children = (
 				F641F7F4ECF1BD068A2C6683 /* CountEmBlessingz.entitlements */,
 				4633930BB4E4D4CC9F983EBA /* Info.plist */,
+				6CA8B88E508DC047F7213217 /* PrivacyInfo.xcprivacy */,
 				17EAA5A92B4D12ED72CD6BD8 /* App */,
 				1AED7B3C820CB71F23B816C6 /* Features */,
 				57CF931A70A455960D2F9E1B /* Models */,
@@ -595,6 +603,7 @@
 				3ED0DFCE831BCAEC1FE00A9A /* CountEmBlessingzWidget.entitlements */,
 				3772C2D5F0AA5C695B35762D /* CountEmBlessingzWidget.swift */,
 				05C2990B978FCAB56B422D55 /* Info.plist */,
+				A2C6BEAE3EB8F4DAFBD75F1E /* PrivacyInfo.xcprivacy */,
 			);
 			path = CountEmBlessingzWidget;
 			sourceTree = "<group>";
@@ -665,6 +674,7 @@
 			buildConfigurationList = 176CDAD00AC83AAB586B8A49 /* Build configuration list for PBXNativeTarget "CountEmBlessingzWidget" */;
 			buildPhases = (
 				AD73A63C83C76F51A2441806 /* Sources */,
+				7D0170524EEEA54A4B8C6596 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -740,6 +750,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7D0170524EEEA54A4B8C6596 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				184602E790D90450ACB55538 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FC177A7DF876613B03B3C5EE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -764,6 +782,7 @@
 				A14984037FC1BB14DF2889D4 /* OFL-playfairdisplay.txt in Resources */,
 				3CB58F4B54DF606CE07F16F4 /* PlayfairDisplay-Bold.ttf in Resources */,
 				2CFC20FE3056E27C3159C7CE /* PlayfairDisplay-Medium.ttf in Resources */,
+				43470CEE75638BC63319485B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -872,6 +891,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA2B3DAC738478928D31A19C /* Build2GuardTests.swift in Sources */,
 				0708C86808BDF9A317AC4456 /* DeviceFamilyTests.swift in Sources */,
 				ADA68AC0F87EABBAAE1E6D59 /* DuplicateDetectorTests.swift in Sources */,
 				81343C836751BCBD92F8FFB6 /* ExchangeFileTests.swift in Sources */,
@@ -932,7 +952,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CountEmBlessingzWidget/CountEmBlessingzWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 8FXKW2Z58P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountEmBlessingzWidget/Info.plist;
@@ -972,12 +992,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CountEmBlessingz/CountEmBlessingz.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 8FXKW2Z58P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountEmBlessingz/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Count 'Em Blessingz";
-				INFOPLIST_KEY_NSFaceIDUsageDescription = "Unlock your honeypot";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Count 'Em Blessingz uses Face ID to keep your blessings private. You can also unlock with your passcode.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1135,12 +1155,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CountEmBlessingz/CountEmBlessingz.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 8FXKW2Z58P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountEmBlessingz/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Count 'Em Blessingz";
-				INFOPLIST_KEY_NSFaceIDUsageDescription = "Unlock your honeypot";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Count 'Em Blessingz uses Face ID to keep your blessings private. You can also unlock with your passcode.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1192,7 +1212,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CountEmBlessingzWidget/CountEmBlessingzWidget.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 8FXKW2Z58P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountEmBlessingzWidget/Info.plist;
