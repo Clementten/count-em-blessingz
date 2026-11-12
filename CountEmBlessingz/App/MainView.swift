@@ -14,6 +14,8 @@ struct MainView: View {
     @State private var router = AppRouter()
     @State private var toast = ToastCenter()
     @State private var reminders = ReminderService()
+    @Environment(ImportCoordinator.self) private var importCoordinator
+    @Environment(\.modelContext) private var modelContext
     @Query private var blessers: [Blesser]
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -22,11 +24,13 @@ struct MainView: View {
     var body: some View {
         let theme = Themes.theme(id: settings.themeID)
         @Bindable var router = router
+        @Bindable var importCoordinator = importCoordinator
         VStack(spacing: 0) {
             ZStack(alignment: .bottomTrailing) {
                 content
                 if tab != 3 { fab(theme) }
                 effectOverlay(theme)
+                if importCoordinator.isLoading { ProgressView().controlSize(.large).tint(theme.accent).frame(maxWidth: .infinity, maxHeight: .infinity) }
                 ToastOverlay(toast: toast)
                     .frame(maxHeight: .infinity, alignment: .bottom)
                     .padding(.bottom, 12)
@@ -41,6 +45,30 @@ struct MainView: View {
         .task(id: widgetSignature) { WidgetCenter.shared.reloadAllTimelines() }
         .task(id: reminderSignature) {
             await reminders.sync(blessers: blessers, days: settings.reminderDays)
+        }
+        .task(id: importCoordinator.pendingURL) { await importCoordinator.process(context: modelContext) }
+        #if DEBUG
+        .task {
+            if CommandLine.arguments.contains("-demoImport") {
+                let sample = ImportReviewSamples.model(
+                    fileCurrency: UserDefaults.standard.string(forKey: "demoFileCurrency") ?? "MYR")
+                sample.search = UserDefaults.standard.string(forKey: "demoImportSearch") ?? ""
+                importCoordinator.session = sample
+            }
+        }
+        #endif
+        .sheet(item: $importCoordinator.session) { session in
+            ImportReviewView(model: session, settings: settings)
+                .environment(toast)
+                .environment(router)
+        }
+        .alert("Couldn't open file", isPresented: Binding(
+            get: { importCoordinator.errorMessage != nil },
+            set: { if !$0 { importCoordinator.errorMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(importCoordinator.errorMessage ?? "")
         }
         .sheet(item: $router.editor) { route in
             BlessingEditorSheet(settings: settings, editing: route.blessing) { milestone in

@@ -2,31 +2,74 @@ import SwiftUI
 import SwiftData
 
 /// Asks for an exchange rate before the currency changes. Nothing is applied until the user confirms.
+/// The same swap-sides sheet is also used to pick the rate for amounts in an import file; in that mode it
+/// only reports the rate and changes nothing itself.
 struct CurrencyRateSheet: View {
+    enum Purpose {
+        case switchCurrency(settings: AppSettings, target: Country)
+        case importRate(from: String, to: String, sampleTotal: Decimal, count: Int, onConfirm: (Decimal) -> Void)
+    }
+
     @Environment(\.theme) private var theme
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(ToastCenter.self) private var toast
 
-    let settings: AppSettings
-    let target: Country
+    private let purpose: Purpose
     @Query private var blessings: [Blessing]
 
     @State private var entry = RateEntry()
     @FocusState private var focused: Bool
 
-    private var from: String { settings.currencyCode }
-    private var to: String { target.currencyCode }
-    private var total: Decimal { HomeListLogic.total(blessings) }
+    init(settings: AppSettings, target: Country) {
+        purpose = .switchCurrency(settings: settings, target: target)
+    }
+
+    /// Rate for an import: `1 {from} = rate {to}`, with `sampleTotal` shown converted in the preview.
+    init(importFrom from: String, to: String, sampleTotal: Decimal, count: Int, onConfirm: @escaping (Decimal) -> Void) {
+        purpose = .importRate(from: from, to: to, sampleTotal: sampleTotal, count: count, onConfirm: onConfirm)
+    }
+
+    private var isImport: Bool {
+        if case .importRate = purpose { return true }
+        return false
+    }
+
+    private var from: String {
+        switch purpose {
+        case .switchCurrency(let settings, _): settings.currencyCode
+        case .importRate(let from, _, _, _, _): from
+        }
+    }
+
+    private var to: String {
+        switch purpose {
+        case .switchCurrency(_, let target): target.currencyCode
+        case .importRate(_, let to, _, _, _): to
+        }
+    }
+
+    private var total: Decimal {
+        switch purpose {
+        case .switchCurrency: HomeListLogic.total(blessings)
+        case .importRate(_, _, let sampleTotal, _, _): sampleTotal
+        }
+    }
     private var rate: Decimal? { entry.rate() }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                Text(theme.title("Change currency"))
+                Text(theme.title(isImport ? String(localized: "Exchange rate") : String(localized: "Change currency")))
                     .font(theme.displayFont(26, .bold)).foregroundStyle(theme.textPrimary)
-                Text("Switching from \(from) to \(to). Enter the rate so your existing amounts convert. Fill in one side, the other side is 1.")
-                    .font(theme.bodyFont(14, .regular)).foregroundStyle(theme.textMuted)
+                Group {
+                    if isImport {
+                        Text("The file is in \(from) and your pot is in \(to). Enter the rate so incoming amounts convert. Fill in one side, the other side is 1.")
+                    } else {
+                        Text("Switching from \(from) to \(to). Enter the rate so your existing amounts convert. Fill in one side, the other side is 1.")
+                    }
+                }
+                .font(theme.bodyFont(14, .regular)).foregroundStyle(theme.textMuted)
 
                 rateRow
                 if entry.showsError() {
@@ -44,16 +87,16 @@ struct CurrencyRateSheet: View {
                         .font(theme.bodyFont(15, .semibold)).foregroundStyle(theme.textPrimary)
                 }
 
-                ThemedButton(title: blessings.isEmpty
-                             ? String(localized: "Change currency")
-                             : String(localized: "Convert \(blessings.count) blessings")) { apply(labelOnly: false) }
+                ThemedButton(title: primaryTitle) { apply(labelOnly: false) }
                     .opacity(rate == nil ? 0.4 : 1).disabled(rate == nil)
 
-                Button { apply(labelOnly: true) } label: {
-                    Text("Keep the numbers, change the label only")
-                        .font(theme.bodyFont(14, .medium)).foregroundStyle(theme.textPrimary)
-                        .frame(maxWidth: .infinity, minHeight: 44)
-                        .overlay(RoundedRectangle(cornerRadius: theme.controlRadius).stroke(theme.line, lineWidth: 1))
+                if !isImport {
+                    Button { apply(labelOnly: true) } label: {
+                        Text("Keep the numbers, change the label only")
+                            .font(theme.bodyFont(14, .medium)).foregroundStyle(theme.textPrimary)
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .overlay(RoundedRectangle(cornerRadius: theme.controlRadius).stroke(theme.line, lineWidth: 1))
+                    }
                 }
                 Button("Cancel") { dismiss() }
                     .font(theme.bodyFont(14, .medium)).foregroundStyle(theme.textMuted)
@@ -65,6 +108,15 @@ struct CurrencyRateSheet: View {
         .scrollDismissesKeyboard(.interactively)
         .toolbar { ToolbarItemGroup(placement: .keyboard) { Spacer(); Button("Done") { focused = false } } }
         .themed(theme)
+    }
+
+    private var primaryTitle: String {
+        switch purpose {
+        case .importRate(_, _, _, let count, _):
+            String(localized: "Use this rate for \(count) entries")
+        case .switchCurrency:
+            blessings.isEmpty ? String(localized: "Change currency") : String(localized: "Convert \(blessings.count) blessings")
+        }
     }
 
     /// `1 MYR = [ ? ] USD`, or `[ ? ] MYR = 1 USD` after swapping.
@@ -103,6 +155,13 @@ struct CurrencyRateSheet: View {
     }
 
     private func apply(labelOnly: Bool) {
+        if case .importRate(_, _, _, _, let onConfirm) = purpose {
+            guard let rate else { return }
+            onConfirm(rate)
+            dismiss()
+            return
+        }
+        guard case .switchCurrency(let settings, let target) = purpose else { return }
         guard labelOnly || rate != nil else { return }
         let appliedRate = labelOnly ? 1 : (rate ?? 1)
         do {

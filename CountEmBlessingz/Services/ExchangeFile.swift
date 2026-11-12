@@ -49,7 +49,12 @@ enum ExchangeDates {
     }()
     private static let plain = ISO8601DateFormatter()
 
-    static func string(_ date: Date) -> String { fractional.string(from: date) }
+    /// Files keep milliseconds. The time is always rounded DOWN, so a date that makes the round trip is never
+    /// later than the original (an unchanged entry must never look "newer" because of rounding).
+    static func string(_ date: Date) -> String {
+        let millis = (date.timeIntervalSince1970 * 1000).rounded(.down)
+        return fractional.string(from: Date(timeIntervalSince1970: (millis + 0.25) / 1000))
+    }
     static func date(_ text: String) -> Date? { fractional.date(from: text) ?? plain.date(from: text) }
 }
 

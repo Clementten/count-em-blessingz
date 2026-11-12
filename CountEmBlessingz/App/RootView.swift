@@ -6,6 +6,7 @@ struct RootView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Query private var settings: [AppSettings]
     @State private var lock = BiometricLock()
+    @State private var importCoordinator = ImportCoordinator()
 
     var body: some View {
         let current = settings.first
@@ -24,6 +25,9 @@ struct RootView: View {
         }
         .themed(theme)
         .environment(lock)
+        .environment(importCoordinator)
+        // Files opened from AirDrop, Messages or Files; MainView reads them once the pot is on screen.
+        .onOpenURL { importCoordinator.receive($0) }
         .onAppear(perform: ensureSettingsRow)
         .onChange(of: current != nil, initial: true) { _, hasSettings in
             if hasSettings { lock.launch(enabled: current?.faceIDEnabled ?? false) }

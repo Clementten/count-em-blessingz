@@ -53,6 +53,20 @@ struct ExchangeFileFormatTests {
         #expect(!json.contains("settings"))                              // extras are omitted when absent
     }
 
+    @Test func roundTrippedTimesAreNeverLaterThanTheOriginal() throws {
+        var file = sampleFile()
+        var worst: TimeInterval = 0
+        for index in 0..<500 {
+            // Irregular sub-millisecond values, including ones that sit right on a rounding edge.
+            let date = Date(timeIntervalSince1970: 1_700_000_000 + Double(index) * 0.000_731 + 0.000_5)
+            file.blessings[0].updatedAt = date
+            let back = try ExchangeFileCodec.decode(try ExchangeFileCodec.encode(file)).blessings[0].updatedAt
+            #expect(back <= date, "index \(index)")
+            worst = max(worst, date.timeIntervalSince(back))
+        }
+        #expect(worst < 0.001)                                           // and never more than 1 ms earlier
+    }
+
     @Test func sinceLastExportKindRoundTrips() throws {
         let decoded = try ExchangeFileCodec.decode(try ExchangeFileCodec.encode(sampleFile(kind: .sinceLastExport)))
         #expect(decoded.kind == .sinceLastExport)

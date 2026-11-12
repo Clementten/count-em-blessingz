@@ -68,8 +68,8 @@ private final class Phone {
     func plan(_ file: ExchangeFile) throws -> ImportPlan { try service.buildPlan(file: file) }
 
     func state() -> [String] {
-        // Files keep milliseconds, so compare edit times at that precision.
-        blessings.map { "\($0.id)|\($0.blesser?.name ?? "")|\($0.amount)|\(Int64($0.updatedAt.timeIntervalSince1970 * 1000))" }.sorted()
+        // Edit times are compared separately (files keep milliseconds only).
+        blessings.map { "\($0.id)|\($0.blesser?.name ?? "")|\($0.amount)" }.sorted()
             + blessers.map { "P|\($0.id)|\($0.name)|\($0.thankYouPending)" }.sorted()
     }
 }
