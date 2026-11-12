@@ -92,9 +92,6 @@ final class ReminderService {
         }
     }
 
-    /// True when the user has explicitly denied notifications.
-    func isDenied() async -> Bool { await center.authorizationStatus() == .denied }
-
     /// Makes the scheduled notifications match the plan: stale ones are removed, missing ones added.
     func sync(blessers: [Blesser], days: Int, now: Date = .now) async {
         let plan = ReminderPlan.items(for: blessers, days: days, now: now)

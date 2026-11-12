@@ -184,12 +184,6 @@ struct ExportService {
         )
     }
 
-    /// How many entries "Share changes since last export" would include.
-    func changedEntryCount() throws -> Int {
-        let since = try context.fetch(FetchDescriptor<AppSettings>()).first?.lastExportAt ?? .distantPast
-        return try context.fetchCount(FetchDescriptor<Blessing>(predicate: #Predicate { $0.updatedAt > since }))
-    }
-
     /// The lossless backup: a `.full` exchange file with all extras.
     func backupFile(now: Date = .now) throws -> ExchangeFile {
         try exchangeFile(kind: .full, includeBackupExtras: true, now: now)

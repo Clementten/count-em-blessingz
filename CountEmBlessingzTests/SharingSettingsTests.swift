@@ -62,7 +62,7 @@ struct MarkSharedTests {
 
         try service.markShared(payload.changesFile)
         #expect(settings.lastExportAt == built)
-        #expect(try service.changedEntryCount() == 1)
+        #expect(try service.exchangeFile(kind: .sinceLastExport).blessings.count == 1)
         #expect(try service.exchangeFile(kind: .sinceLastExport).blessings.map(\.id) == [edited.id])
     }
 

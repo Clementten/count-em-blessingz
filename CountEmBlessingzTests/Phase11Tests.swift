@@ -145,6 +145,5 @@ struct ReminderServiceTests {
 
         let refused = FakeCenter(); refused.status = .notDetermined; refused.requestResult = false
         #expect(await ReminderService(center: refused).requestPermissionIfNeeded() == false)
-        #expect(await ReminderService(center: refused).isDenied())
     }
 }

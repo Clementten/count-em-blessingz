@@ -1,4 +1,13 @@
+# Xcode
 xcuserdata/
 DerivedData/
-.DS_Store
 build/
+*.xcresult
+*.xccheckout
+
+# macOS
+.DS_Store
+
+# Finder/iCloud conflict copies ("MainView 2.swift")
+* 2
+* 2.*

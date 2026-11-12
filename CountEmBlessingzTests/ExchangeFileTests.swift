@@ -155,10 +155,10 @@ struct ExchangeExportTests {
         let service = ExportService(context: context)
         let settings = try #require(try context.fetch(FetchDescriptor<AppSettings>()).first)
         let all = try context.fetch(FetchDescriptor<Blessing>())
-        #expect(try service.changedEntryCount() == 15)                  // never exported: everything counts
+        #expect(try service.exchangeFile(kind: .sinceLastExport).blessings.count == 15)                  // never exported: everything counts
 
         settings.lastExportAt = .now
-        #expect(try service.changedEntryCount() == 0)
+        #expect(try service.exchangeFile(kind: .sinceLastExport).blessings.count == 0)
         #expect(try service.exchangeFile(kind: .sinceLastExport).blessings.isEmpty)
 
         let edited = try #require(all.first { $0.blesser?.name == "Ah Kong" })
@@ -167,7 +167,7 @@ struct ExchangeExportTests {
         #expect(changes.kind == .sinceLastExport)
         #expect(changes.blessings.map(\.id) == [edited.id])
         #expect(changes.blessers.map(\.name) == ["Ah Kong"])
-        #expect(try service.changedEntryCount() == 1)
+        #expect(try service.exchangeFile(kind: .sinceLastExport).blessings.count == 1)
     }
 }
 
