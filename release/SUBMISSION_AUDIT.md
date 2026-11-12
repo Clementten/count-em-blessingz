@@ -24,7 +24,7 @@ Read-only audit of the code and docs against the App Store material. **Nothing i
 
 | Key | Present | Used for | Verdict | Proposed wording |
 |---|---|---|---|---|
-| `NSFaceIDUsageDescription` | Yes, "Unlock your honeypot" (`project.yml:71`, confirmed in the uploaded build) | `LAContext.evaluatePolicy` (`BiometricLock.swift:14`) | **Vague**; "honeypot" is the app's own jargon and does not say what Face ID does. Apple reviewers ask for a clear purpose. | `Count 'Em Blessingz uses Face ID to keep your blessings private. You can also unlock with your passcode.` (112 characters). *Needs approval; ships in build 2.* |
+| `NSFaceIDUsageDescription` | Yes, "Unlock your honeypot" (`project.yml:71`, confirmed in the uploaded build) | `LAContext.evaluatePolicy` (`BiometricLock.swift:14`) | **Vague**; "honeypot" is the app's own jargon and does not say what Face ID does. Apple reviewers ask for a clear purpose. | `Count 'Em Blessingz uses Face ID to keep your blessings private. You can also unlock with your passcode.` (104 characters). *Needs approval; ships in build 2.* |
 | Photo library | Not needed | `PhotosPicker` runs out of process (`BlessingEditorSheet.swift:185`) | Correct: no key required | None |
 | Camera, microphone, contacts, location | Not used | n/a | Correct | None |
 | Notifications | No plist key exists for them | `requestAuthorization` (`ReminderService.swift:49`), asked at first save or when reminders are turned on, not at launch | Correct | None |
