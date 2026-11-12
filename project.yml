@@ -26,6 +26,7 @@ targets:
             UTTypeTagSpecification:
               public.filename-extension:
                 - blessingz
+        LSSupportsOpeningDocumentsInPlace: false   # imports are copied and reviewed, never edited in place
         CFBundleDocumentTypes:
           - CFBundleTypeName: Count 'Em Blessingz file
             CFBundleTypeRole: Viewer
