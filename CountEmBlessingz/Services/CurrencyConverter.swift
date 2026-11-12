@@ -26,9 +26,10 @@ enum CurrencyConverter {
         MoneyFormatter.round(amount * rate, currency: currency)
     }
 
-    /// Goal after conversion: scaled, rounded to the nearest 100, never below 100.
+    /// Goal after conversion: scaled, rounded to the nearest 100, never below 100. No goal (0) stays 0.
     static func convertGoal(_ goal: Decimal, rate: Decimal) -> Decimal {
-        max(100, MoneyFormatter.round(goal * rate / 100, scale: 0) * 100)
+        guard goal > 0 else { return 0 }                 // no goal stays no goal
+        return max(100, MoneyFormatter.round(goal * rate / 100, scale: 0) * 100)
     }
 
     /// Applies a currency change in one transaction and returns the audit row.

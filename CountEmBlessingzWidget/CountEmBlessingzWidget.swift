@@ -45,11 +45,8 @@ struct PotWidgetView: View {
     let entry: PotEntry
     private var theme: AppTheme { Themes.theme(id: entry.themeID) }
 
-    private var progress: Double {
-        guard entry.goal > 0 else { return 0 }
-        // Geometry only (bar width and percent label).
-        return min(1, NSDecimalNumber(decimal: entry.total / entry.goal).doubleValue)
-    }
+    /// nil when the user has not set a goal; the bar and its label are then left out.
+    private var progress: Double? { GoalProgress.fraction(total: entry.total, goal: entry.goal) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -59,9 +56,11 @@ struct PotWidgetView: View {
                 .font(theme.displayFont(26, .bold)).foregroundStyle(theme.textPrimary)
                 .minimumScaleFactor(0.5).lineLimit(1)
             Spacer(minLength: 0)
-            ProgressView(value: progress).tint(theme.accent)
-            Text("\(Int(progress * 100))% of goal")
-                .font(theme.bodyFont(11, .regular)).foregroundStyle(theme.textMuted)
+            if let progress {
+                ProgressView(value: progress).tint(theme.accent)
+                Text("\(Int(progress * 100))% of goal")
+                    .font(theme.bodyFont(11, .regular)).foregroundStyle(theme.textMuted)
+            }
         }
         .containerBackground(theme.background, for: .widget)
         .accessibilityElement(children: .combine)
@@ -74,7 +73,7 @@ struct PotWidget: Widget {
             PotWidgetView(entry: entry)
         }
         .configurationDisplayName("Honeypot")
-        .description("Your honeypot total and goal progress.")
+        .description("Your honeypot total, and progress towards your goal if you set one.")
         .supportedFamilies([.systemSmall])
     }
 }

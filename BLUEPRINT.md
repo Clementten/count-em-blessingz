@@ -9,7 +9,7 @@ Read the whole file first, then build phase by phase (section 12). Commit after 
 
 ## Implementation status
 
-The app builds without warnings for iPhone (Debug and Release). **205 unit tests, 11 UI tests and an automatic accessibility audit of 14 screens pass.** (The three App Store screenshot tests are skipped unless `TEST_RUNNER_SCREENSHOT_DIR` is set.) All work is on `main`. The real-device checklist has been run by the owner (see Known limitations); the remaining steps that need a real phone, an Apple account or your decisions are listed in [`NEXT_STEPS.md`](NEXT_STEPS.md) (see "What is left").
+The app builds without warnings for iPhone (Debug and Release). **215 unit tests, 12 UI tests and an automatic accessibility audit of 14 screens pass.** (The three App Store screenshot tests are skipped unless `TEST_RUNNER_SCREENSHOT_DIR` is set.) All work is on `main`. The real-device checklist has been run by the owner (see Known limitations); the remaining steps that need a real phone, an Apple account or your decisions are listed in [`NEXT_STEPS.md`](NEXT_STEPS.md) (see "What is left").
 
 ### How to build and test
 
@@ -52,6 +52,7 @@ The app builds without warnings for iPhone (Debug and Release). **205 unit tests
 
 ### Deviations from this blueprint
 
+0. **The honeypot goal is optional** and off by default (added after the first release candidate). `AppSettings.goal` stays a `Decimal` where 0 means no goal, so no data migration is needed and backup and share files keep the same format. Settings shows an empty field with the placeholder "No goal"; clearing it or typing 0 turns the goal off. With no goal, the Home hero and the widget leave out the progress bar and the "% of goal" line, currency conversion keeps 0 as 0 (it used to force a minimum of 100), and no goal milestone is added. A phone that already had a goal keeps it. The demo data (`-seedDemo`) and the App Store screenshots still use a 20,000 goal. Helpers: `GoalProgress` and `GoalInput` in `Models/GoalSupport.swift`.
 1. **XcodeGen** creates the project (section 4 describes the Xcode wizard).
 2. **Swift 5 language mode**, not Swift 6, to avoid strict-concurrency friction with SwiftData.
 3. **Fonts** (section 8.3): Google publishes these families only as variable fonts, so the 14 static faces were cut from them with `fonttools`. PostScript names differ from a plain download: Jost and Playfair Display carry a `Roman` infix (for example `JostRoman-Bold`).
@@ -70,7 +71,7 @@ The app builds without warnings for iPhone (Debug and Release). **205 unit tests
 ### Known limitations and not yet verified
 
 - **Real-device testing (2026-11-12):** the owner ran `release/real-device-checklist.md` on a physical iPhone (Face ID, notifications, widget, AirDrop, WhatsApp, Telegram, merging) and reported that everything worked. The device models and iOS versions were not recorded, and the results are the owner's report, not something verified by the automated tests. The simulator has none of these features, so they remain outside the automated suites.
-- **What the simulator did confirm**: the app appears as a share target for `.blessingz` files and opens them into the review screen; the share sheet shows the file correctly; the software keyboard hides the tab bar and "+"; the small iPhone SE layouts; the largest text size.
+- **What the simulator did confirm**: the app appears as a share target for `.blessingz` files and opens them into the review screen; the share sheet shows the file correctly; the software keyboard hides the tab bar and "+"; the small iPhone SE layouts; clearing the goal hides Home's progress line; the largest text size.
 - **Undo last import** restores the whole snapshot, so anything added or changed after the import is lost. The confirmation says so. (A smarter undo that reverts only what the import changed is a possible later change.)
 - **App Group and signing**: the store lives in an App Group container so the widget can read it. A free personal team cannot use App Groups, so a device build needs a paid team. If the group is unavailable the app falls back to a private store and the widget shows nothing.
 - **Privacy**: the store uses iOS default file protection (readable after first unlock) so the widget can refresh in the background. Reminder notifications show the person's name unless the user hides previews on the lock screen.
@@ -230,7 +231,7 @@ final class AppSettings {                // exactly one row; create on first lau
     var themeID: String = "jade"         // "jade" | "grand" | "quiet"
     var faceIDEnabled: Bool = false
     var hideAmounts: Bool = false
-    var goal: Decimal = 20000
+    var goal: Decimal = 0                // optional: 0 means no goal (originally 20000)
     var reminderDays: Int = 3            // 0 = reminders off
     init() {}
 }
@@ -410,7 +411,7 @@ Tab bar (custom, themed) with 4 tabs: Blessings, Insights, Hall, Settings. A flo
 
 ### 9.2 Home (Blessings)
 - Header: app name and a "Hide amounts" chip.
-- Hero: potLabel, total in large display font, "+ {amount} this month" (or "No blessings yet this month"), goal progress bar and "{pct}% of {goal} goal".
+- Hero: potLabel, total in large display font, "+ {amount} this month" (or "No blessings yet this month"), and, only if a goal is set, the goal progress bar and "{pct}% of {goal} goal". **As built:** the goal is optional (see deviation 0).
 - Search field (name, note, occasion). Chips: All, This year, Sort (Newest / Largest).
 - List grouped by "Mon YYYY" when sorting by newest; flat when sorting by largest. Row: avatar, name, "Occasion · d Mon, HH:mm" (plus "thank-you pending" when applicable), amount with "+" prefix.
 - Tap a row opens the blesser profile. Swipe: Edit, Delete (with an undo toast for 5 s), Mark thanked.
@@ -680,8 +681,8 @@ Themed like the other screens. Header "From {name} · exported {date}" and a sum
 
 ### 19.1 Tests
 
-- **205 unit tests** (Swift Testing) cover the logic layers at about 70% to 100% line coverage (most files are above 85%): money rounding and strict parsing, conversion, resolver, milestones, duplicate detection (table-driven, including the 72-hour boundary), import planning and commit (including a full two-phone round trip), backup, restore and file validation, reminders (including the lock-screen placeholder), the lock state machine, the keyboard observer, themes (every text and background pair), insights, hall of fame, home list logic, and guards for the files in `release/` (the reviewer sample file imports, and the 18 screenshots exist at 1320 x 2868 without transparency).
-- **11 UI tests** (XCUITest): first-run onboarding then adding a blessing and seeing it in Home and Insights; the vibe step's Back button; tabs keeping their place (fails on the old behaviour) and inactive tabs hidden from accessibility; changing the vibe; changing currency end to end; the Home share sheet; the share-changes marker (only moves when really shared); import review selection and cancel; importing lands on Home with the imported entry showing (a wiring check only, the demo data cannot prove scroll distance; the unit tests cover which entry is chosen); the largest text size.
+- **215 unit tests** (Swift Testing) cover the logic layers at about 70% to 100% line coverage (most files are above 85%): money rounding and strict parsing, conversion, resolver, milestones, duplicate detection (table-driven, including the 72-hour boundary), import planning and commit (including a full two-phone round trip), backup, restore and file validation, reminders (including the lock-screen placeholder), the lock state machine, the keyboard observer, themes (every text and background pair), insights, hall of fame, home list logic, and guards for the files in `release/` (the reviewer sample file imports, and the 18 screenshots exist at 1320 x 2868 without transparency).
+- **12 UI tests** (XCUITest): first-run onboarding then adding a blessing and seeing it in Home and Insights; the vibe step's Back button; tabs keeping their place (fails on the old behaviour) and inactive tabs hidden from accessibility; changing the vibe; changing currency end to end; the Home share sheet; the share-changes marker (only moves when really shared); import review selection and cancel; importing lands on Home with the imported entry showing (a wiring check only, the demo data cannot prove scroll distance; the unit tests cover which entry is chosen); the largest text size.
 - **Accessibility audit**: Apple's automatic audit (contrast, hit areas, element descriptions, clipped text, traits) over Home, Insights, Hall of Fame and Settings in all three themes, plus the Add sheet and the import review. It fails on any real finding; documented exceptions are in the test file.
 - Also run by hand on an iPhone SE (3rd generation) simulator: the UI tests pass and all four tabs were inspected.
 - Thin spots in the automated tests: the Face ID and notification wrappers, the App Group fallback, and the real AirDrop, WhatsApp and Telegram hand-off. These were checked by hand on a real iPhone (see Known limitations).

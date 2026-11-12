@@ -71,6 +71,7 @@ enum SeedData {
         }
         let settings = AppSettings()
         settings.hasOnboarded = true
+        settings.goal = 20_000                  // the demo shows a goal; a real install starts with none
         context.insert(settings)
         return settings
     }

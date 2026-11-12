@@ -10,12 +10,14 @@ final class AppSettings {                // exactly one row; create on first lau
     var themeID: String = "jade"         // "jade" | "grand" | "quiet"
     var faceIDEnabled: Bool = false
     var hideAmounts: Bool = false
-    var goal: Decimal = 20000
+    var goal: Decimal = 0                // optional: 0 means no goal
     var reminderDays: Int = 3            // 0 = reminders off
     var deviceID: UUID = UUID()          // identifies this phone in exchange files
     var deviceLabel: String = ""         // sharing name; empty means "use the device name"
     var lastExportAt: Date?              // when entries were last shared ("changes since last export")
     init() {}
+
+    var hasGoal: Bool { goal > 0 }
 
     /// The name shown to people who import your file.
     var effectiveDeviceLabel: String {
@@ -31,7 +33,7 @@ final class AppSettings {                // exactly one row; create on first lau
         themeID = "jade"
         faceIDEnabled = false
         hideAmounts = false
-        goal = 20000
+        goal = 0
         reminderDays = 3
         // deviceID is kept: it identifies this phone, not its data.
         deviceLabel = ""

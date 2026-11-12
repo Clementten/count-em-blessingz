@@ -45,14 +45,17 @@ struct SettingsView: View {
                             .font(theme.bodyFont(12, .regular)).foregroundStyle(theme.textMuted)
                         row("Honeypot goal") {
                             Text(MoneyFormatter.symbol(for: settings.currencyCode)).foregroundStyle(theme.textMuted)
-                            TextField("Goal", text: $goalText)
+                            TextField("No goal", text: $goalText)
                                 .keyboardType(.numberPad)
                                 .focused($goalFocused)
                                 .multilineTextAlignment(.trailing)
                                 .foregroundStyle(theme.amountColor)
                                 .frame(minWidth: 90)
+                                .accessibilityIdentifier("goal-field")
                                 .onSubmit(commitGoal)
                         }
+                        Text("Optional. Leave empty for no goal; the progress bar then stays hidden.")
+                            .font(theme.bodyFont(12, .regular)).foregroundStyle(theme.textMuted)
                     }
 
                     group("Vibe") { VibePicker(themeID: $settings.themeID) }
@@ -94,11 +97,11 @@ struct SettingsView: View {
             }
             .contentMargins(.bottom, 20, for: .scrollContent)
             .toolbar(.hidden, for: .navigationBar)
-            .onAppear { goalText = MoneyFormatter.plain(settings.goal) }
-            .onChange(of: settings.currencyCode) { goalText = MoneyFormatter.plain(settings.goal) }
+            .onAppear { goalText = GoalInput.fieldText(for: settings.goal) }
+            .onChange(of: settings.currencyCode) { goalText = GoalInput.fieldText(for: settings.goal) }
             .onChange(of: goalFocused) { _, focused in
                 if focused {
-                    goalText = MoneyFormatter.editable(settings.goal)     // plain digits while typing
+                    goalText = settings.hasGoal ? MoneyFormatter.editable(settings.goal) : ""     // plain digits while typing
                 } else {
                     commitGoal()
                 }
@@ -148,11 +151,11 @@ struct SettingsView: View {
         )
     }
 
-    /// Saves the goal only when the user is done typing, and only if it is a real number.
-    /// A half-typed or invalid entry puts the old goal back instead of changing it.
+    /// Saves the goal only when the user is done typing. Empty or 0 means no goal; a half-typed or
+    /// invalid entry puts the old goal back instead of changing it.
     private func commitGoal() {
-        if let value = MoneyFormatter.parsePositive(goalText) { settings.goal = value }
-        goalText = MoneyFormatter.plain(settings.goal)
+        settings.goal = GoalInput.resolve(goalText, current: settings.goal)
+        goalText = GoalInput.fieldText(for: settings.goal)
     }
 
     private var countrySheet: some View {

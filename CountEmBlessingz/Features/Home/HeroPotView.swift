@@ -8,11 +8,8 @@ struct HeroPotView: View {
     let currency: String
     var hideAmounts = false
 
-    private var progress: Double {
-        guard goal > 0 else { return 0 }
-        // Geometry only (bar width and percent label), never stored as money.
-        return min(1, NSDecimalNumber(decimal: total / goal).doubleValue)
-    }
+    /// nil when the user has not set a goal; the bar and its label are then left out.
+    private var progress: Double? { GoalProgress.fraction(total: total, goal: goal) }
 
     private func money(_ value: Decimal) -> String {
         hideAmounts ? "••••" : MoneyFormatter.format(value, currency: currency)
@@ -32,11 +29,13 @@ struct HeroPotView: View {
                  : String(localized: "No blessings yet this month"))
                 .font(theme.bodyFont(14, .regular)).foregroundStyle(theme.heroText)
                 .fixedSize(horizontal: false, vertical: true)
-            ProgressView(value: progress)
-                .tint(theme.accent)
-            Text("\(Int(progress * 100))% of \(money(goal)) goal")
-                .font(theme.bodyFont(12, .regular)).foregroundStyle(theme.heroText)
-                .fixedSize(horizontal: false, vertical: true)
+            if let progress {
+                ProgressView(value: progress)
+                    .tint(theme.accent)
+                Text("\(Int(progress * 100))% of \(money(goal)) goal")
+                    .font(theme.bodyFont(12, .regular)).foregroundStyle(theme.heroText)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)

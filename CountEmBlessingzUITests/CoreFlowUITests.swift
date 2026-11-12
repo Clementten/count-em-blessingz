@@ -188,6 +188,20 @@ final class CoreFlowUITests: XCTestCase {
         appears(total, 20, "9,776 × 0.21 = 2,052.96")
     }
 
+    func testClearingTheGoalHidesTheProgressLineOnHome() {
+        launch(["-seedDemo"])
+        appears(element(containing: "goal"), 20, "The demo has a goal, so Home shows progress towards it")
+        tab(3).tap()
+        let goal = appears(app.textFields["goal-field"])
+        goal.tap()
+        goal.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 8))
+        dismissKeyboardIfShown()
+        if app.keyboards.count > 0 { app.buttons["Done"].tap() }
+        tab(0).tap()
+        appears(app.buttons["Hide amounts"], 20, "Back on Home")
+        XCTAssertFalse(element(containing: "% of").exists, "With no goal there is no progress line")
+    }
+
     // MARK: Sharing and import
 
     func testHomeHasAShareButtonThatOpensTheShareSheet() {

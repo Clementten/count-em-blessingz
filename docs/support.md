@@ -27,7 +27,7 @@ Nothing changes until you tap Import, and **Settings > Data > Undo last import**
 They have the same person, the same amount and a date within three days of an entry you already have, so they might be the same gift recorded twice. Tick them if they are really separate gifts.
 
 ### Can I change my currency?
-Yes: **Settings > Country and currency**. The app asks for an exchange rate so your amounts and goal convert. You can also keep the numbers and change only the label. Your original amounts are remembered.
+Yes: **Settings > Country and currency**. The app asks for an exchange rate so your amounts (and your goal, if you set one) convert. You can also keep the numbers and change only the label. Your original amounts are remembered.
 
 ### What does the Face ID lock do?
 It locks the app when you leave it and hides its contents in the app switcher. While it is on, the home screen widget also hides your total.

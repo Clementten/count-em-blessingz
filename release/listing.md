@@ -38,7 +38,7 @@ Everything stays on your iPhone. There is no account, no cloud and no tracking.
 
 KEEP A LONG, HAPPY LIST
 - Add a blessing in seconds: who, how much and which occasion. The time is filled in for you.
-- See everything newest first, grouped by month, with a running total for your honeypot and progress towards your goal.
+- See everything newest first, grouped by month, with a running total for your honeypot and, if you set one, progress towards a goal.
 - Search by name, note or occasion. Attach a photo of the card or envelope.
 - Swipe to edit or delete, with undo.
 

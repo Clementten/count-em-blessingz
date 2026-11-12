@@ -71,6 +71,7 @@
 		8D974D6027921610476059BC /* ImportReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAC8E4E74F1893E0850265F /* ImportReviewModel.swift */; };
 		914B8C58D05F9EF334AAA0C8 /* HallLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BA3158BBAD691AD5B693AA /* HallLogic.swift */; };
 		92412239AB6671D9B55CE56B /* ImportReviewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C769CC702A10DDA26B0B4F6 /* ImportReviewModelTests.swift */; };
+		932CBC6E4691CADACA9EC292 /* GoalSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199C1C7CCBC05BA536165EC6 /* GoalSupport.swift */; };
 		944C8EEBEA6FB01012B72674 /* HomeListLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC1024481FD877006385188 /* HomeListLogic.swift */; };
 		97DE4B6BD893BEA935A71E7C /* BlessingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E816C8A74BA041FA756EC3 /* BlessingService.swift */; };
 		9843CC429377E3EE8E2099F9 /* DataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1DA1607D82B8D8720CFDF0 /* DataSection.swift */; };
@@ -107,12 +108,14 @@
 		CB9E206925298C6BF2E2674B /* Blesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554B5FE0C427DCE753C38BC /* Blesser.swift */; };
 		CFFB4816BC11AB0F9F5B70EB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEE82BC57BC145942335147 /* MainView.swift */; };
 		D31B68EA5A227C132EAD363B /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FF58487DA9F9F3A13E9BC32 /* Inter-Medium.ttf */; };
+		D530BB1EDDD9EDF622900F33 /* GoalSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199C1C7CCBC05BA536165EC6 /* GoalSupport.swift */; };
 		D6FBD3B70D521B939C126FCC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6454AF483B3BC27AA783959C /* Fonts.swift */; };
 		D7884DA47BFA557537A79EEB /* ThemeGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708A8D649814F58EE5F3F4E5 /* ThemeGalleryView.swift */; };
 		D857C1E506B8698D427C4F94 /* CurrencyConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF28AC41E9C67EFCB38E152 /* CurrencyConversion.swift */; };
 		D8BD93783DCF22497E7D3D98 /* YearReviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5C96F62EBBFD55A75F6FF2 /* YearReviewCard.swift */; };
 		DAD9DAD594F2BD5EE73DA3E1 /* OFL-montserrat.txt in Resources */ = {isa = PBXBuildFile; fileRef = F6810F2C496FB1BCFEB0FA92 /* OFL-montserrat.txt */; };
 		DDCDA4A084DE846E850C4274 /* Phase10Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1337822A3787C43BF0B0B12 /* Phase10Tests.swift */; };
+		DF54F0F29B11ECC6BCEEBD25 /* OptionalGoalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616CE223F78CFB8CA4374451 /* OptionalGoalTests.swift */; };
 		E0A3119E0E4825273299B5B6 /* DonutChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3600FA637E413DC3607970 /* DonutChart.swift */; };
 		E184776A78D8D0A46F1FEA42 /* NameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A19B9BE586B43555BBBE1B /* NameField.swift */; };
 		E2679BC0934CAB5C203ED151 /* ImportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DDEA282EED72364A605920 /* ImportServiceTests.swift */; };
@@ -192,6 +195,7 @@
 		16EBD130A4603CE5C4A83211 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		18CDC94A50D4BCFBAFCE85FA /* Blessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blessing.swift; sourceTree = "<group>"; };
 		193F1AC1E678278BFD0541A7 /* Jost-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Jost-Bold.ttf"; sourceTree = "<group>"; };
+		199C1C7CCBC05BA536165EC6 /* GoalSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSupport.swift; sourceTree = "<group>"; };
 		1B36AF8D31E4CF6F78806328 /* CountUpText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountUpText.swift; sourceTree = "<group>"; };
 		1C1134C40713746E330FD699 /* CountEmBlessingzTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CountEmBlessingzTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C39647C238D6DF15237471C /* KeyboardObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserverTests.swift; sourceTree = "<group>"; };
@@ -226,6 +230,7 @@
 		4F3CA9025CDC149B2B4B1305 /* Phase9Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase9Tests.swift; sourceTree = "<group>"; };
 		5B8EF136A17621829DD339CD /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		611F4E05958F120E0889F7D3 /* ImportPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPlan.swift; sourceTree = "<group>"; };
+		616CE223F78CFB8CA4374451 /* OptionalGoalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalGoalTests.swift; sourceTree = "<group>"; };
 		616F260644EA6D6B57BEE739 /* PodiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodiumView.swift; sourceTree = "<group>"; };
 		6370EE1EAF32F6ECA65F170B /* CormorantGaramond-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantGaramond-Medium.ttf"; sourceTree = "<group>"; };
 		6454AF483B3BC27AA783959C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -320,6 +325,7 @@
 				1C39647C238D6DF15237471C /* KeyboardObserverTests.swift */,
 				1005C6A4018724C601562638 /* MergeModelTests.swift */,
 				B50B589DCF5A4745B1BD1C78 /* NumberParsingTests.swift */,
+				616CE223F78CFB8CA4374451 /* OptionalGoalTests.swift */,
 				9EFA73C8BB41D4F3AB53F2D6 /* Phase1Tests.swift */,
 				DB615D822BFAE81EA0624E78 /* Phase4Tests.swift */,
 				FFEAC5D4C52CABEA6972F48D /* Phase5Tests.swift */,
@@ -450,6 +456,7 @@
 				F554B5FE0C427DCE753C38BC /* Blesser.swift */,
 				18CDC94A50D4BCFBAFCE85FA /* Blessing.swift */,
 				1FF28AC41E9C67EFCB38E152 /* CurrencyConversion.swift */,
+				199C1C7CCBC05BA536165EC6 /* GoalSupport.swift */,
 				4F39FF72901490AFCFAF2A2F /* Occasion.swift */,
 				7883577D17E113C95880B4C0 /* PaymentMethod.swift */,
 				36CDADAF009F940EA00D0D7B /* SharedStore.swift */,
@@ -791,6 +798,7 @@
 				85B45F0C7611486BF56FCEE5 /* ExchangeFile.swift in Sources */,
 				572BF2ED5FFDD4F7274392A1 /* ExportService.swift in Sources */,
 				D6FBD3B70D521B939C126FCC /* Fonts.swift in Sources */,
+				932CBC6E4691CADACA9EC292 /* GoalSupport.swift in Sources */,
 				597267F0AFBC3380006AF338 /* GratitudeQueue.swift in Sources */,
 				914B8C58D05F9EF334AAA0C8 /* HallLogic.swift in Sources */,
 				211904357A78918A706AAD41 /* HallView.swift in Sources */,
@@ -848,6 +856,7 @@
 				ACEE4036A3D2319F3A60D5DA /* CountEmBlessingzWidget.swift in Sources */,
 				44DCB8D49A2A26FBD517EBB2 /* CurrencyConversion.swift in Sources */,
 				3F299D9F0E5361147140F617 /* Fonts.swift in Sources */,
+				D530BB1EDDD9EDF622900F33 /* GoalSupport.swift in Sources */,
 				F20756F9607BE7215C101238 /* MoneyFormatter.swift in Sources */,
 				AE0675A3D6E2EB69129CA028 /* Occasion.swift in Sources */,
 				72EEBE554B83676A13B8778F /* PaymentMethod.swift in Sources */,
@@ -868,6 +877,7 @@
 				C891ECBF71F1677E7928A4D4 /* KeyboardObserverTests.swift in Sources */,
 				855CAB5ED0CE66D4A7687052 /* MergeModelTests.swift in Sources */,
 				E769BDA7AE247372624FF66C /* NumberParsingTests.swift in Sources */,
+				DF54F0F29B11ECC6BCEEBD25 /* OptionalGoalTests.swift in Sources */,
 				DDCDA4A084DE846E850C4274 /* Phase10Tests.swift in Sources */,
 				E310693F40D7548D3019022F /* Phase11Tests.swift in Sources */,
 				AE6308A6291C659EB4666D43 /* Phase1Tests.swift in Sources */,
