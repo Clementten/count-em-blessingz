@@ -21,6 +21,7 @@ struct HallView: View {
                 VStack(alignment: .leading, spacing: 22) {
                     Text(theme.title(theme.hallTitle))
                         .font(theme.displayFont(28, .bold)).foregroundStyle(theme.textPrimary)
+                        .lineLimit(2).minimumScaleFactor(0.6)
                     if ranking.isEmpty {
                         Text("No blessers yet. Tap + to add the first one.")
                             .font(theme.bodyFont(15, .regular)).foregroundStyle(theme.textMuted)

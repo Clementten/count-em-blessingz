@@ -56,7 +56,6 @@ struct BackupTests {
         let context = try makeContext()
         // Exercise optional fields too.
         let first = try #require(try context.fetch(FetchDescriptor<Blessing>()).first)
-        let firstID = first.id
         first.photoData = Data([1, 2, 3, 4])
         first.originalAmount = Decimal(string: "186.48")
         first.originalCurrencyCode = "MYR"

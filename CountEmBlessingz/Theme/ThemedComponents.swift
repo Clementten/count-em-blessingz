@@ -86,6 +86,7 @@ struct ThemedRow: View {
         .padding(.vertical, theme.rowStyle == .cards ? 12 : 10)
         .padding(.horizontal, theme.rowStyle == .cards ? 12 : 0)
         .frame(minHeight: 44)
+        .contentShape(Rectangle())          // taps in the gap between name and amount still count
         .background {
             if theme.rowStyle == .cards {
                 RoundedRectangle(cornerRadius: 4).fill(theme.surface)

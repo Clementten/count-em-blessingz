@@ -152,6 +152,7 @@ struct CurrencyRateSheet: View {
             .frame(minWidth: 90, minHeight: 44)
             .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.controlRadius))
             .accessibilityLabel("Exchange rate")
+            .accessibilityIdentifier("rate-field")
     }
 
     private func apply(labelOnly: Bool) {

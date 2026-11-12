@@ -24,6 +24,7 @@ struct NameField: View {
                 .autocorrectionDisabled()
                 .padding(12)
                 .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.controlRadius))
+                .accessibilityIdentifier("name-field")
             ForEach(suggestions) { blesser in
                 Button {
                     text = blesser.name

@@ -66,6 +66,7 @@ struct BlessingService {
     let context: ModelContext
 
     /// Inserts a blessing, marks the blesser thank-you pending and reports any milestone crossed.
+    @discardableResult
     func add(_ draft: BlessingDraft, currency: String, goal: Decimal?, locale: Locale = .current) throws -> AddResult {
         guard let amount = draft.parsedAmount(locale: locale) else { throw BlessingDraft.Problem.amountInvalid }
         guard let blesser = try BlesserResolver(context: context).findOrCreate(name: draft.name) else {

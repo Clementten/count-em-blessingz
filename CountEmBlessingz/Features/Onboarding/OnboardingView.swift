@@ -18,7 +18,11 @@ struct OnboardingView: View {
             if step == 0 {
                 CountryStep(selectedCode: $selectedCode, onContinue: applyCountry)
             } else {
-                VibeStep(themeID: $settings.themeID) { settings.hasOnboarded = true }
+                VibeStep(
+                    themeID: $settings.themeID,
+                    onBack: { withAnimation { step = 0 } },
+                    onFinish: { settings.hasOnboarded = true }
+                )
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -22,6 +22,7 @@ struct InsightsView: View {
             VStack(alignment: .leading, spacing: 18) {
                 Text(theme.title("Insights"))
                     .font(theme.displayFont(28, .bold)).foregroundStyle(theme.textPrimary)
+                    .lineLimit(2).minimumScaleFactor(0.6)
                 Picker("Group by", selection: $mode.animation()) {
                     ForEach(InsightMode.allCases) { Text($0.title).tag($0) }
                 }

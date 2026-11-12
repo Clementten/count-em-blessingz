@@ -25,6 +25,7 @@ struct TriStateCheckbox: View {
             .font(.title3)
             .foregroundStyle(locked ? theme.textMuted : (state == false ? theme.line : theme.accent))
             .frame(width: 44, height: 44)
+            .contentShape(Rectangle())
             .accessibilityHidden(true)
     }
 

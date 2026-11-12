@@ -3,10 +3,16 @@ import SwiftUI
 struct VibeStep: View {
     @Environment(\.theme) private var theme
     @Binding var themeID: String
+    let onBack: () -> Void
     let onFinish: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
+            Button(action: onBack) {
+                Label("Back", systemImage: "chevron.left")
+                    .font(theme.bodyFont(15, .medium)).foregroundStyle(theme.accent)
+                    .frame(minHeight: 44)
+            }
             Text(theme.title("Pick a vibe"))
                 .font(theme.displayFont(30, .bold)).foregroundStyle(theme.textPrimary)
             ForEach(Themes.all) { option in

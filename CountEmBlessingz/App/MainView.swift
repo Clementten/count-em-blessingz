@@ -11,6 +11,10 @@ struct MainView: View {
     #else
     @State private var tab = 0
     #endif
+    /// Tabs that have been opened. Each stays alive afterwards, so switching tabs never resets what the
+    /// person was doing there (an open profile, scroll position, search, filters).
+    @State private var visited: Set<Int> = [0]
+    @State private var sharing = SharePreparation()
     @State private var router = AppRouter()
     @State private var toast = ToastCenter()
     @State private var reminders = ReminderService()
@@ -42,6 +46,8 @@ struct MainView: View {
         .environment(router)
         .environment(toast)
         .environment(reminders)
+        .environment(sharing)
+        .task(id: shareSignature) { await sharing.refresh(context: modelContext) }
         .task(id: widgetSignature) { WidgetCenter.shared.reloadAllTimelines() }
         .task(id: reminderSignature) {
             await reminders.sync(blessers: blessers, days: settings.reminderDays)
@@ -58,9 +64,7 @@ struct MainView: View {
         }
         #endif
         .sheet(item: $importCoordinator.session) { session in
-            ImportReviewView(model: session, settings: settings)
-                .environment(toast)
-                .environment(router)
+            sheetContent(ImportReviewView(model: session, settings: settings))
         }
         .alert("Couldn't open file", isPresented: Binding(
             get: { importCoordinator.errorMessage != nil },
@@ -71,16 +75,17 @@ struct MainView: View {
             Text(importCoordinator.errorMessage ?? "")
         }
         .sheet(item: $router.editor) { route in
-            BlessingEditorSheet(settings: settings, editing: route.blessing) { milestone in
-                // Reduce Motion: skip the animation, the toast still announces it.
-                guard !reduceMotion else { return }
-                Task {
-                    try? await Task.sleep(for: .milliseconds(400))   // let the sheet finish dismissing
-                    router.celebrate(milestone)
+            sheetContent(
+                BlessingEditorSheet(settings: settings, editing: route.blessing) { milestone in
+                    // Reduce Motion: skip the animation, the toast still announces it.
+                    guard !reduceMotion else { return }
+                    Task {
+                        try? await Task.sleep(for: .milliseconds(400))   // let the sheet finish dismissing
+                        router.celebrate(milestone)
+                    }
                 }
-            }
-                .environment(toast)
-                .presentationDetents([.large])
+            )
+            .presentationDetents([.large])
         }
         .themed(theme)
     }
@@ -93,6 +98,25 @@ struct MainView: View {
         return "\(total)|\(settings.goal)|\(settings.currencyCode)|\(settings.themeID)|\(settings.hideAmounts)"
     }
 
+    /// Sheets get every shared object explicitly. They do not reliably inherit them, and a missing one crashes
+    /// the app the moment the sheet reads it, so add any new shared object here.
+    private func sheetContent<Content: View>(_ content: Content) -> some View {
+        content
+            .environment(toast)
+            .environment(router)
+            .environment(reminders)
+            .environment(sharing)
+            .environment(importCoordinator)
+    }
+
+    /// Changes whenever the entries, people or sharing name that the share files contain change.
+    private var shareSignature: String {
+        let blessings = blessers.flatMap(\.blessings)
+        let latest = blessings.map(\.updatedAt).max()?.timeIntervalSince1970 ?? 0
+        let names = blessers.map(\.name).sorted().joined(separator: ",")
+        return "\(blessings.count)|\(latest)|\(names)|\(settings.lastExportAt?.timeIntervalSince1970 ?? 0)|\(settings.deviceLabel)"
+    }
+
     /// Changes whenever anything that affects reminders changes (pending flags, blessing dates, delay).
     private var reminderSignature: String {
         let rows = blessers.map { blesser in
@@ -102,13 +126,34 @@ struct MainView: View {
         return "\(settings.reminderDays);" + rows.sorted().joined(separator: ";")
     }
 
-    @ViewBuilder private var content: some View {
-        switch tab {
+    /// Opened tabs are kept in the hierarchy and only hidden, so each keeps its own navigation and scroll state.
+    private var content: some View {
+        ZStack {
+            ForEach(0..<4, id: \.self) { index in
+                if visited.contains(index) || tab == index {
+                    tabRoot(index)
+                        .opacity(tab == index ? 1 : 0)
+                        .allowsHitTesting(tab == index)
+                        .accessibilityHidden(tab != index)
+                }
+            }
+        }
+    }
+
+    @ViewBuilder private func tabRoot(_ index: Int) -> some View {
+        switch index {
         case 0: HomeView(settings: settings)
         case 1: InsightsView(settings: settings)
         case 2: HallView(settings: settings)
         default: SettingsView(settings: settings)
         }
+    }
+
+    private func select(_ index: Int) {
+        guard index != tab else { return }
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        visited.insert(index)
+        tab = index
     }
 
     @ViewBuilder private func effectOverlay(_ theme: AppTheme) -> some View {
@@ -134,6 +179,7 @@ struct MainView: View {
                 .overlay(fabShape(theme).stroke(theme.fabBorder, lineWidth: theme.fabBorderWidth))
         }
         .accessibilityLabel("Add blessing")
+        .accessibilityIdentifier("add-blessing")
         .padding(.trailing, 20).padding(.bottom, 16)
     }
 
@@ -144,17 +190,21 @@ struct MainView: View {
     private func tabBar(_ theme: AppTheme) -> some View {
         HStack {
             ForEach(0..<4, id: \.self) { index in
-                Button { tab = index } label: {
+                Button { select(index) } label: {
                     VStack(spacing: 2) {
                         Image(systemName: icons[index])
                         Text(theme.tabTitles[index]).font(theme.bodyFont(10, .medium)).lineLimit(1)
                     }
                     .foregroundStyle(tab == index ? theme.tabBarActive : theme.tabBarText)
                     .frame(maxWidth: .infinity, minHeight: 44)
+                    .contentShape(Rectangle())
                 }
                 .accessibilityAddTraits(tab == index ? .isSelected : [])
+                .accessibilityIdentifier("tab-\(index)")
             }
         }
+        // The bar keeps a fixed, readable size even at the largest text sizes (labels would be cut off otherwise).
+        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
         .padding(.top, 8)
         .background(theme.tabBarBackground.ignoresSafeArea(edges: .bottom))
     }

@@ -48,6 +48,7 @@ struct BlessingEditorSheet: View {
                 }
                 field("Photo (optional)") { photoField }
                 ThemedButton(title: String(localized: "Save"), action: save)
+                    .accessibilityIdentifier("save-blessing")
             }
             .padding(20)
         }
@@ -71,6 +72,7 @@ struct BlessingEditorSheet: View {
             Button { dismiss() } label: {
                 Image(systemName: "xmark.circle.fill").font(.title2).foregroundStyle(theme.textMuted)
                     .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .accessibilityLabel("Close")
         }
@@ -95,6 +97,7 @@ struct BlessingEditorSheet: View {
                 TextField("0", text: $draft.amountText)
                     .keyboardType(.decimalPad)
                     .focused($amountFocused)
+                    .accessibilityIdentifier("amount-field")
                     .font(theme.displayFont(32, .bold)).foregroundStyle(theme.amountColor)
             }
             .padding(12)

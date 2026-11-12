@@ -13,10 +13,14 @@ struct CountEmBlessingzApp: App {
         #if DEBUG
         FontDebug.logBundledFonts()
         // `-seedDemo` opens an in-memory store with the mock data; `-demoTheme grand` picks the vibe.
-        if CommandLine.arguments.contains("-seedDemo") {
+        // `-uiTesting` opens an empty in-memory store (first launch), used by the UI tests.
+        let seedDemo = CommandLine.arguments.contains("-seedDemo")
+        if seedDemo || CommandLine.arguments.contains("-uiTesting") {
             do {
                 let demo = try ModelContainer(for: SharedStore.schema, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-                SeedData.insert(into: demo.mainContext).themeID = UserDefaults.standard.string(forKey: "demoTheme") ?? "jade"
+                if seedDemo {
+                    SeedData.insert(into: demo.mainContext).themeID = UserDefaults.standard.string(forKey: "demoTheme") ?? "jade"
+                }
                 container = demo
                 return
             } catch {

@@ -24,17 +24,19 @@ struct HeroPotView: View {
                 .font(theme.bodyFont(13, .semibold)).foregroundStyle(theme.heroLabel)
             CountUpText(text: money(total), value: total, animated: theme.effect == .countUp)
                 .font(theme.displayFont(44, .bold)).foregroundStyle(theme.heroText)
-                .minimumScaleFactor(0.6).lineLimit(1)
+                .minimumScaleFactor(0.3).lineLimit(1)
                 .blur(radius: hideAmounts ? 6 : 0)
                 .privacySensitive()
             Text(monthDelta > 0
                  ? "+ \(money(monthDelta)) this month"
                  : String(localized: "No blessings yet this month"))
                 .font(theme.bodyFont(14, .regular)).foregroundStyle(theme.heroText.opacity(0.85))
+                .fixedSize(horizontal: false, vertical: true)
             ProgressView(value: progress)
                 .tint(theme.accent)
             Text("\(Int(progress * 100))% of \(money(goal)) goal")
                 .font(theme.bodyFont(12, .regular)).foregroundStyle(theme.heroText.opacity(0.85))
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)

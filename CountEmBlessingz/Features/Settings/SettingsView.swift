@@ -21,6 +21,7 @@ struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 22) {
                     Text(theme.title("Settings"))
                         .font(theme.displayFont(28, .bold)).foregroundStyle(theme.textPrimary)
+                        .lineLimit(2).minimumScaleFactor(0.6)
 
                     group("General") {
                         Button { choosingCountry = true } label: {
@@ -31,6 +32,7 @@ struct SettingsView: View {
                             }
                         }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier("country-row")
                         row("Sharing name") {
                             TextField(UIDevice.current.name, text: $settings.deviceLabel)
                                 .multilineTextAlignment(.trailing)
@@ -104,6 +106,7 @@ struct SettingsView: View {
             .sheet(isPresented: $choosingCountry) { countrySheet }
             .sheet(item: $pendingCountry) { target in
                 CurrencyRateSheet(settings: settings, target: target)
+                    .environment(toast)
                     .presentationDetents([.large])
             }
         }
@@ -193,6 +196,7 @@ struct SettingsView: View {
         }
         .font(theme.bodyFont(15, .regular))
         .frame(minHeight: 44)
+        .contentShape(Rectangle())          // the whole row is tappable, not just the text
         .overlay(alignment: .bottom) { Rectangle().fill(theme.rowDivider).frame(height: 1) }
     }
 }

@@ -48,6 +48,7 @@ struct HomeView: View {
                 }
             }
             .listStyle(.plain)
+            .scrollDismissesKeyboard(.interactively)
             .scrollContentBackground(.hidden)
             .contentMargins(.bottom, 90, for: .scrollContent)
             .toolbar(.hidden, for: .navigationBar)
@@ -100,6 +101,7 @@ struct HomeView: View {
 /// Title row, hero, search and chips.
 private struct HomeHeader: View {
     @Environment(\.theme) private var theme
+    @Environment(SharePreparation.self) private var sharing
     @Bindable var settings: AppSettings
     let blessings: [Blessing]
     @Binding var query: String
@@ -108,13 +110,10 @@ private struct HomeHeader: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            HStack {
-                Text(theme.title("Count 'Em Blessingz"))
-                    .font(theme.displayFont(22, .bold)).foregroundStyle(theme.textPrimary)
-                Spacer()
-                chip(settings.hideAmounts ? "Show amounts" : "Hide amounts",
-                     systemImage: settings.hideAmounts ? "eye" : "eye.slash",
-                     selected: settings.hideAmounts) { settings.hideAmounts.toggle() }
+            // One row when it fits; stacked (never breaking words) at large text sizes.
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 8) { titleText; Spacer(minLength: 8); shareButton; hideChip }
+                VStack(alignment: .leading, spacing: 8) { titleText; HStack(spacing: 8) { hideChip; shareButton } }
             }
             HeroPotView(
                 total: HomeListLogic.total(blessings),
@@ -140,6 +139,32 @@ private struct HomeHeader: View {
             }
             Text(theme.title(theme.recentTitle))
                 .font(theme.bodyFont(12, .semibold)).foregroundStyle(theme.textMuted)
+        }
+    }
+
+    private var titleText: some View {
+        Text(theme.title("Count 'Em Blessingz"))
+            .font(theme.displayFont(22, .bold)).foregroundStyle(theme.textPrimary)
+            .lineLimit(2).minimumScaleFactor(0.6)
+    }
+
+    private var hideChip: some View {
+        chip(settings.hideAmounts ? "Show amounts" : "Hide amounts",
+             systemImage: settings.hideAmounts ? "eye" : "eye.slash",
+             selected: settings.hideAmounts) { settings.hideAmounts.toggle() }
+    }
+
+    /// Opens the system share sheet (WhatsApp, Telegram, Mail, AirDrop, Files...) with every entry.
+    @ViewBuilder private var shareButton: some View {
+        if let item = sharing.allItem() {
+            ShareLink(item: item, preview: SharePreview(String(localized: "All my entries"))) {
+                Image(systemName: "square.and.arrow.up")
+                    .font(.system(size: 17, weight: .semibold)).foregroundStyle(theme.accent)
+                    .frame(width: 44, height: 44)
+                    .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.controlRadius))
+            }
+            .accessibilityLabel("Share all my entries")
+            .accessibilityIdentifier("share-all")
         }
     }
 
@@ -175,6 +200,7 @@ private struct HomeHeader: View {
         .themed(theme)
         .environment(AppRouter())
         .environment(ToastCenter())
+        .environment(SharePreparation())
         .modelContainer(container)
 }
 #endif

@@ -9,23 +9,14 @@ struct DataSection: View {
     @Environment(ToastCenter.self) private var toast
     @Environment(ImportCoordinator.self) private var importCoordinator
 
+    @Environment(SharePreparation.self) private var sharing
     let settings: AppSettings
-    @Query private var blessings: [Blessing]
 
     private enum ImportMode { case restore, merge }
-
-    /// Files for the two share rows, encoded off the main thread whenever the entries change.
-    private struct PreparedShare {
-        let all: Data
-        let changes: Data
-        let changesFile: ExchangeFile
-        let changeCount: Int
-    }
 
     @State private var shareURL: URL?
     @State private var importing = false
     @State private var importMode: ImportMode = .restore
-    @State private var prepared: PreparedShare?
     @State private var undoInfo: ImportSnapshotInfo?
     @State private var confirmingUndo = false
     @State private var pendingRestore: Data?
@@ -50,9 +41,8 @@ struct DataSection: View {
             action(eraseArmed ? "Tap again to erase everything" : "Erase all data",
                    systemImage: "trash", destructive: true, action: eraseTapped)
         }
-        .task(id: dataSignature) {
-            await prepareShares()
-            undoInfo = ImportService(context: modelContext).latestSnapshot()
+        .task(id: sharing.version) {
+            undoInfo = ImportService(context: modelContext).latestSnapshot()     // after every import / undo / edit
         }
         .sheet(item: $shareURL) { ShareSheet(url: $0).presentationDetents([.medium, .large]) }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.blessingzExchange, .json]) { result in
@@ -85,47 +75,25 @@ struct DataSection: View {
 
     // MARK: Share my entries
 
-    /// Changes whenever something the share files contain changes.
-    private var dataSignature: String {
-        let latest = blessings.map(\.updatedAt).max()?.timeIntervalSince1970 ?? 0
-        return "\(blessings.count)|\(latest)|\(settings.lastExportAt?.timeIntervalSince1970 ?? 0)|\(settings.deviceLabel)"
-    }
-
-    private func prepareShares() async {
-        guard let payload = try? service.sharePayload() else { prepared = nil; return }
-        let files = payload
-        let encoded = await Task.detached(priority: .userInitiated) {
-            (try? ExchangeFileCodec.encode(files.allFile), try? ExchangeFileCodec.encode(files.changesFile))
-        }.value
-        guard let all = encoded.0, let changes = encoded.1 else { prepared = nil; return }
-        prepared = PreparedShare(all: all, changes: changes, changesFile: files.changesFile, changeCount: files.changeCount)
-    }
-
     @ViewBuilder private var shareAllRow: some View {
-        if let prepared {
-            ShareLink(
-                item: ExchangeShareItem(data: prepared.all, fileName: ExportService.shareFileName(.full), onShared: {}),
-                preview: SharePreview(String(localized: "All my entries"))
-            ) { rowLabel("Share all my entries", systemImage: "square.and.arrow.up") }
+        if let item = sharing.allItem() {
+            ShareLink(item: item, preview: SharePreview(String(localized: "All my entries"))) {
+                rowLabel("Share all my entries", systemImage: "square.and.arrow.up")
+            }
         } else {
-            rowLabel("Share all my entries", systemImage: "square.and.arrow.up").opacity(0.4)
+            rowLabel(sharing.prepared == nil ? "Share all my entries" : "No entries to share yet",
+                     systemImage: "square.and.arrow.up").opacity(0.4)
         }
     }
 
     /// Sharing marks the changes as exported, but only when the system actually asks for the file.
     @ViewBuilder private var shareChangesRow: some View {
-        if let prepared, prepared.changeCount > 0 {
-            let context = modelContext
-            let file = prepared.changesFile
-            ShareLink(
-                item: ExchangeShareItem(
-                    data: prepared.changes, fileName: ExportService.shareFileName(.sinceLastExport),
-                    onShared: { Task { @MainActor in try? ExportService(context: context).markShared(file) } }
-                ),
-                preview: SharePreview(String(localized: "Changes since my last export"))
-            ) { rowLabel("Share changes since last export (\(prepared.changeCount))", systemImage: "square.and.arrow.up.on.square") }
+        if let item = sharing.changesItem(context: modelContext), let count = sharing.prepared?.changeCount {
+            ShareLink(item: item, preview: SharePreview(String(localized: "Changes since my last export"))) {
+                rowLabel("Share changes since last export (\(count))", systemImage: "square.and.arrow.up.on.square")
+            }
         } else {
-            rowLabel(prepared == nil ? "Share changes since last export" : "No changes since last export",
+            rowLabel(sharing.prepared == nil ? "Share changes since last export" : "No changes since last export",
                      systemImage: "square.and.arrow.up.on.square").opacity(0.4)
         }
     }
@@ -149,6 +117,7 @@ struct DataSection: View {
         .font(theme.bodyFont(15, .regular))
         .foregroundStyle(destructive ? theme.danger : theme.textPrimary)
         .frame(minHeight: 44)
+        .contentShape(Rectangle())          // the whole row is tappable, not just the text
         .overlay(alignment: .bottom) { Rectangle().fill(theme.rowDivider).frame(height: 1) }
     }
 
