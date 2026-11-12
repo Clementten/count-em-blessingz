@@ -67,7 +67,7 @@ Open the app > the **1.0 Prepare for Submission** page.
 
 | Section | What to do |
 |---|---|
-| Screenshots | Upload the captioned 6.9 inch screenshots from [screenshots-captioned/](screenshots-captioned/), Jade & Gold set first (see [screenshots.md](screenshots.md)). The plain versions are in [screenshots/](screenshots/). |
+| Screenshots | Upload the captioned screenshots, Jade & Gold set first: **1206 x 2622** files from [screenshots-captioned-1206x2622/](screenshots-captioned-1206x2622/) into the 6.1-inch tab (required), and optionally the 1320 x 2868 files from [screenshots-captioned/](screenshots-captioned/) into the 6.9-inch tab. A file dropped on the wrong size tab fails with "File dimensions are invalid" (see [screenshots.md](screenshots.md)). The plain versions are in [screenshots/](screenshots/). |
 | Promotional text, Description, Keywords, What's New | Paste from [listing.md](listing.md). |
 | Support URL, Marketing URL | From owner-inputs. |
 | Copyright | `2026 <your name>` |

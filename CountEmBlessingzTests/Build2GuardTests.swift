@@ -101,6 +101,20 @@ struct Build2GuardTests {
         }
     }
 
+    /// The 6.1" Dynamic Island class is the one App Store Connect requires (1206 x 2622 or 1179 x 2556).
+    @Test(arguments: ["jade", "grand", "quiet"])
+    func smallerCaptionedScreenshotsMatchThe61InchSlot(look: String) throws {
+        let names = ["01-home", "02-insights", "03-import-review", "04-hall-of-fame", "05-add-blessing", "06-vibes"]
+        for name in names {
+            let url = root.appending(path: "release/screenshots-captioned-1206x2622/\(look)/\(name).png")
+            let source = try #require(CGImageSourceCreateWithURL(url as CFURL, nil), "\(look)/\(name) is missing")
+            let properties = try #require(CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any])
+            #expect(properties[kCGImagePropertyPixelWidth] as? Int == 1206, "\(look)/\(name) width")
+            #expect(properties[kCGImagePropertyPixelHeight] as? Int == 2622, "\(look)/\(name) height")
+            #expect(properties[kCGImagePropertyHasAlpha] as? Bool != true, "\(look)/\(name) must have no transparency")
+        }
+    }
+
     // MARK: Helpers
 
     private func expectEmptyManifest(at url: URL) throws {

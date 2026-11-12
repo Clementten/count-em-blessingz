@@ -144,7 +144,7 @@ Apple's guidance (asset best practices): up to 3 screenshots show in search resu
 
 Changes from `screenshots.md`: warmer and more specific to angpao; the merge screen moves to slot 3 (your differentiator); no "most generous" ranking language (can read as competitive); no claims about Face ID or the widget because there is no screenshot of them. The demo screenshots show a 20,000 goal; the description now says "if you set one", so this is consistent.
 
-**Decision made: option A.** `swift release/caption-screenshots.swift` regenerates the set in `release/screenshots-captioned/` (file order = upload order: home, insights, import review, hall of fame, add, vibes). The six headlines are in the script. The app preview video was declined.
+**Decision made: option A.** `swift release/caption-screenshots.swift` regenerates the set in `release/screenshots-captioned/` (file order = upload order: home, insights, import review, hall of fame, add, vibes). The six headlines are in the script. The app preview video was declined. **Update 2026-11-13:** App Store Connect rejected the 1320 x 2868 files with "File dimensions are invalid" on the tab where they were dropped. Apple's table lists 1320 x 2868 for the 6.9-inch tab only, and 1206 x 2622 or 1179 x 2556 for the required 6.1-inch tab. The script now also writes `release/screenshots-captioned-1206x2622/` (same composition, resampled).
 
 ## 6. App preview video (optional)
 

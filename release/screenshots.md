@@ -23,7 +23,14 @@ Upload order = display order: drag to rearrange after uploading.
 
 ## Captioned set (recommended)
 
-`screenshots-captioned/` holds the same six screens in each look with a headline on top, 1320 x 2868, no transparency. **Upload these instead of the plain ones**, in file order (`01-home`, `02-insights`, `03-import-review`, `04-hall-of-fame`, `05-add-blessing`, `06-vibes`). Headlines: "Every angpao, safely in one place", "See who has blessed you", "Merge family lists, no cloud", "Never forget to say thanks", "Add a blessing in seconds", "Pick the look you love". Regenerate with `swift release/caption-screenshots.swift` (macOS, AppKit; reads `screenshots/`). The raw screens still show a 20,000 goal and a charging battery icon in the status bar; that is harmless.
+The captioned screens come in **two sizes, and each must go into the matching size tab** in App Store Connect (it rejects a file with "File dimensions are invalid" if the size does not belong to the tab):
+
+| Folder | Size | App Store Connect tab |
+|---|---|---|
+| `screenshots-captioned-1206x2622/` | 1206 x 2622 | **6.1-inch (Dynamic Island): the required one, start here** |
+| `screenshots-captioned/` | 1320 x 2868 | 6.9-inch (optional; upload if the tab is offered) |
+
+Apple's table (fetched 2026-11-13) lists 1206 x 2622 and 1179 x 2556 for the 6.1-inch class, and 1260 x 2736, 1290 x 2796 and 1320 x 2868 for 6.9-inch. Each set has the same six screens in each look with a headline on top, no transparency. **Upload these instead of the plain ones**, in file order (`01-home`, `02-insights`, `03-import-review`, `04-hall-of-fame`, `05-add-blessing`, `06-vibes`). Headlines: "Every angpao, safely in one place", "See who has blessed you", "Merge family lists, no cloud", "Never forget to say thanks", "Add a blessing in seconds", "Pick the look you love". Regenerate with `swift release/caption-screenshots.swift` (macOS, AppKit; reads `screenshots/`). The raw screens still show a 20,000 goal and a charging battery icon in the status bar; that is harmless.
 
 ## Optional: add headlines (older notes)
 

@@ -4,7 +4,10 @@
 //   swift release/caption-screenshots.swift
 //
 // Reads  release/screenshots/<look>/NN-name.png        (1320 x 2868 raw screens)
-// Writes release/screenshots-captioned/<look>/NN-name.png   (1320 x 2868, opaque, headline on top)
+// Writes release/screenshots-captioned/<look>/NN-name.png            (1320 x 2868: App Store Connect's 6.9" slot)
+//        release/screenshots-captioned-1206x2622/<look>/NN-name.png  (1206 x 2622: the 6.1" slot, which is the required one)
+// Both are opaque, with the headline on top. Upload each set into the slot that matches its size; App Store Connect
+// rejects a file whose pixel size does not belong to the tab you drop it on ("File dimensions are invalid").
 //
 // Layout: a 420 px band at the top in the look's own background colour with the headline in the look's
 // text colour (the same pairs the theme tests hold to 4.5:1), and the whole screen below it, scaled to fit,
@@ -74,7 +77,7 @@ func fittingText(_ headline: String, color: NSColor) -> (NSAttributedString, CGR
     }
 }
 
-func render(source: URL, headline: String, look: Look, to destination: URL) throws {
+func render(source: URL, headline: String, look: Look, to outputs: [(url: URL, size: CGSize)]) throws {
     guard let screen = NSImage(contentsOf: source) else { throw NSError(domain: "caption", code: 1, userInfo: [NSLocalizedDescriptionKey: "cannot read \(source.path)"]) }
     guard let bitmap = NSBitmapImageRep(
         bitmapDataPlanes: nil, pixelsWide: Int(canvas.width), pixelsHigh: Int(canvas.height),
@@ -112,18 +115,22 @@ func render(source: URL, headline: String, look: Look, to destination: URL) thro
               options: [.usesLineFragmentOrigin, .usesFontLeading])
 
     NSGraphicsContext.restoreGraphicsState()
-    try FileManager.default.createDirectory(at: destination.deletingLastPathComponent(), withIntermediateDirectories: true)
-    try writeOpaquePNG(bitmap, to: destination)
+    for output in outputs {
+        try FileManager.default.createDirectory(at: output.url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try writeOpaquePNG(bitmap, size: output.size, to: output.url)
+    }
 }
 
-/// App Store screenshots must not have transparency: copy the picture into an RGB context with no alpha channel.
-func writeOpaquePNG(_ bitmap: NSBitmapImageRep, to url: URL) throws {
+/// App Store screenshots must not have transparency: copy the picture into an RGB context with no alpha channel,
+/// resampled to `size` (the same size, or the smaller slot's size).
+func writeOpaquePNG(_ bitmap: NSBitmapImageRep, size: CGSize, to url: URL) throws {
     func fail(_ message: String) -> NSError { NSError(domain: "caption", code: 3, userInfo: [NSLocalizedDescriptionKey: message]) }
     guard let picture = bitmap.cgImage,
-          let flat = CGContext(data: nil, width: picture.width, height: picture.height, bitsPerComponent: 8, bytesPerRow: 0,
+          let flat = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: 8, bytesPerRow: 0,
                                space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
     else { throw fail("cannot flatten the picture") }
-    flat.draw(picture, in: CGRect(x: 0, y: 0, width: picture.width, height: picture.height))
+    flat.interpolationQuality = .high
+    flat.draw(picture, in: CGRect(origin: .zero, size: size))
     guard let opaque = flat.makeImage(),
           let target = CGImageDestinationCreateWithURL(url as CFURL, UTType.png.identifier as CFString, 1, nil)
     else { throw fail("cannot create PNG") }
@@ -137,9 +144,12 @@ var count = 0
 for look in looks {
     for shot in shots {
         let source = releaseFolder.appending(path: "screenshots/\(look.id)/\(shot.source).png")
-        let destination = releaseFolder.appending(path: "screenshots-captioned/\(look.id)/\(shot.output).png")
+        let outputs: [(url: URL, size: CGSize)] = [
+            (releaseFolder.appending(path: "screenshots-captioned/\(look.id)/\(shot.output).png"), canvas),
+            (releaseFolder.appending(path: "screenshots-captioned-1206x2622/\(look.id)/\(shot.output).png"), CGSize(width: 1206, height: 2622)),
+        ]
         do {
-            try render(source: source, headline: shot.headline, look: look, to: destination)
+            try render(source: source, headline: shot.headline, look: look, to: outputs)
             count += 1
         } catch {
             FileHandle.standardError.write(Data("\(look.id)/\(shot.source): \(error.localizedDescription)\n".utf8))
@@ -147,4 +157,4 @@ for look in looks {
         }
     }
 }
-print("Wrote \(count) captioned screenshots to release/screenshots-captioned/")
+print("Wrote \(count) captioned screenshots in two sizes: release/screenshots-captioned/ (1320 x 2868) and release/screenshots-captioned-1206x2622/")
