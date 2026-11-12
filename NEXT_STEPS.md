@@ -37,7 +37,7 @@ Time: about 4 to 6 hours of your own time in total, spread over a few days (Appl
 
   Deleting a remote branch is permanent (there is no "safe" mode). Repeat `git fetch --prune` in any other clone or worktree.
 
-- [ ] **Publish the public pages** (needed for the App Store). First put your real email in `docs/privacy-policy.md` and `docs/support.md` (search for `[your contact email]`), commit and push. Then on GitHub: **Settings > Pages > Source: Deploy from a branch > Branch `main`, folder `/docs` > Save.** After a minute open `https://<your-github-name>.github.io/<repository-name>/privacy-policy/` and `.../support/` and check they load. Write both URLs down.
+- [x] **Publish the public pages** (needed for the App Store). First put your real email in `docs/privacy-policy.md` and `docs/support.md` (search for `[your contact email]`), commit and push. Then on GitHub: **Settings > Pages > Source: Deploy from a branch > Branch `main`, folder `/docs` > Save.** After a minute open `https://<your-github-name>.github.io/<repository-name>/privacy-policy/` and `.../support/` and check they load. Write both URLs down.
 
 ## 2. Provide your details and decisions (15 minutes)
 
