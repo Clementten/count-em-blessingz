@@ -696,6 +696,12 @@
 					9AED5831496CF44FB4F439FD = {
 						TestTargetID = E5954F8DC8E482DC621537A4;
 					};
+					CA75A2D90B3F61B86C816AB7 = {
+						DevelopmentTeam = 8FXKW2Z58P;
+					};
+					E5954F8DC8E482DC621537A4 = {
+						DevelopmentTeam = 8FXKW2Z58P;
+					};
 				};
 			};
 			buildConfigurationList = 4EBFE3CEE073F1DF2C40A1E5 /* Build configuration list for PBXProject "CountEmBlessingz" */;
@@ -909,6 +915,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CountEmBlessingzWidget/CountEmBlessingzWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8FXKW2Z58P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountEmBlessingzWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -948,6 +955,7 @@
 				CODE_SIGN_ENTITLEMENTS = CountEmBlessingz/CountEmBlessingz.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8FXKW2Z58P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountEmBlessingz/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Count 'Em Blessingz";
@@ -1110,6 +1118,7 @@
 				CODE_SIGN_ENTITLEMENTS = CountEmBlessingz/CountEmBlessingz.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8FXKW2Z58P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountEmBlessingz/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Count 'Em Blessingz";
@@ -1166,6 +1175,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = CountEmBlessingzWidget/CountEmBlessingzWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8FXKW2Z58P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountEmBlessingzWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
