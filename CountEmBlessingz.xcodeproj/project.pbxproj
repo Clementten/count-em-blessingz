@@ -52,6 +52,7 @@
 		72EEBE554B83676A13B8778F /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7883577D17E113C95880B4C0 /* PaymentMethod.swift */; };
 		765D74D028AC169CF42A241D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEEF13420194786A5E451B /* SettingsView.swift */; };
 		7BC0FFC347B09B1756D98ED0 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E07CEBB628099671597412DA /* Inter-SemiBold.ttf */; };
+		7BD12FB45780375AC1BEC817 /* ImportPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611F4E05958F120E0889F7D3 /* ImportPlan.swift */; };
 		7E5795FE284573050654F2B1 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE34E518C55B8690E2DF5DF /* AppSettings.swift */; };
 		81343C836751BCBD92F8FFB6 /* ExchangeFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DA767D37ACA041444D51C5 /* ExchangeFileTests.swift */; };
 		855CAB5ED0CE66D4A7687052 /* MergeModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1005C6A4018724C601562638 /* MergeModelTests.swift */; };
@@ -68,6 +69,7 @@
 		9F2E450285D9E9DD7E67CDE1 /* LegendList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED12F9AC12F06BD83871674E /* LegendList.swift */; };
 		A14984037FC1BB14DF2889D4 /* OFL-playfairdisplay.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2C735D47EE2682B3258F8A80 /* OFL-playfairdisplay.txt */; };
 		A20A549F320EC7324A4FB914 /* Blesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F554B5FE0C427DCE753C38BC /* Blesser.swift */; };
+		A430060DE92548E12A694F1C /* ImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DE8D0BFB18739830F803DB /* ImportService.swift */; };
 		A595E41F28501C2C0D66F678 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC96DD77FCA693A1113B9C2 /* OnboardingView.swift */; };
 		ACEE4036A3D2319F3A60D5DA /* CountEmBlessingzWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3772C2D5F0AA5C695B35762D /* CountEmBlessingzWidget.swift */; };
 		AD554C80B701E4DF13534976 /* CoinRainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99352A6A750558897A68E8A2 /* CoinRainView.swift */; };
@@ -99,6 +101,7 @@
 		DDCDA4A084DE846E850C4274 /* Phase10Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1337822A3787C43BF0B0B12 /* Phase10Tests.swift */; };
 		E0A3119E0E4825273299B5B6 /* DonutChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3600FA637E413DC3607970 /* DonutChart.swift */; };
 		E184776A78D8D0A46F1FEA42 /* NameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A19B9BE586B43555BBBE1B /* NameField.swift */; };
+		E2679BC0934CAB5C203ED151 /* ImportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DDEA282EED72364A605920 /* ImportServiceTests.swift */; };
 		E310693F40D7548D3019022F /* Phase11Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EC0CF8FCFA200F35A5CC63 /* Phase11Tests.swift */; };
 		E68E72EDC4364FFD62C042B8 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5BA8B2C2DC79F72C5F8EEC /* InsightsView.swift */; };
 		EA127A55679832EBBAAB4624 /* BlessingEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CE4841ECB7BBCD7FF79C92 /* BlessingEditorSheet.swift */; };
@@ -194,6 +197,7 @@
 		4F39FF72901490AFCFAF2A2F /* Occasion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Occasion.swift; sourceTree = "<group>"; };
 		4F3CA9025CDC149B2B4B1305 /* Phase9Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase9Tests.swift; sourceTree = "<group>"; };
 		5B8EF136A17621829DD339CD /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		611F4E05958F120E0889F7D3 /* ImportPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPlan.swift; sourceTree = "<group>"; };
 		616F260644EA6D6B57BEE739 /* PodiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodiumView.swift; sourceTree = "<group>"; };
 		6370EE1EAF32F6ECA65F170B /* CormorantGaramond-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantGaramond-Medium.ttf"; sourceTree = "<group>"; };
 		6454AF483B3BC27AA783959C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -209,6 +213,7 @@
 		7E48667ABB2A521F930578FA /* ChapterCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterCardView.swift; sourceTree = "<group>"; };
 		82317C8A189E00D5868871D5 /* CurrencyRateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRateSheet.swift; sourceTree = "<group>"; };
 		82FE56539A94C48A4DD74EF9 /* MilestoneStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneStrip.swift; sourceTree = "<group>"; };
+		85DE8D0BFB18739830F803DB /* ImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportService.swift; sourceTree = "<group>"; };
 		88FD16348C3287121BFEAA6C /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		8A5C96F62EBBFD55A75F6FF2 /* YearReviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearReviewCard.swift; sourceTree = "<group>"; };
 		8EC1024481FD877006385188 /* HomeListLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeListLogic.swift; sourceTree = "<group>"; };
@@ -246,6 +251,7 @@
 		F554B5FE0C427DCE753C38BC /* Blesser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blesser.swift; sourceTree = "<group>"; };
 		F641F7F4ECF1BD068A2C6683 /* CountEmBlessingz.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountEmBlessingz.entitlements; sourceTree = "<group>"; };
 		F6810F2C496FB1BCFEB0FA92 /* OFL-montserrat.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-montserrat.txt"; sourceTree = "<group>"; };
+		F9DDEA282EED72364A605920 /* ImportServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportServiceTests.swift; sourceTree = "<group>"; };
 		FCF9812F2D179E3D402AEF67 /* CountryStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryStep.swift; sourceTree = "<group>"; };
 		FE8C3417650315BBCFCFED02 /* BlessingRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlessingRow.swift; sourceTree = "<group>"; };
 		FF3F777C3CD3877260C2FAEE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -268,6 +274,7 @@
 			children = (
 				2ED2A8A04C85DF623501E5E2 /* DuplicateDetectorTests.swift */,
 				A6DA767D37ACA041444D51C5 /* ExchangeFileTests.swift */,
+				F9DDEA282EED72364A605920 /* ImportServiceTests.swift */,
 				1005C6A4018724C601562638 /* MergeModelTests.swift */,
 				9EFA73C8BB41D4F3AB53F2D6 /* Phase1Tests.swift */,
 				DB615D822BFAE81EA0624E78 /* Phase4Tests.swift */,
@@ -470,6 +477,8 @@
 				218B2B804D3BB9075C399D43 /* ExchangeFile.swift */,
 				88FD16348C3287121BFEAA6C /* ExportService.swift */,
 				23BF18553B76DFA9D6A645AC /* Haptics.swift */,
+				611F4E05958F120E0889F7D3 /* ImportPlan.swift */,
+				85DE8D0BFB18739830F803DB /* ImportService.swift */,
 				B7EE6071BE236EB10E5EEEC4 /* MilestoneService.swift */,
 				0C4666176D779774622F81DA /* MoneyFormatter.swift */,
 				91BE3E10B65CA98ABBABA29F /* RateEntry.swift */,
@@ -688,6 +697,8 @@
 				C8BCCF9F6A3623E2285EFD43 /* HeroPotView.swift in Sources */,
 				944C8EEBEA6FB01012B72674 /* HomeListLogic.swift in Sources */,
 				B4847AC7781C2CF2837B95B7 /* HomeView.swift in Sources */,
+				7BD12FB45780375AC1BEC817 /* ImportPlan.swift in Sources */,
+				A430060DE92548E12A694F1C /* ImportService.swift in Sources */,
 				3AD3049871BE19A028E9DC21 /* InsightsLogic.swift in Sources */,
 				E68E72EDC4364FFD62C042B8 /* InsightsView.swift in Sources */,
 				9F2E450285D9E9DD7E67CDE1 /* LegendList.swift in Sources */,
@@ -744,6 +755,7 @@
 			files = (
 				ADA68AC0F87EABBAAE1E6D59 /* DuplicateDetectorTests.swift in Sources */,
 				81343C836751BCBD92F8FFB6 /* ExchangeFileTests.swift in Sources */,
+				E2679BC0934CAB5C203ED151 /* ImportServiceTests.swift in Sources */,
 				855CAB5ED0CE66D4A7687052 /* MergeModelTests.swift in Sources */,
 				DDCDA4A084DE846E850C4274 /* Phase10Tests.swift in Sources */,
 				E310693F40D7548D3019022F /* Phase11Tests.swift in Sources */,
