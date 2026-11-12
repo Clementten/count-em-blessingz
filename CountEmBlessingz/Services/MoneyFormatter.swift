@@ -29,14 +29,29 @@ enum MoneyFormatter {
         )
     }
 
-    /// Parses a positive decimal typed by the user (`,` or `.` per `locale`); nil otherwise.
+    /// Parses a positive number typed by the user. Strict: the whole text must be a number in `locale`
+    /// (so "12abc", "1e3" and "1..5" are rejected), and grouping is understood ("1,000" is a thousand in
+    /// en_US, "1.000,50" is 1000.5 in de_DE). Never goes through `Double`.
     static func parsePositive(_ text: String, locale: Locale = .current) -> Decimal? {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty,
-              let value = Decimal(string: trimmed, locale: locale),
-              value > 0
+        guard !trimmed.isEmpty else { return nil }
+
+        let formatter = NumberFormatter()
+        formatter.locale = locale
+        formatter.numberStyle = .decimal
+        formatter.generatesDecimalNumbers = true
+        formatter.isLenient = false
+
+        // Digits and this locale's separators only: no signs, exponents or letters.
+        var allowed = Set(" \u{00A0}\u{202F}")
+        for separator in [formatter.decimalSeparator, formatter.groupingSeparator] {
+            allowed.formUnion(separator ?? "")
+        }
+        guard trimmed.allSatisfy({ $0.isNumber || allowed.contains($0) }),
+              let number = formatter.number(from: trimmed) as? NSDecimalNumber
         else { return nil }
-        return value
+        let value = number.decimalValue
+        return value > 0 ? value : nil
     }
 
     /// Currency symbol such as "RM" or "$" for an ISO code.
@@ -45,6 +60,11 @@ enum MoneyFormatter {
         formatter.numberStyle = .currency
         formatter.currencyCode = currency
         return formatter.currencySymbol ?? currency
+    }
+
+    /// Text for an editable field: no grouping, so it reads back as exactly the same number.
+    static func editable(_ value: Decimal, locale: Locale = .current) -> String {
+        value.formatted(.number.grouping(.never).precision(.fractionLength(0...2)).locale(locale))
     }
 
     /// Number only, no currency symbol.

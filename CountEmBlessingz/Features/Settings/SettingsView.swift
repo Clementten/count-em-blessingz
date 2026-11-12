@@ -48,9 +48,7 @@ struct SettingsView: View {
                                 .multilineTextAlignment(.trailing)
                                 .foregroundStyle(theme.amountColor)
                                 .frame(minWidth: 90)
-                                .onChange(of: goalText) { _, text in
-                                    if let value = MoneyFormatter.parsePositive(text) { settings.goal = value }
-                                }
+                                .onSubmit(commitGoal)
                         }
                     }
 
@@ -95,6 +93,13 @@ struct SettingsView: View {
             .toolbar(.hidden, for: .navigationBar)
             .onAppear { goalText = MoneyFormatter.plain(settings.goal) }
             .onChange(of: settings.currencyCode) { goalText = MoneyFormatter.plain(settings.goal) }
+            .onChange(of: goalFocused) { _, focused in
+                if focused {
+                    goalText = MoneyFormatter.editable(settings.goal)     // plain digits while typing
+                } else {
+                    commitGoal()
+                }
+            }
             .toolbar { ToolbarItemGroup(placement: .keyboard) { Spacer(); Button("Done") { goalFocused = false } } }
             .sheet(isPresented: $choosingCountry) { countrySheet }
             .sheet(item: $pendingCountry) { target in
@@ -137,6 +142,13 @@ struct SettingsView: View {
                 }
             }
         )
+    }
+
+    /// Saves the goal only when the user is done typing, and only if it is a real number.
+    /// A half-typed or invalid entry puts the old goal back instead of changing it.
+    private func commitGoal() {
+        if let value = MoneyFormatter.parsePositive(goalText) { settings.goal = value }
+        goalText = MoneyFormatter.plain(settings.goal)
     }
 
     private var countrySheet: some View {

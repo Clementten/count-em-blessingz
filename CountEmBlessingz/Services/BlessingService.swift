@@ -20,7 +20,7 @@ struct BlessingDraft {
 
     init(editing blessing: Blessing) {
         name = blessing.blesser?.name ?? ""
-        amountText = MoneyFormatter.plain(blessing.amount)
+        amountText = MoneyFormatter.editable(blessing.amount)
         occasion = blessing.occasion
         date = blessing.date
         method = blessing.method
