@@ -4,7 +4,7 @@ import CoreTransferable
 
 extension UTType {
     /// `.blessingz` files: JSON that opens in Count 'Em Blessingz. Declared in Info.plist (project.yml).
-    static let blessingzExchange = UTType(exportedAs: "com.example.countemblessingz.exchange", conformingTo: .json)
+    static let blessingzExchange = UTType(exportedAs: "com.clemzzz.countemblessingz.exchange", conformingTo: .json)
 }
 
 // MARK: - Decimal and date coding

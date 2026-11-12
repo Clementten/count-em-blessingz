@@ -19,7 +19,7 @@ targets:
         UILaunchScreen:
           UIColorName: LaunchBackground
         UTExportedTypeDeclarations:
-          - UTTypeIdentifier: com.example.countemblessingz.exchange
+          - UTTypeIdentifier: com.clemzzz.countemblessingz.exchange
             UTTypeDescription: Count 'Em Blessingz file
             UTTypeConformsTo:
               - public.json
@@ -33,7 +33,7 @@ targets:
             CFBundleTypeRole: Viewer
             LSHandlerRank: Owner
             LSItemContentTypes:
-              - com.example.countemblessingz.exchange
+              - com.clemzzz.countemblessingz.exchange
         UIAppFonts:
           - PlayfairDisplay-Medium.ttf
           - PlayfairDisplay-Bold.ttf
@@ -53,13 +53,13 @@ targets:
       path: CountEmBlessingz/CountEmBlessingz.entitlements
       properties:
         com.apple.security.application-groups:
-          - group.com.example.countemblessingz
+          - group.com.clemzzz.countemblessingz
     dependencies:
       - target: CountEmBlessingzWidget
         embed: true
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.countemblessingz
+        PRODUCT_BUNDLE_IDENTIFIER: com.clemzzz.countemblessingz
         GENERATE_INFOPLIST_FILE: YES
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
@@ -88,10 +88,10 @@ targets:
       path: CountEmBlessingzWidget/CountEmBlessingzWidget.entitlements
       properties:
         com.apple.security.application-groups:
-          - group.com.example.countemblessingz
+          - group.com.clemzzz.countemblessingz
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.countemblessingz.widget
+        PRODUCT_BUNDLE_IDENTIFIER: com.clemzzz.countemblessingz.widget
         GENERATE_INFOPLIST_FILE: YES
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
@@ -105,7 +105,7 @@ targets:
       - target: CountEmBlessingz
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.countemblessingz.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: com.clemzzz.countemblessingz.uitests
         GENERATE_INFOPLIST_FILE: YES
   CountEmBlessingzTests:
     type: bundle.unit-test
@@ -116,7 +116,7 @@ targets:
       - target: CountEmBlessingz
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.countemblessingz.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.clemzzz.countemblessingz.tests
         GENERATE_INFOPLIST_FILE: YES
 schemes:
   CountEmBlessingz:

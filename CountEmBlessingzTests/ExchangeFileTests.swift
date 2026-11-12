@@ -78,7 +78,7 @@ struct ExchangeFileFormatTests {
     }
 
     private func UTTypeBlessingzIsJSON() -> Bool {
-        UTType.blessingzExchange.conforms(to: .json) && UTType.blessingzExchange.identifier == "com.example.countemblessingz.exchange"
+        UTType.blessingzExchange.conforms(to: .json) && UTType.blessingzExchange.identifier == "com.clemzzz.countemblessingz.exchange"
     }
 }
 

@@ -4,7 +4,7 @@ import Foundation
 /// The SwiftData store lives in an App Group container so the widget can read it.
 /// Change the identifier together with the bundle id (and the entitlements) when you rename the app.
 enum SharedStore {
-    static let appGroupIdentifier = "group.com.example.countemblessingz"
+    static let appGroupIdentifier = "group.com.clemzzz.countemblessingz"
 
     static let schema = Schema([Blessing.self, Blesser.self, AppSettings.self, CurrencyConversion.self])
 

@@ -15,7 +15,7 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.example.countemblessingz.exchange</string>
+				<string>com.clemzzz.countemblessingz.exchange</string>
 			</array>
 		</dict>
 	</array>
@@ -69,7 +69,7 @@
 			<key>UTTypeDescription</key>
 			<string>Count 'Em Blessingz file</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.example.countemblessingz.exchange</string>
+			<string>com.clemzzz.countemblessingz.exchange</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

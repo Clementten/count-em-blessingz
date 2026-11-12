@@ -47,7 +47,7 @@ Time: about 4 to 6 hours of your own time in total, spread over a few days (Appl
 
 ## 3. Make the project yours in Xcode (30 minutes)
 
-- [ ] Run `release/set-identifiers.sh com.yourname.countemblessingz` (your bundle id). It replaces the placeholder ids everywhere and regenerates the project. Then run the tests (Command-U) to confirm.
+- [x] Run `release/set-identifiers.sh com.yourname.countemblessingz` (your bundle id). It replaces the placeholder ids everywhere and regenerates the project. Then run the tests (Command-U) to confirm.
 - [ ] Open `CountEmBlessingz.xcodeproj`. For **both** targets (`CountEmBlessingz` and `CountEmBlessingzWidget`): Signing & Capabilities > tick *Automatically manage signing* > choose your **Team**. Check that the App Groups capability lists `group.<your bundle id>`.
 - [ ] Run the app on your own iPhone.
 
