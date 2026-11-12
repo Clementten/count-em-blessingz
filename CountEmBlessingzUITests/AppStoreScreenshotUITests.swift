@@ -11,8 +11,10 @@ final class AppStoreScreenshotUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        outputDirectory = try XCTUnwrap(ProcessInfo.processInfo.environment["SCREENSHOT_DIR"],
-                                        "Set TEST_RUNNER_SCREENSHOT_DIR to generate screenshots")
+        guard let directory = ProcessInfo.processInfo.environment["SCREENSHOT_DIR"] else {
+            throw XCTSkip("Set TEST_RUNNER_SCREENSHOT_DIR to generate screenshots")
+        }
+        outputDirectory = directory
     }
 
     private func launch(theme: String, extra: [String] = []) {

@@ -48,14 +48,32 @@ final class CoreFlowUITests: XCTestCase {
     private func waitUntilHittable(_ element: XCUIElement, _ timeout: TimeInterval = 20,
                                    file: StaticString = #filePath, line: UInt = #line) {
         let ready = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == true AND hittable == true"), object: element)
-        XCTAssertEqual(XCTWaiter().wait(for: [ready], timeout: timeout), .completed, "\(element) never became tappable", file: file, line: line)
+        XCTAssertEqual(XCTWaiter().wait(for: [ready], timeout: timeout), .completed, "\(element) never became tappable. exists=\(element.exists) frame=\(element.frame) keyboardShown=\(app.keyboards.count > 0) screen=\(app.frame)", file: file, line: line)
+    }
+
+    /// Types into a field and checks the field really holds the text; the simulator sometimes drops keystrokes
+    /// typed right after the tap, so clear and retype a few times before giving up.
+    private func typeReliably(_ text: String, into field: XCUIElement, file: StaticString = #filePath, line: UInt = #line) {
+        for _ in 0..<3 {
+            field.tap()
+            if let current = field.value as? String, !current.isEmpty, current != (field.placeholderValue ?? "") {
+                field.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count))
+            }
+            field.typeText(text)
+            if (field.value as? String) == text { return }
+        }
+        XCTFail("Could not type \"\(text)\" into \(field)", file: file, line: line)
     }
 
     /// On devices that show the software keyboard the tab bar steps aside while it is up, so close it first.
     private func dismissKeyboardIfShown() {
         guard app.keyboards.count > 0 else { return }
         let key = app.keyboards.buttons.matching(NSPredicate(format: "label IN {'return','Return','search','Search','done','Done'}")).firstMatch
-        if key.exists { key.tap() }
+        if key.exists && key.isHittable {
+            key.tap()
+        } else {
+            app.typeText("\n")        // the key is not reachable (hardware keyboard or odd layout): send return instead
+        }
         let gone = XCTNSPredicateExpectation(predicate: NSPredicate(format: "count == 0"), object: app.keyboards)
         _ = XCTWaiter().wait(for: [gone], timeout: 5)
     }
@@ -66,7 +84,7 @@ final class CoreFlowUITests: XCTestCase {
         launch(["-uiTesting"])
 
         let search = appears(app.textFields["Search countries"])
-        search.tap(); search.typeText("Malaysia")
+        typeReliably("Malaysia", into: search)
         appears(button(containing: "Malaysia")).tap()
         app.buttons["Continue"].tap()
 
@@ -150,7 +168,7 @@ final class CoreFlowUITests: XCTestCase {
         appears(app.buttons["country-row"]).tap()
 
         let search = appears(app.textFields["Search countries"])
-        search.tap(); search.typeText("United States")
+        typeReliably("United States", into: search)
         let usRow = appears(button(containing: "United States"))
         waitUntilHittable(usRow)
         usRow.tap()
@@ -164,7 +182,8 @@ final class CoreFlowUITests: XCTestCase {
         appears(element(containing: "Converted at 1 MYR"), 20, "A toast confirms the rate")
         XCTAssertTrue(app.buttons["country-row"].label.contains("USD"))
         tab(0).tap()
-        appears(element(containing: "USD").exists ? element(containing: "USD") : element(containing: "$"), 20)
+        // One predicate that waits for either form; checking `.exists` once races the tab switch.
+        appears(app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] 'USD' OR label CONTAINS '$'")).firstMatch, 20)
         let total = app.descendants(matching: .any).matching(NSPredicate(format: "label MATCHES '.*2.?052.*'")).firstMatch
         appears(total, 20, "9,776 × 0.21 = 2,052.96")
     }

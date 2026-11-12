@@ -9,7 +9,7 @@ Read the whole file first, then build phase by phase (section 12). Commit after 
 
 ## Implementation status
 
-The app builds without warnings for iPhone (Debug and Release). **205 unit tests and the automatic accessibility audit of 14 screens pass; 10 of the 11 UI tests pass.** (The exception, the UI test `testSwitchingTabsKeepsWhereYouWere`, fails in the current simulator environment when it taps the keyboard's return key; it fails the same way on the commit before the scroll change, so it is not caused by it. The three App Store screenshot tests fail unless `TEST_RUNNER_SCREENSHOT_DIR` is set.) All work is on `main`. Nothing has been run on a physical iPhone yet; the steps that need a real phone, an Apple account or your decisions are listed in [`NEXT_STEPS.md`](NEXT_STEPS.md) (see "What is left").
+The app builds without warnings for iPhone (Debug and Release). **205 unit tests, 11 UI tests and an automatic accessibility audit of 14 screens pass.** (The three App Store screenshot tests are skipped unless `TEST_RUNNER_SCREENSHOT_DIR` is set.) All work is on `main`. Nothing has been run on a physical iPhone yet; the steps that need a real phone, an Apple account or your decisions are listed in [`NEXT_STEPS.md`](NEXT_STEPS.md) (see "What is left").
 
 ### How to build and test
 

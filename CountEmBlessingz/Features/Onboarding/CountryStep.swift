@@ -29,6 +29,15 @@ struct CountryList: View {
                     }
                 }
                 .onAppear { proxy.scrollTo(selectedCode, anchor: .center) }
+                // The list starts scrolled to the selected country. When a search shrinks it, bring the first
+                // result into view, or the list can stay scrolled past its end and look empty.
+                .onChange(of: query) { _, newValue in
+                    if newValue.trimmingCharacters(in: .whitespaces).isEmpty {
+                        proxy.scrollTo(selectedCode, anchor: .center)
+                    } else if let first = results.first {
+                        proxy.scrollTo(first.code, anchor: .top)
+                    }
+                }
             }
         }
     }
