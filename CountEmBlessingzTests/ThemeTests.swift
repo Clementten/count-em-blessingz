@@ -40,9 +40,19 @@ struct ThemeTests {
             ("danger/background", theme.danger, theme.background),
             ("tab text/tab bar", theme.tabBarText, theme.tabBarBackground),
             ("tab active/tab bar", theme.tabBarActive, theme.tabBarBackground),
+            ("hero text/hero", theme.heroText, theme.heroBackground == .clear ? theme.background : theme.heroBackground),
+            ("hero label/hero", theme.heroLabel, theme.heroBackground == .clear ? theme.background : theme.heroBackground),
+            ("amount/background", theme.amountColor, theme.background),
+            ("amount/surface", theme.amountColor, theme.surface),
+            ("positive/background", theme.positive, theme.background),
+            ("danger/surface", theme.danger, theme.surface),
         ]
         for (label, fg, bg) in pairs {
             #expect(contrast(fg, bg) >= 4.5, "\(theme.id) \(label) = \(contrast(fg, bg))")
+        }
+        // Avatar initials are decorative and set in bold at 14pt or more, which counts as large text (3:1).
+        if theme.avatarStyle != .none {
+            #expect(contrast(theme.avatarText, theme.avatarBackground) >= 3.0, "\(theme.id) avatar initials")
         }
     }
 

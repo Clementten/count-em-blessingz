@@ -27,6 +27,8 @@ private final class FakeCenter: NotificationCenterProtocol {
     func pendingIdentifiers() async -> [String] { Array(scheduled.keys) }
     func add(_ request: UNNotificationRequest) async { scheduled[request.identifier] = request }
     func remove(identifiers: [String]) { identifiers.forEach { scheduled[$0] = nil } }
+    var categories: Set<UNNotificationCategory> = []
+    func setCategories(_ categories: Set<UNNotificationCategory>) { self.categories = categories }
 }
 
 private let day: TimeInterval = 86_400
@@ -81,6 +83,12 @@ struct ReminderServiceTests {
         let request = try #require(center.scheduled["thank-\(mei.id.uuidString)"])
         #expect(request.content.body == "Say thanks to Mei.")
         #expect(request.trigger is UNCalendarNotificationTrigger)
+        // Privacy: with lock-screen previews hidden, a placeholder replaces the person's name.
+        #expect(request.content.categoryIdentifier == ReminderService.categoryIdentifier)
+        #expect(center.categories.first?.identifier == ReminderService.categoryIdentifier)
+        #expect(center.categories.first?.hiddenPreviewsBodyPlaceholder == "Someone is waiting for a thank-you.")
+        let placeholder = center.categories.first?.hiddenPreviewsBodyPlaceholder ?? ""
+        #expect(placeholder.range(of: "Mei") == nil)                    // never the person's name
     }
 
     @Test func markingThankedRemovesIt() async throws {

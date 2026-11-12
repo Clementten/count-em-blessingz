@@ -25,12 +25,12 @@ struct ImportFilterTests {
     @Test func searchAndFilterNarrowTheList() {
         let model = ImportReviewSamples.model()
         #expect(model.visiblePersons.count == 3)
-        let mei = model.plan.persons.first { $0.name.contains("mei") }!
+        let mei = model.plan.persons.first { $0.name == "Aunt Mei" }!
         #expect(model.visibleItems(of: mei).count == 4)
 
         model.filter = .possibleDuplicates
         #expect(model.visibleItems(of: mei).count == 1)
-        #expect(model.visiblePersons.map(\.name).sorted() == ["Cousin Wei", "aunt  mei"])   // Wei has the in-file duplicate
+        #expect(model.visiblePersons.map(\.name).sorted() == ["Aunt Mei", "Cousin Wei"])   // Wei has the in-file duplicate
 
         model.filter = .all
         model.search = "christmas"

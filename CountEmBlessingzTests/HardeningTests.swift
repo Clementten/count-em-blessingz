@@ -103,6 +103,25 @@ struct HiddenAmountsTests {
         #expect(!hidden.contains("888") && hidden == "Saved: Aunt Mei")
     }
 
+    @Test func convertedEntriesShowWhatTheyWereWorthBefore() {
+        func line(_ original: Decimal?, _ code: String?, current: Decimal? = 470, _ currency: String = "MYR", hide: Bool = false) -> String? {
+            BlessingEditorSheet.originalLine(originalAmount: original, originalCurrency: code, currentAmount: current,
+                                             currentCurrency: currency, hideAmounts: hide)
+        }
+        #expect(line(100, "USD") == "Originally USD 100")                  // converted from another currency
+        #expect(line(100, "USD", hide: true) == "Originally USD ••••")      // still private
+        #expect(line(888, "MYR", current: 888) == nil)                      // label-only change: nothing to say
+        #expect(line(888, "MYR", current: 900) == "Originally MYR 888")     // amount differs
+        #expect(line(nil, nil) == nil)                                      // never converted
+    }
+
+    @Test func milestoneMagnitudeIsHiddenToo() {
+        let shown = BlessingEditorSheet.savedMessage(name: "Mei", amount: 300, currency: "MYR", hideAmounts: false, milestone: 10_000)
+        let hidden = BlessingEditorSheet.savedMessage(name: "Mei", amount: 300, currency: "MYR", hideAmounts: true, milestone: 10_000)
+        #expect(shown.contains("10k"))
+        #expect(!hidden.contains("10") && !hidden.contains("300") && hidden == "Saved: Mei · Milestone reached!")
+    }
+
     @Test func snapshotsAreProtectedAndKeptOutOfBackups() throws {
         let container = try ModelContainer(
             for: Blessing.self, Blesser.self, AppSettings.self, CurrencyConversion.self,

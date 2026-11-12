@@ -44,6 +44,22 @@ final class CoreFlowUITests: XCTestCase {
 
     private func tab(_ index: Int) -> XCUIElement { app.buttons["tab-\(index)"] }
 
+    /// Waits until the element can actually be tapped (it exists, is on screen and not covered).
+    private func waitUntilHittable(_ element: XCUIElement, _ timeout: TimeInterval = 20,
+                                   file: StaticString = #filePath, line: UInt = #line) {
+        let ready = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == true AND hittable == true"), object: element)
+        XCTAssertEqual(XCTWaiter().wait(for: [ready], timeout: timeout), .completed, "\(element) never became tappable", file: file, line: line)
+    }
+
+    /// On devices that show the software keyboard the tab bar steps aside while it is up, so close it first.
+    private func dismissKeyboardIfShown() {
+        guard app.keyboards.count > 0 else { return }
+        let key = app.keyboards.buttons.matching(NSPredicate(format: "label IN {'return','Return','search','Search','done','Done'}")).firstMatch
+        if key.exists { key.tap() }
+        let gone = XCTNSPredicateExpectation(predicate: NSPredicate(format: "count == 0"), object: app.keyboards)
+        _ = XCTWaiter().wait(for: [gone], timeout: 5)
+    }
+
     // MARK: First run
 
     func testFirstRunOnboardingThenAddBlessingShowsInListAndInsights() {
@@ -99,10 +115,22 @@ final class CoreFlowUITests: XCTestCase {
         app.navigationBars.buttons.firstMatch.tap()
         let searchField = appears(app.textFields["Search name, note or occasion"])
         searchField.tap(); searchField.typeText("Mei")
+        dismissKeyboardIfShown()
         tab(1).tap()
         appears(element(containing: "By person").exists ? element(containing: "By person") : app.staticTexts["Insights"], 20)
         tab(0).tap()
         XCTAssertEqual(appears(app.textFields["Search name, note or occasion"]).value as? String, "Mei")
+    }
+
+    /// A tab you are not on must not be readable by VoiceOver (it would mix every tab's content together).
+    func testInactiveTabsAreHiddenFromAccessibility() {
+        launch(["-seedDemo", "-demoTab", "2"])                          // Hall of Fame is active
+        appears(element(containing: "Milestones"))
+        XCTAssertFalse(app.buttons["Hide amounts"].exists, "Home's controls must not be exposed while on Hall of Fame")
+        XCTAssertFalse(app.textFields["Search name, note or occasion"].exists)
+        tab(0).tap()
+        appears(app.buttons["Hide amounts"], 20, "…and Home's controls appear when Home is active")
+        XCTAssertFalse(element(containing: "Milestones").exists, "…while Hall of Fame's content is gone")
     }
 
     // MARK: Settings
@@ -123,9 +151,11 @@ final class CoreFlowUITests: XCTestCase {
 
         let search = appears(app.textFields["Search countries"])
         search.tap(); search.typeText("United States")
-        appears(button(containing: "United States")).tap()
+        let usRow = appears(button(containing: "United States"))
+        waitUntilHittable(usRow)
+        usRow.tap()
 
-        let rate = appears(app.textFields["rate-field"], 20, "The rate sheet appears before anything changes")
+        let rate = appears(app.textFields["rate-field"], 30, "The rate sheet appears before anything changes")
         rate.tap()
         let separator = Locale.current.decimalSeparator ?? "."
         rate.typeText("0\(separator)21")
@@ -147,6 +177,26 @@ final class CoreFlowUITests: XCTestCase {
         let sheet = app.otherElements["ActivityListView"]
         let copy = app.buttons["Copy"]
         XCTAssertTrue(sheet.waitForExistence(timeout: 20) || copy.waitForExistence(timeout: 5), "The system share sheet should open")
+    }
+
+    func testShareChangesMovesTheMarkerOnlyWhenReallyShared() {
+        launch(["-seedDemo"])
+        tab(3).tap()
+        let row = button(containing: "Share changes since last export")
+        appears(row)
+        while !row.isHittable { app.swipeUp() }
+
+        // Opening the share sheet and closing it again shares nothing: the changes are still pending.
+        row.tap()
+        let close = app.buttons["Close"]
+        appears(close, 20, "The share sheet has a Close button")
+        close.tap()
+        appears(button(containing: "Share changes since last export (15)"), 20, "Nothing was shared, so 15 changes remain")
+
+        // Really sharing (Copy) moves the marker, so nothing is left to share.
+        button(containing: "Share changes since last export (15)").tap()
+        appears(app.cells["Copy"], 20, "The share sheet offers Copy").tap()
+        appears(element(containing: "No changes since last export"), 20, "After sharing there are no pending changes")
     }
 
     func testImportReviewSelectionChangesTheFooterAndCancelChangesNothing() {
