@@ -6,6 +6,7 @@ struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(AppRouter.self) private var router
     @Environment(ToastCenter.self) private var toast
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @Bindable var settings: AppSettings
     @Query(sort: \Blessing.date, order: .reverse) private var blessings: [Blessing]
@@ -21,38 +22,60 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack(path: $path) {
-            List {
-                HomeHeader(
-                    settings: settings, blessings: blessings,
-                    query: $query, thisYearOnly: $thisYearOnly, sort: $sort
-                )
-                .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
+            ScrollViewReader { proxy in
+                List {
+                    HomeHeader(
+                        settings: settings, blessings: blessings,
+                        query: $query, thisYearOnly: $thisYearOnly, sort: $sort
+                    )
+                    .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
 
-                if filtered.isEmpty {
-                    emptyState
-                } else {
-                    ForEach(HomeListLogic.sections(filtered, sort: sort)) { section in
-                        Section {
-                            ForEach(section.blessings) { blessing in
-                                row(blessing)
-                            }
-                        } header: {
-                            if !section.title.isEmpty {
-                                Text(theme.title(section.title))
-                                    .font(theme.bodyFont(12, .semibold)).foregroundStyle(theme.textMuted)
+                    if filtered.isEmpty {
+                        emptyState
+                    } else {
+                        ForEach(HomeListLogic.sections(filtered, sort: sort)) { section in
+                            Section {
+                                ForEach(section.blessings) { blessing in
+                                    row(blessing)
+                                }
+                            } header: {
+                                if !section.title.isEmpty {
+                                    Text(theme.title(section.title))
+                                        .font(theme.bodyFont(12, .semibold)).foregroundStyle(theme.textMuted)
+                                }
                             }
                         }
                     }
                 }
+                .listStyle(.plain)
+                .scrollDismissesKeyboard(.interactively)
+                .scrollContentBackground(.hidden)
+                .contentMargins(.bottom, 90, for: .scrollContent)
+                .toolbar(.hidden, for: .navigationBar)
+                .navigationDestination(for: Blesser.self) { BlesserProfileView(blesser: $0, settings: settings) }
+                .onChange(of: router.revealBlessingID) { _, id in
+                    guard let id else { return }
+                    reveal(id, with: proxy)
+                }
             }
-            .listStyle(.plain)
-            .scrollDismissesKeyboard(.interactively)
-            .scrollContentBackground(.hidden)
-            .contentMargins(.bottom, 90, for: .scrollContent)
-            .toolbar(.hidden, for: .navigationBar)
-            .navigationDestination(for: Blesser.self) { BlesserProfileView(blesser: $0, settings: settings) }
+        }
+    }
+
+    /// After an import: drop any search or "This year" filter that would hide the entry, then scroll to it.
+    private func reveal(_ id: UUID, with proxy: ScrollViewProxy) {
+        path.removeAll()
+        query = ""
+        thisYearOnly = false
+        Task {
+            try? await Task.sleep(for: .milliseconds(150))      // let the list rebuild without the filters
+            if reduceMotion {
+                proxy.scrollTo(id, anchor: .center)
+            } else {
+                withAnimation { proxy.scrollTo(id, anchor: .center) }
+            }
+            router.revealBlessingID = nil
         }
     }
 

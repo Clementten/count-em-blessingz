@@ -22,6 +22,12 @@ struct Celebration: Identifiable {
 final class AppRouter {
     var editor: EditorRoute?
     var celebration: Celebration?
+    /// One-shot request for Home to scroll to this entry; Home clears it once it has scrolled.
+    var revealBlessingID: UUID?
+
+    func reveal(_ id: UUID) {
+        revealBlessingID = id
+    }
 
     /// Fires the active theme's milestone effect once.
     func celebrate(_ milestone: Decimal) {

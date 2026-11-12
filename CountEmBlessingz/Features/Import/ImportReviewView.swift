@@ -188,6 +188,7 @@ struct ImportReviewView: View {
                     }
                 }
             }
+            if let newest = result.newestImportedID { router.reveal(newest) }
             dismiss()
             let message = result.importedCount == 1
                 ? String(localized: "Imported 1 blessing.")

@@ -117,6 +117,7 @@
 		E184776A78D8D0A46F1FEA42 /* NameField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A19B9BE586B43555BBBE1B /* NameField.swift */; };
 		E2679BC0934CAB5C203ED151 /* ImportServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DDEA282EED72364A605920 /* ImportServiceTests.swift */; };
 		E310693F40D7548D3019022F /* Phase11Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EC0CF8FCFA200F35A5CC63 /* Phase11Tests.swift */; };
+		E3EB9FF8CF49F43EC03E5226 /* RevealImportedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0A2CAD0F11F2C1FE9F557D /* RevealImportedTests.swift */; };
 		E68E72EDC4364FFD62C042B8 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5BA8B2C2DC79F72C5F8EEC /* InsightsView.swift */; };
 		E769BDA7AE247372624FF66C /* NumberParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B589DCF5A4745B1BD1C78 /* NumberParsingTests.swift */; };
 		EA127A55679832EBBAAB4624 /* BlessingEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CE4841ECB7BBCD7FF79C92 /* BlessingEditorSheet.swift */; };
@@ -260,6 +261,7 @@
 		A32DB786F5009BD5CE71707C /* ReleaseAssetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseAssetsTests.swift; sourceTree = "<group>"; };
 		A58D6B3EC25A11EB2AF5654B /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		A6DA767D37ACA041444D51C5 /* ExchangeFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeFileTests.swift; sourceTree = "<group>"; };
+		AA0A2CAD0F11F2C1FE9F557D /* RevealImportedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevealImportedTests.swift; sourceTree = "<group>"; };
 		AFC4A0E2F44AD4F42CAF8EAE /* ImportReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportReviewView.swift; sourceTree = "<group>"; };
 		B03E4B94BF8FDDC4FF2A09F6 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		B0441573C492CBFCB4BF072C /* ToastCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastCenter.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				B1337822A3787C43BF0B0B12 /* Phase10Tests.swift */,
 				B4EC0CF8FCFA200F35A5CC63 /* Phase11Tests.swift */,
 				A32DB786F5009BD5CE71707C /* ReleaseAssetsTests.swift */,
+				AA0A2CAD0F11F2C1FE9F557D /* RevealImportedTests.swift */,
 				0D9D36B1F80F58A5F095B33A /* SharingSettingsTests.swift */,
 				15872A1FC29A7C7DD0B0F684 /* ThemeTests.swift */,
 			);
@@ -874,6 +877,7 @@
 				0622D110BD4370F64679C1B8 /* Phase7Tests.swift in Sources */,
 				071223A657DCB55ED540CF72 /* Phase9Tests.swift in Sources */,
 				5008EB6442A8494B8DB07F44 /* ReleaseAssetsTests.swift in Sources */,
+				E3EB9FF8CF49F43EC03E5226 /* RevealImportedTests.swift in Sources */,
 				746DC17DDA984B5D1546ECDD /* SharingSettingsTests.swift in Sources */,
 				11E025728A0A7DB22D05823C /* ThemeTests.swift in Sources */,
 			);

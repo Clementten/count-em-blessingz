@@ -212,6 +212,14 @@ final class CoreFlowUITests: XCTestCase {
         XCTAssertTrue(element(containing: "9,776").exists || element(containing: "9.776").exists, "The pot is unchanged")
     }
 
+    func testImportingLandsOnHomeWithTheNewestImportedEntryShowing() {
+        launch(["-seedDemo", "-demoImport"])
+        appears(button(containing: "Import 4 of 6"), 20).tap()
+        appears(element(containing: "Imported 4 blessings"), 20, "The toast confirms the import")
+        let newest = appears(element(containing: "Christmas"), 20, "The newest imported entry (Christmas, 200) is on Home")
+        XCTAssertTrue(newest.isHittable, "Home scrolled so the newest imported entry is on screen")
+    }
+
     // MARK: Accessibility
 
     func testLargestTextSizeKeepsTheMainControlsReachable() {

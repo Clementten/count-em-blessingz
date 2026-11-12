@@ -80,7 +80,6 @@ Follow **[release/submission-guide.md](release/submission-guide.md)** step by st
 - iCloud backup as an opt-in in a future version (left out of version 1 on purpose).
 - More languages (version 1 is English only).
 - Whether tapping the tab you are already on should return to its first screen (today it does nothing).
-- **One item from the merge-import spec was not built:** after an import, scroll Home to the newest imported entry (the spec in PR #4 asks for it). Today the import closes, the toast appears and Home stays where it was. It is a small change if you want it.
 
 ## If something goes wrong
 

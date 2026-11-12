@@ -23,6 +23,8 @@ struct ImportResult: Equatable {
     let updatedCount: Int
     let newPeopleCount: Int
     let crossedMilestone: Decimal?
+    /// The imported entry with the latest date: where Home scrolls to. Nil only if nothing was imported.
+    let newestImportedID: UUID?
 
     var importedCount: Int { addedCount + updatedCount }
 }
@@ -98,6 +100,7 @@ struct ImportService {
 
         var added = 0, updated = 0
         var createdPeople = Set<UUID>()
+        var newest: (id: UUID, date: Date)?
         do {
             // 2. Everything in one transaction.
             try context.transaction {
@@ -121,6 +124,7 @@ struct ImportService {
                     guard let target = blesser(for: item) else { continue }
                     let dto = item.dto
                     let converted = plan.convertsAmounts
+                    if newest == nil || dto.date > newest!.date { newest = (dto.id, dto.date) }
 
                     if case .updated = item.status, let existing = blessingsByID[dto.id] {
                         if let previous = existing.blesser, previous !== target { touchedPrevious.append(previous) }
@@ -149,7 +153,8 @@ struct ImportService {
         let after = try context.fetch(FetchDescriptor<Blessing>()).reduce(Decimal(0)) { $0 + $1.amount }
         return ImportResult(
             addedCount: added, updatedCount: updated, newPeopleCount: createdPeople.count,
-            crossedMilestone: MilestoneService.crossed(before: before, after: after, goal: goal)
+            crossedMilestone: MilestoneService.crossed(before: before, after: after, goal: goal),
+            newestImportedID: newest?.id
         )
     }
 
