@@ -1,0 +1,87 @@
+{
+  "blessers": [
+    {
+      "id": "00000000-0000-0000-0000-0000000000a1",
+      "name": "Aunt Mei",
+      "nameKey": "aunt mei"
+    },
+    {
+      "id": "00000000-0000-0000-0000-0000000000a2",
+      "name": "Uncle Tan",
+      "nameKey": "uncle tan"
+    },
+    {
+      "id": "00000000-0000-0000-0000-0000000000a3",
+      "name": "Cousin Lin",
+      "nameKey": "cousin lin"
+    },
+    {
+      "id": "00000000-0000-0000-0000-0000000000a4",
+      "name": "Ah Kong",
+      "nameKey": "ah kong"
+    }
+  ],
+  "blessings": [
+    {
+      "amount": "888",
+      "blesserID": "00000000-0000-0000-0000-0000000000a1",
+      "currencyCode": "MYR",
+      "date": "2026-09-21T09:00:00.000Z",
+      "id": "00000000-0000-0000-0000-000000000b00",
+      "method": "cash",
+      "note": "Hong bao",
+      "occasion": "Chinese New Year",
+      "updatedAt": "2026-09-21T09:00:00.000Z"
+    },
+    {
+      "amount": "500",
+      "blesserID": "00000000-0000-0000-0000-0000000000a1",
+      "currencyCode": "MYR",
+      "date": "2026-10-21T09:00:00.000Z",
+      "id": "00000000-0000-0000-0000-000000000b01",
+      "method": "cash",
+      "note": "",
+      "occasion": "birthday",
+      "updatedAt": "2026-10-21T09:00:00.000Z"
+    },
+    {
+      "amount": "300",
+      "blesserID": "00000000-0000-0000-0000-0000000000a2",
+      "currencyCode": "MYR",
+      "date": "2026-10-31T09:00:00.000Z",
+      "id": "00000000-0000-0000-0000-000000000b02",
+      "method": "cash",
+      "note": "Congratulations!",
+      "occasion": "wedding",
+      "updatedAt": "2026-10-31T09:00:00.000Z"
+    },
+    {
+      "amount": "120",
+      "blesserID": "00000000-0000-0000-0000-0000000000a3",
+      "currencyCode": "MYR",
+      "date": "2026-11-10T09:00:00.000Z",
+      "id": "00000000-0000-0000-0000-000000000b03",
+      "method": "cash",
+      "note": "Duit raya",
+      "occasion": "Hari Raya",
+      "updatedAt": "2026-11-10T09:00:00.000Z"
+    },
+    {
+      "amount": "88",
+      "blesserID": "00000000-0000-0000-0000-0000000000a4",
+      "currencyCode": "MYR",
+      "date": "2026-11-25T09:00:00.000Z",
+      "id": "00000000-0000-0000-0000-000000000b04",
+      "method": "cash",
+      "note": "",
+      "occasion": "Just because",
+      "updatedAt": "2026-11-25T09:00:00.000Z"
+    }
+  ],
+  "currencyCode": "MYR",
+  "deviceID": "00000000-0000-0000-0000-0000000000d1",
+  "exportedAt": "2026-11-10T12:00:00.000Z",
+  "exportedBy": "Sample family file",
+  "kind": "full",
+  "schemaVersion": 2
+}
