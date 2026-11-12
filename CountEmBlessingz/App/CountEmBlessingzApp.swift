@@ -19,7 +19,7 @@ struct CountEmBlessingzApp: App {
             do {
                 let demo = try ModelContainer(for: SharedStore.schema, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
                 if seedDemo {
-                    SeedData.insert(into: demo.mainContext).themeID = UserDefaults.standard.string(forKey: "demoTheme") ?? "jade"
+                    SeedData.insert(into: demo.mainContext, shiftToToday: CommandLine.arguments.contains("-demoFresh")).themeID = UserDefaults.standard.string(forKey: "demoTheme") ?? "jade"
                 }
                 container = demo
                 return

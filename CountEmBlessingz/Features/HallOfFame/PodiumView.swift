@@ -22,15 +22,14 @@ struct PodiumView: View {
                     VStack(spacing: 6) {
                         AvatarView(name: entry.blesser.name, size: entry.rank == 1 ? 52 : 44)
                         Text(entry.blesser.name).font(theme.bodyFont(13, .semibold)).foregroundStyle(theme.textPrimary)
-                            .lineLimit(1).minimumScaleFactor(0.7)
+                            .lineLimit(2).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
                         Text(hideAmounts ? "••••" : MoneyFormatter.format(entry.total, currency: currency))
                             .font(theme.bodyFont(12, .regular)).foregroundStyle(theme.amountColor)
-                            .blur(radius: hideAmounts ? 4 : 0).privacySensitive()
+                            .blurIf(hideAmounts, radius: 4).privacySensitive()
                         Text("#\(entry.rank)")
                             .font(theme.displayFont(26, .bold)).foregroundStyle(theme.onAccent)
                             .frame(maxWidth: .infinity, minHeight: height(entry.rank))
-                            .background(theme.accent.opacity(entry.rank == 1 ? 1 : 0.7),
-                                        in: RoundedRectangle(cornerRadius: theme.controlRadius))
+                            .background(theme.accent, in: RoundedRectangle(cornerRadius: theme.controlRadius))
                     }
                     .frame(minHeight: 44)
                 }

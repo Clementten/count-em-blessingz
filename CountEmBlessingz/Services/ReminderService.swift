@@ -36,6 +36,7 @@ protocol NotificationCenterProtocol {
     func pendingIdentifiers() async -> [String]
     func add(_ request: UNNotificationRequest) async
     func remove(identifiers: [String])
+    func setCategories(_ categories: Set<UNNotificationCategory>)
 }
 
 struct SystemNotificationCenter: NotificationCenterProtocol {
@@ -56,6 +57,9 @@ struct SystemNotificationCenter: NotificationCenterProtocol {
     func remove(identifiers: [String]) {
         center.removePendingNotificationRequests(withIdentifiers: identifiers)
     }
+    func setCategories(_ categories: Set<UNNotificationCategory>) {
+        center.setNotificationCategories(categories)
+    }
 }
 
 /// Local notifications only. Permission is requested when reminders are first needed, never at launch.
@@ -66,6 +70,15 @@ final class ReminderService {
     init(center: NotificationCenterProtocol = SystemNotificationCenter()) {
         self.center = center
     }
+
+    static let categoryIdentifier = "thank-you"
+
+    /// When the person has chosen to hide notification previews on the lock screen, this text replaces
+    /// "Say thanks to {name}." so a name never shows to someone glancing at a locked phone.
+    static let category = UNNotificationCategory(
+        identifier: categoryIdentifier, actions: [], intentIdentifiers: [],
+        hiddenPreviewsBodyPlaceholder: String(localized: "Someone is waiting for a thank-you."), options: []
+    )
 
     private func isAllowed(_ status: UNAuthorizationStatus) -> Bool {
         status == .authorized || status == .provisional || status == .ephemeral
@@ -88,8 +101,10 @@ final class ReminderService {
         let existing = await center.pendingIdentifiers().filter { $0.hasPrefix(ReminderPlan.identifierPrefix) }
         center.remove(identifiers: existing)
         guard !plan.isEmpty, isAllowed(await center.authorizationStatus()) else { return }
+        center.setCategories([Self.category])
         for item in plan {
             let content = UNMutableNotificationContent()
+            content.categoryIdentifier = Self.categoryIdentifier
             content.body = String(localized: "Say thanks to \(item.name).")
             content.sound = .default
             let parts = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: item.fireDate)

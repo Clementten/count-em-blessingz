@@ -22,7 +22,8 @@ struct NameField: View {
                 .foregroundStyle(theme.textPrimary)
                 .textInputAutocapitalization(.words)
                 .autocorrectionDisabled()
-                .padding(12)
+                .padding(.horizontal, 12)
+                .frame(minHeight: 44)
                 .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.controlRadius))
                 .accessibilityIdentifier("name-field")
             ForEach(suggestions) { blesser in

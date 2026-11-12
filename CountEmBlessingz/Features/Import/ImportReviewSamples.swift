@@ -4,7 +4,8 @@ import SwiftData
 
 /// A hand-built import that shows every status, for previews and the `-demoImport` launch argument.
 enum ImportReviewSamples {
-    private static let t0 = Date(timeIntervalSince1970: 1_750_000_000)
+    /// Recent dates, so previews and screenshots look current (about three months ago).
+    private static let t0 = Date.now.addingTimeInterval(-90 * 86_400)
     private static let day: TimeInterval = 86_400
 
     @MainActor
@@ -36,7 +37,7 @@ enum ImportReviewSamples {
             schemaVersion: 2, exportedAt: t0.addingTimeInterval(60 * day), exportedBy: "Dad's phone", deviceID: UUID(),
             currencyCode: fileCurrency, kind: .full,
             blessers: [
-                .init(id: meiFile, name: "aunt  mei", nameKey: "aunt  mei"),
+                .init(id: meiFile, name: "Aunt Mei", nameKey: "aunt mei"),
                 .init(id: linFile, name: "Aunty Lin", nameKey: "aunty lin"),
                 .init(id: weiFile, name: "Cousin Wei", nameKey: "cousin wei"),
             ],

@@ -10,7 +10,7 @@ struct LegendList: View {
     private func amountText(_ group: InsightGroup) -> some View {
         Text(hideAmounts ? "••••" : MoneyFormatter.format(group.value, currency: currency))
             .font(theme.bodyFont(14, .semibold)).foregroundStyle(theme.amountColor)
-            .blur(radius: hideAmounts ? 4 : 0)
+            .blurIf(hideAmounts, radius: 4)
             .privacySensitive()
     }
 

@@ -11,6 +11,7 @@ struct YearReviewCard: View {
         VStack(alignment: .leading, spacing: 14) {
             Text(theme.title(String(localized: "\(String(review.year)) in blessings")))
                 .font(theme.displayFont(26, .bold)).foregroundStyle(theme.heroText)
+                .fixedSize(horizontal: false, vertical: true)
             Text(hideAmounts ? "••••" : MoneyFormatter.format(review.total, currency: currency))
                 .font(theme.displayFont(44, .bold)).foregroundStyle(theme.heroText)
                 .minimumScaleFactor(0.6).lineLimit(1)

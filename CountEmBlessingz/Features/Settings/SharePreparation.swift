@@ -1,12 +1,6 @@
 import SwiftUI
 import SwiftData
 
-/// The app's main context, handed to a share callback that may run off the main thread. It is only ever used
-/// after hopping back to the main actor, which is where this context lives.
-private struct MainContextBox: @unchecked Sendable {
-    let context: ModelContext
-}
-
 /// The two share files, built once and kept current for every Share button in the app
 /// (Home and Settings). Encoding runs off the main thread.
 @MainActor @Observable
@@ -39,18 +33,6 @@ final class SharePreparation {
     /// Everything, for `ShareLink`. Nil until prepared or when there is nothing to share.
     func allItem() -> ExchangeShareItem? {
         guard let prepared, prepared.entryCount > 0 else { return nil }
-        return ExchangeShareItem(data: prepared.all, fileName: ExportService.shareFileName(.full), onShared: {})
-    }
-
-    /// Only what changed since the last share. Sharing it moves the "last export" marker, but only when
-    /// the system actually asks for the file.
-    func changesItem(context: ModelContext) -> ExchangeShareItem? {
-        guard let prepared, prepared.changeCount > 0 else { return nil }
-        let file = prepared.changesFile
-        let box = MainContextBox(context: context)
-        return ExchangeShareItem(
-            data: prepared.changes, fileName: ExportService.shareFileName(.sinceLastExport),
-            onShared: { Task { @MainActor in try? ExportService(context: box.context).markShared(file) } }
-        )
+        return ExchangeShareItem(data: prepared.all, fileName: ExportService.shareFileName(.full))
     }
 }

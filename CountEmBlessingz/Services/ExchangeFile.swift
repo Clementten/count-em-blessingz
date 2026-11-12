@@ -373,17 +373,15 @@ enum ExchangeFileLoader {
 
 // MARK: - Sharing
 
-/// A prepared file handed to `ShareLink`. `onShared` runs when the system actually asks for the file.
+/// A prepared file handed to `ShareLink`.
 struct ExchangeShareItem: Transferable {
     let data: Data
     let fileName: String
-    let onShared: @Sendable () -> Void
 
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .blessingzExchange) { item in
             let url = FileManager.default.temporaryDirectory.appendingPathComponent(item.fileName)
             try item.data.write(to: url, options: [.atomic, .completeFileProtection])
-            item.onShared()
             return SentTransferredFile(url)
         }
     }

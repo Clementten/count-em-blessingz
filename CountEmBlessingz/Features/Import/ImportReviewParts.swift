@@ -62,10 +62,19 @@ struct StatusBadge: View {
         }
     }
 
+    /// Text stays in a colour that is readable on the row; the status colour is carried by the outline.
+    /// (The Grand Ledger's green is only 4.3:1 on its pink surface, below the 4.5:1 minimum.)
+    private var textColor: Color {
+        switch status {
+        case .new: theme.textPrimary
+        default: color
+        }
+    }
+
     var body: some View {
         Text(title)
             .font(theme.bodyFont(11, .semibold))
-            .foregroundStyle(color)
+            .foregroundStyle(textColor)
             .padding(.horizontal, 8).padding(.vertical, 3)
             .overlay(RoundedRectangle(cornerRadius: theme.controlRadius).stroke(color, lineWidth: 1))
             .fixedSize(horizontal: false, vertical: true)
@@ -128,7 +137,8 @@ struct ImportEntryRow: View {
                     Text("\(occasionTitle) · \(stamp(item.entry.date))")
                         .font(theme.bodyFont(13, .regular)).foregroundStyle(theme.textMuted)
                     if !item.entry.note.isEmpty {
-                        Text(item.entry.note).font(theme.bodyFont(13, .regular)).foregroundStyle(theme.textPrimary)
+                        Text(item.entry.note).font(theme.bodyFont(13, .regular))
+                            .foregroundStyle(item.isLocked ? theme.textMuted : theme.textPrimary)
                     }
                     if let fileCurrency, item.dto.currencyCode == fileCurrency {
                         Text("Was \(fileCurrency) \(money.hidden ? "••••" : item.dto.amount.formatted())")
@@ -142,7 +152,6 @@ struct ImportEntryRow: View {
             .padding(.trailing, 12)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.controlRadius))
-            .opacity(item.isLocked ? 0.55 : 1)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -156,8 +165,8 @@ struct ImportEntryRow: View {
 
     @ViewBuilder private var headline: some View {
         let amount = Text(money.text(item.entry.amount))
-            .font(theme.amountFont(18)).foregroundStyle(theme.amountColor)
-            .blur(radius: money.hidden ? 4 : 0).privacySensitive()
+            .font(theme.amountFont(18)).foregroundStyle(item.isLocked ? theme.textMuted : theme.amountColor)
+            .blurIf(money.hidden, radius: 4).privacySensitive()
         if typeSize.isAccessibilitySize {
             VStack(alignment: .leading, spacing: 4) { amount; StatusBadge(status: item.status) }
         } else {

@@ -115,7 +115,7 @@ struct BlesserProfileView: View {
                 Text(title).font(theme.bodyFont(11, .semibold)).foregroundStyle(theme.textMuted)
                 Text(value).font(theme.displayFont(18, .bold)).foregroundStyle(theme.textPrimary)
                     .minimumScaleFactor(0.6).lineLimit(1)
-                    .blur(radius: settings.hideAmounts ? 4 : 0)
+                    .blurIf(settings.hideAmounts, radius: 4)
                     .privacySensitive()
             }
         }

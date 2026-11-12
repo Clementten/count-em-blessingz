@@ -11,10 +11,8 @@ struct MainView: View {
     #else
     @State private var tab = 0
     #endif
-    /// Tabs that have been opened. Each stays alive afterwards, so switching tabs never resets what the
-    /// person was doing there (an open profile, scroll position, search, filters).
-    @State private var visited: Set<Int> = [0]
     @State private var sharing = SharePreparation()
+    @State private var keyboard = KeyboardObserver()
     @State private var router = AppRouter()
     @State private var toast = ToastCenter()
     @State private var reminders = ReminderService()
@@ -31,8 +29,8 @@ struct MainView: View {
         @Bindable var importCoordinator = importCoordinator
         VStack(spacing: 0) {
             ZStack(alignment: .bottomTrailing) {
-                content
-                if tab != 3 { fab(theme) }
+                content(theme)
+                if tab != 3 && !keyboard.isVisible { fab(theme) }
                 effectOverlay(theme)
                 if importCoordinator.isLoading { ProgressView().controlSize(.large).tint(theme.accent).frame(maxWidth: .infinity, maxHeight: .infinity) }
                 ToastOverlay(toast: toast)
@@ -40,8 +38,10 @@ struct MainView: View {
                     .padding(.bottom, 12)
                     .animation(.easeInOut(duration: 0.2), value: toast.current?.id)
             }
-            tabBar(theme)
+            // While the keyboard is up the tab bar steps aside, so it never rides on top of the keyboard.
+            if !keyboard.isVisible { tabBar(theme) }
         }
+        .animation(.easeInOut(duration: 0.2), value: keyboard.isVisible)
         .background(theme.background.ignoresSafeArea())
         .environment(router)
         .environment(toast)
@@ -126,33 +126,29 @@ struct MainView: View {
         return "\(settings.reminderDays);" + rows.sorted().joined(separator: ";")
     }
 
-    /// Opened tabs are kept in the hierarchy and only hidden, so each keeps its own navigation and scroll state.
-    private var content: some View {
-        ZStack {
-            ForEach(0..<4, id: \.self) { index in
-                if visited.contains(index) || tab == index {
-                    tabRoot(index)
-                        .opacity(tab == index ? 1 : 0)
-                        .allowsHitTesting(tab == index)
-                        .accessibilityHidden(tab != index)
-                }
-            }
+    /// A real `TabView` (its own bar hidden; the themed bar below replaces it). Each tab keeps its navigation,
+    /// scroll position, search and filters when you leave it, and inactive tabs are removed from accessibility
+    /// (a hand-rolled "hide the other tabs" does not reach the UIKit navigation stacks inside them).
+    private func content(_ theme: AppTheme) -> some View {
+        TabView(selection: $tab) {
+            page(HomeView(settings: settings), tag: 0, theme)
+            page(InsightsView(settings: settings), tag: 1, theme)
+            page(HallView(settings: settings), tag: 2, theme)
+            page(SettingsView(settings: settings), tag: 3, theme)
         }
     }
 
-    @ViewBuilder private func tabRoot(_ index: Int) -> some View {
-        switch index {
-        case 0: HomeView(settings: settings)
-        case 1: InsightsView(settings: settings)
-        case 2: HallView(settings: settings)
-        default: SettingsView(settings: settings)
-        }
+    private func page<Content: View>(_ view: Content, tag: Int, _ theme: AppTheme) -> some View {
+        view
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(theme.background.ignoresSafeArea())
+            .toolbar(.hidden, for: .tabBar)
+            .tag(tag)
     }
 
     private func select(_ index: Int) {
         guard index != tab else { return }
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-        visited.insert(index)
         tab = index
     }
 
@@ -162,7 +158,7 @@ struct MainView: View {
             case .coinRain:
                 CoinRainView { router.celebration = nil }.id(celebration.id)
             case .chapterCard:
-                ChapterCardView(milestone: celebration.milestone) { router.celebration = nil }.id(celebration.id)
+                ChapterCardView(milestone: celebration.milestone, hideAmounts: settings.hideAmounts) { router.celebration = nil }.id(celebration.id)
             case .countUp:
                 Color.clear.onAppear { router.celebration = nil }   // the hero count-up already ran
             }

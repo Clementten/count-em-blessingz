@@ -38,7 +38,7 @@ struct HallView: View {
                             }
                         }
                     }
-                    section("Milestones") { MilestoneStrip(total: HomeListLogic.total(blessings)) }
+                    section("Milestones") { MilestoneStrip(total: HomeListLogic.total(blessings), hideAmounts: settings.hideAmounts) }
                     GratitudeQueue(pending: blessers.filter(\.thankYouPending).sorted { $0.name < $1.name }) {
                         $0.thankYouPending = false
                     }

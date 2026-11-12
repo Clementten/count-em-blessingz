@@ -211,7 +211,11 @@ struct ExportService {
     /// Accepts current `.full` files and schema-1 backups. A file without extras (a plain "share all")
     /// replaces the entries and keeps this device's settings.
     func restore(from data: Data) throws {
-        let file = try ExchangeFileCodec.decode(data, allowLegacy: true)
+        try restore(file: try ExchangeFileCodec.decode(data, allowLegacy: true))
+    }
+
+    /// Same, for a file that was already read and checked (the Settings flow reads it off the main thread).
+    func restore(file: ExchangeFile) throws {
         guard file.kind == .full else { throw ExportError.notAFullBackup }
         let rollback = try backupFile()
         let previousExport = try context.fetch(FetchDescriptor<AppSettings>()).first?.lastExportAt

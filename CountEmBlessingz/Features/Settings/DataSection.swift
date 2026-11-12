@@ -14,12 +14,20 @@ struct DataSection: View {
 
     private enum ImportMode { case restore, merge }
 
-    @State private var shareURL: URL?
+    /// A file ready for the system share sheet. `markAfter` is set for "changes since last export": the marker
+    /// moves only if the person really shared it.
+    private struct ShareRequest: Identifiable {
+        let id = UUID()
+        let url: URL
+        var markAfter: ExchangeFile?
+    }
+
+    @State private var shareRequest: ShareRequest?
     @State private var importing = false
     @State private var importMode: ImportMode = .restore
     @State private var undoInfo: ImportSnapshotInfo?
     @State private var confirmingUndo = false
-    @State private var pendingRestore: Data?
+    @State private var pendingRestore: ExchangeFile?
     @State private var restoreError: String?
     @State private var eraseArmed = false
     @State private var confirmingErase = false
@@ -44,7 +52,12 @@ struct DataSection: View {
         .task(id: sharing.version) {
             undoInfo = ImportService(context: modelContext).latestSnapshot()     // after every import / undo / edit
         }
-        .sheet(item: $shareURL) { ShareSheet(url: $0).presentationDetents([.medium, .large]) }
+        .sheet(item: $shareRequest) { request in
+            ShareSheet(url: request.url) { completed in
+                if completed, let file = request.markAfter { try? service.markShared(file) }
+            }
+            .presentationDetents([.medium, .large])
+        }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.blessingzExchange, .json]) { result in
             handleImport(result)
         }
@@ -86,15 +99,27 @@ struct DataSection: View {
         }
     }
 
-    /// Sharing marks the changes as exported, but only when the system actually asks for the file.
+    /// Opens the share sheet with only what changed. The "last export" marker moves when the sheet reports that
+    /// the file was really shared (sent, saved or copied), never just because it was opened.
     @ViewBuilder private var shareChangesRow: some View {
-        if let item = sharing.changesItem(context: modelContext), let count = sharing.prepared?.changeCount {
-            ShareLink(item: item, preview: SharePreview(String(localized: "Changes since my last export"))) {
-                rowLabel("Share changes since last export (\(count))", systemImage: "square.and.arrow.up.on.square")
+        if let count = sharing.prepared?.changeCount, count > 0 {
+            action("Share changes since last export (\(count))", systemImage: "square.and.arrow.up.on.square") {
+                shareChanges()
             }
         } else {
             rowLabel(sharing.prepared == nil ? "Share changes since last export" : "No changes since last export",
                      systemImage: "square.and.arrow.up.on.square").opacity(0.4)
+        }
+    }
+
+    private func shareChanges() {
+        guard let prepared = sharing.prepared, prepared.changeCount > 0 else { return }
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(ExportService.shareFileName(.sinceLastExport))
+        do {
+            try prepared.changes.write(to: url, options: [.atomic, .completeFileProtection])
+            shareRequest = ShareRequest(url: url, markAfter: prepared.changesFile)
+        } catch {
+            toast.show(String(localized: "Couldn't create the file."))
         }
     }
 
@@ -132,7 +157,7 @@ struct DataSection: View {
     }
 
     private func share(_ makeFile: () throws -> URL) {
-        do { shareURL = try makeFile() } catch { toast.show(String(localized: "Couldn't create the file.")) }
+        do { shareRequest = ShareRequest(url: try makeFile()) } catch { toast.show(String(localized: "Couldn't create the file.")) }
     }
 
     private func handleImport(_ result: Result<URL, Error>) {
@@ -141,20 +166,23 @@ struct DataSection: View {
             importCoordinator.receive(url)          // MainView reads it off the main thread and opens the review
             return
         }
-        let scoped = url.startAccessingSecurityScopedResource()
-        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-        do {
-            pendingRestore = try Data(contentsOf: url)
-        } catch {
-            restoreError = String(localized: "That file couldn't be read.")
+        // Read and check the file in the background, then ask for confirmation.
+        Task {
+            do {
+                let file = try await ExchangeFileLoader.load(url: url, allowLegacy: true)
+                guard file.kind == .full else { throw ExportError.notAFullBackup }
+                pendingRestore = file
+            } catch {
+                restoreError = (error as? LocalizedError)?.errorDescription ?? String(localized: "That file couldn't be read.")
+            }
         }
     }
 
     private func restore() {
-        guard let data = pendingRestore else { return }
+        guard let file = pendingRestore else { return }
         pendingRestore = nil
         do {
-            try service.restore(from: data)
+            try service.restore(file: file)
             toast.show(String(localized: "Backup restored."))
         } catch {
             restoreError = (error as? LocalizedError)?.errorDescription ?? String(localized: "Something went wrong. Nothing was changed.")

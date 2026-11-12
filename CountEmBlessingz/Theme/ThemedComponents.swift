@@ -1,5 +1,12 @@
 import SwiftUI
 
+extension View {
+    /// Blurs only when `condition` is true (a radius-0 blur still adds a rendering layer).
+    @ViewBuilder func blurIf(_ condition: Bool, radius: CGFloat = 6) -> some View {
+        if condition { blur(radius: radius) } else { self }
+    }
+}
+
 struct ThemedCard<Content: View>: View {
     @Environment(\.theme) private var theme
     @ViewBuilder var content: Content
@@ -56,7 +63,7 @@ struct AvatarView: View {
 
     private var label: some View {
         Text(initials)
-            .font(theme.bodyFont(size * 0.4, .semibold))
+            .font(theme.bodyFont(size * 0.4, .bold))
             .foregroundStyle(theme.avatarText)
             .dynamicTypeSize(...DynamicTypeSize.large)              // fixed-size badge: initials must not outgrow it
             .frame(width: size, height: size)
@@ -81,7 +88,7 @@ struct ThemedRow: View {
             }
             Spacer(minLength: 8)
             Text(hideAmount ? "••••" : amount).font(theme.amountFont(18)).foregroundStyle(theme.amountColor)
-                .blur(radius: hideAmount ? 4 : 0)
+                .blurIf(hideAmount, radius: 4)
                 .privacySensitive()
         }
         .padding(.vertical, theme.rowStyle == .cards ? 12 : 10)

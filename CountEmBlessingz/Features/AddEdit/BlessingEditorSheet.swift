@@ -43,7 +43,8 @@ struct BlessingEditorSheet: View {
                 field("Note (optional)") {
                     TextField("Add a note", text: $draft.note, axis: .vertical)
                         .font(theme.bodyFont(16, .regular)).foregroundStyle(theme.textPrimary)
-                        .padding(12)
+                        .padding(.horizontal, 12)
+                        .frame(minHeight: 44)
                         .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.controlRadius))
                 }
                 field("Photo (optional)") { photoField }
@@ -103,6 +104,12 @@ struct BlessingEditorSheet: View {
             .padding(12)
             .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.controlRadius))
             error("Amount must be greater than 0", show: problems.contains(.amountInvalid))
+            if let line = Self.originalLine(
+                originalAmount: editing?.originalAmount, originalCurrency: editing?.originalCurrencyCode,
+                currentAmount: editing?.amount, currentCurrency: settings.currencyCode, hideAmounts: settings.hideAmounts
+            ) {
+                Text(line).font(theme.bodyFont(12, .regular)).foregroundStyle(theme.textMuted)
+            }
         }
     }
 
@@ -114,6 +121,9 @@ struct BlessingEditorSheet: View {
                     Text(occasion.title)
                         .font(theme.bodyFont(13, .medium))
                         .foregroundStyle(selected ? theme.onAccent : theme.textPrimary)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.horizontal, 6).padding(.vertical, 8)
                         .frame(maxWidth: .infinity, minHeight: 44)
                         .background(selected ? theme.accent : theme.surface,
                                     in: RoundedRectangle(cornerRadius: theme.controlRadius))
@@ -189,11 +199,30 @@ struct BlessingEditorSheet: View {
         }
     }
 
+    /// "Originally USD 100": what an entry was worth before a currency conversion. Nil when nothing was converted.
+    static func originalLine(originalAmount: Decimal?, originalCurrency: String?,
+                             currentAmount: Decimal?, currentCurrency: String, hideAmounts: Bool) -> String? {
+        guard let originalAmount, let currentAmount else { return nil }
+        let code = originalCurrency ?? currentCurrency
+        guard originalAmount != currentAmount || code != currentCurrency else { return nil }
+        return hideAmounts
+            ? String(localized: "Originally \(code) ••••")
+            : String(localized: "Originally \(code) \(MoneyFormatter.plain(originalAmount))")
+    }
+
     /// "Saved: Aunt Mei, MYR 88", or without the amount when amounts are hidden.
-    static func savedMessage(name: String, amount: Decimal, currency: String, hideAmounts: Bool) -> String {
-        hideAmounts
+    static func savedMessage(name: String, amount: Decimal, currency: String, hideAmounts: Bool,
+                             milestone: Decimal? = nil) -> String {
+        var message = hideAmounts
             ? String(localized: "Saved: \(name)")
             : String(localized: "Saved: \(name), \(MoneyFormatter.format(amount, currency: currency))")
+        if let milestone {
+            // The size of the milestone would reveal roughly how much is in the pot.
+            message += " · " + (hideAmounts
+                ? String(localized: "Milestone reached!")
+                : String(localized: "Milestone \(MilestoneService.shortLabel(milestone)) reached!"))
+        }
+        return message
     }
 
     private func save() {
@@ -212,7 +241,8 @@ struct BlessingEditorSheet: View {
                 if let crossed = result.crossedMilestone {
                     Haptics.success()
                     onMilestone(crossed)
-                    message += " · " + String(localized: "Milestone \(MilestoneService.shortLabel(crossed)) reached!")
+                    message = Self.savedMessage(name: name, amount: amount, currency: settings.currencyCode,
+                                                hideAmounts: settings.hideAmounts, milestone: crossed)
                 }
             }
             Haptics.impact()

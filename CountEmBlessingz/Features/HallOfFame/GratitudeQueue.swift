@@ -18,9 +18,13 @@ struct GratitudeQueue: View {
                     AvatarView(name: blesser.name, size: 36)
                     Text(blesser.name).font(theme.bodyFont(15, .medium)).foregroundStyle(theme.textPrimary)
                     Spacer()
-                    Button("Mark thanked") { onThank(blesser) }
-                        .font(theme.bodyFont(13, .semibold)).foregroundStyle(theme.accent)
-                        .frame(minHeight: 44)
+                    Button { onThank(blesser) } label: {
+                        Text("Mark thanked")
+                            .font(theme.bodyFont(13, .semibold)).foregroundStyle(theme.accent)
+                            .padding(.horizontal, 8)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
         }

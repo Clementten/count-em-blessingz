@@ -123,7 +123,8 @@ private struct HomeHeader: View {
             )
             TextField("Search name, note or occasion", text: $query)
                 .font(theme.bodyFont(15, .regular)).foregroundStyle(theme.textPrimary)
-                .padding(12)
+                .padding(.horizontal, 12)
+                .frame(minHeight: 44)
                 .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.controlRadius))
                 .autocorrectionDisabled()
             HStack(spacing: 8) {

@@ -42,11 +42,16 @@ enum SeedData {
     }
 
     /// Inserts the seed blessings and a settings row (onboarded, MYR).
+    /// With `shiftToToday` every date moves forward by the same amount, so the newest sample entry is two days
+    /// old. That makes screenshots show a believable "this month".
     @discardableResult
-    static func insert(into context: ModelContext) -> AppSettings {
+    static func insert(into context: ModelContext, shiftToToday: Bool = false) -> AppSettings {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
         formatter.locale = Locale(identifier: "en_US_POSIX")
+
+        let newest = rows.compactMap { formatter.date(from: $0.date) }.max() ?? .now
+        let shift: TimeInterval = shiftToToday ? Date.now.timeIntervalSince(newest) - 2 * 86_400 : 0
 
         var blessers: [String: Blesser] = [:]
         for row in rows {
@@ -60,7 +65,7 @@ enum SeedData {
             if row.pending { blesser.thankYouPending = true }
             context.insert(Blessing(
                 amount: row.amount, currencyCode: "MYR",
-                date: formatter.date(from: row.date) ?? .now,
+                date: (formatter.date(from: row.date) ?? .now).addingTimeInterval(shift),
                 occasion: row.occasion, blesser: blesser
             ))
         }

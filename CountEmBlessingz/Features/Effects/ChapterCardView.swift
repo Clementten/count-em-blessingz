@@ -4,13 +4,18 @@ import SwiftUI
 struct ChapterCardView: View {
     @Environment(\.theme) private var theme
     let milestone: Decimal
+    var hideAmounts = false
     let onFinish: () -> Void
+
+    private var heading: String {
+        hideAmounts ? String(localized: "A NEW CHAPTER") : "CHAPTER \(MilestoneService.shortLabel(milestone))"
+    }
 
     var body: some View {
         ZStack {
             Color.black.opacity(0.55).ignoresSafeArea()
             VStack(spacing: 8) {
-                Text("CHAPTER \(MilestoneService.shortLabel(milestone))")
+                Text(heading)
                     .font(theme.displayFont(30, .bold)).foregroundStyle(theme.heroText)
                 Text("The pot grows")
                     .font(theme.bodyFont(16, .medium)).foregroundStyle(theme.heroLabel)
@@ -26,7 +31,7 @@ struct ChapterCardView: View {
         }
         .allowsHitTesting(false)
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Chapter \(MilestoneService.shortLabel(milestone)). The pot grows.")
+        .accessibilityLabel(hideAmounts ? "A new chapter. The pot grows." : "Chapter \(MilestoneService.shortLabel(milestone)). The pot grows.")
         .task {
             try? await Task.sleep(for: .seconds(2.2))
             onFinish()

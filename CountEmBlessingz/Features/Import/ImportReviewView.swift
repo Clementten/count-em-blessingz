@@ -151,7 +151,8 @@ struct ImportReviewView: View {
                 TextField("Search name, note or occasion", text: $model.search)
                     .font(theme.bodyFont(15, .regular)).foregroundStyle(theme.textPrimary)
                     .autocorrectionDisabled()
-                    .padding(12)
+                    .padding(.horizontal, 12)
+                    .frame(minHeight: 44)
                     .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.controlRadius))
                 Menu {
                     Button("Select all new") { model.plan.selectAllNew() }
