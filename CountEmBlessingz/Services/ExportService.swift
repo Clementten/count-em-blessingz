@@ -311,3 +311,42 @@ struct ExportService {
         return formatter.string(from: date)
     }
 }
+
+// MARK: - Sharing
+
+/// The two files "Share my entries" offers, built together so both describe the same moment.
+struct SharePayload {
+    let allFile: ExchangeFile
+    let changesFile: ExchangeFile
+
+    var changeCount: Int { changesFile.blessings.count }
+}
+
+extension ExportService {
+    func sharePayload(now: Date = .now) throws -> SharePayload {
+        SharePayload(
+            allFile: try exchangeFile(kind: .full, now: now),
+            changesFile: try exchangeFile(kind: .sinceLastExport, now: now)
+        )
+    }
+
+    /// Called when a "changes since last export" file is actually handed to the system share sheet.
+    /// The baseline becomes the time the file was *built* (not now), so anything edited while the share sheet
+    /// was open is still included next time. It never moves backwards.
+    func markShared(_ file: ExchangeFile) throws {
+        guard file.kind == .sinceLastExport,
+              let settings = try context.fetch(FetchDescriptor<AppSettings>()).first
+        else { return }
+        if let last = settings.lastExportAt, last >= file.exportedAt { return }
+        settings.lastExportAt = file.exportedAt
+        try context.save()
+    }
+
+    static func shareFileName(_ kind: ExchangeFile.Kind, now: Date = .now) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        let label = kind == .full ? "entries" : "changes"
+        return "CountEmBlessingz-\(label)-\(formatter.string(from: now)).\(ExchangeFile.fileExtension)"
+    }
+}

@@ -31,6 +31,15 @@ struct SettingsView: View {
                             }
                         }
                         .buttonStyle(.plain)
+                        row("Sharing name") {
+                            TextField(UIDevice.current.name, text: $settings.deviceLabel)
+                                .multilineTextAlignment(.trailing)
+                                .foregroundStyle(theme.textPrimary)
+                                .textInputAutocapitalization(.words)
+                                .frame(minWidth: 140)
+                        }
+                        Text("Shown to people who import your file. Leave empty to use this phone's name.")
+                            .font(theme.bodyFont(12, .regular)).foregroundStyle(theme.textMuted)
                         row("Honeypot goal") {
                             Text(MoneyFormatter.symbol(for: settings.currencyCode)).foregroundStyle(theme.textMuted)
                             TextField("Goal", text: $goalText)
@@ -70,7 +79,7 @@ struct SettingsView: View {
                         }
                     }
 
-                    group("Data (stays on this device)") { DataSection() }
+                    group("Data (stays on this device)") { DataSection(settings: settings) }
 
                     Text("No cloud, no account. Back up regularly: if you lose this phone, the honeypot is gone.")
                         .font(theme.bodyFont(12, .regular)).foregroundStyle(theme.textMuted)

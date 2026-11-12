@@ -52,6 +52,7 @@
 		71087F7F8A8BE673A8201EE6 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE34E518C55B8690E2DF5DF /* AppSettings.swift */; };
 		71EABC689D28F8B69C28BA1E /* MoneyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4666176D779774622F81DA /* MoneyFormatter.swift */; };
 		72EEBE554B83676A13B8778F /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7883577D17E113C95880B4C0 /* PaymentMethod.swift */; };
+		746DC17DDA984B5D1546ECDD /* SharingSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9D36B1F80F58A5F095B33A /* SharingSettingsTests.swift */; };
 		765D74D028AC169CF42A241D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEEF13420194786A5E451B /* SettingsView.swift */; };
 		7BC0FFC347B09B1756D98ED0 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E07CEBB628099671597412DA /* Inter-SemiBold.ttf */; };
 		7BD12FB45780375AC1BEC817 /* ImportPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611F4E05958F120E0889F7D3 /* ImportPlan.swift */; };
@@ -161,6 +162,7 @@
 		0A0FADAEB13C5BD987957281 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		0C1DA1607D82B8D8720CFDF0 /* DataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSection.swift; sourceTree = "<group>"; };
 		0C4666176D779774622F81DA /* MoneyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFormatter.swift; sourceTree = "<group>"; };
+		0D9D36B1F80F58A5F095B33A /* SharingSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingSettingsTests.swift; sourceTree = "<group>"; };
 		0DEE82BC57BC145942335147 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		0EC96DD77FCA693A1113B9C2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		0FF58487DA9F9F3A13E9BC32 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				4F3CA9025CDC149B2B4B1305 /* Phase9Tests.swift */,
 				B1337822A3787C43BF0B0B12 /* Phase10Tests.swift */,
 				B4EC0CF8FCFA200F35A5CC63 /* Phase11Tests.swift */,
+				0D9D36B1F80F58A5F095B33A /* SharingSettingsTests.swift */,
 				15872A1FC29A7C7DD0B0F684 /* ThemeTests.swift */,
 			);
 			path = CountEmBlessingzTests;
@@ -793,6 +796,7 @@
 				021535B2852EA6A5D435BC25 /* Phase6Tests.swift in Sources */,
 				0622D110BD4370F64679C1B8 /* Phase7Tests.swift in Sources */,
 				071223A657DCB55ED540CF72 /* Phase9Tests.swift in Sources */,
+				746DC17DDA984B5D1546ECDD /* SharingSettingsTests.swift in Sources */,
 				11E025728A0A7DB22D05823C /* ThemeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
