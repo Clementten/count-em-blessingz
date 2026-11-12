@@ -188,8 +188,13 @@ struct ImportService {
     /// A full backup of the pot, written before every import. Only the newest few are kept.
     private func writeSnapshot() throws {
         try FileManager.default.createDirectory(at: snapshotDirectory, withIntermediateDirectories: true)
+        // Snapshots are full copies of the pot: keep them out of device backups and encrypted while locked.
+        var directory = snapshotDirectory
+        var values = URLResourceValues()
+        values.isExcludedFromBackup = true
+        try? directory.setResourceValues(values)
         let data = try ExportService(context: context).backupData(now: now())
-        try data.write(to: snapshotDirectory.appending(path: snapshotName(for: now())), options: .atomic)
+        try data.write(to: snapshotDirectory.appending(path: snapshotName(for: now())), options: [.atomic, .completeFileProtection])
         for old in snapshots().dropFirst(Self.snapshotsToKeep) { try? FileManager.default.removeItem(at: old.url) }
     }
 

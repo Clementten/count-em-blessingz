@@ -13,7 +13,13 @@ extension UTType {
 enum DecimalCoding {
     private static let posix = Locale(identifier: "en_US_POSIX")
     static func text(_ value: Decimal) -> String { "\(value)" }
-    static func parse(_ text: String) -> Decimal? { Decimal(string: text, locale: posix) }
+
+    /// Strict: only plain decimal numbers ("186.48", "-3", "0.1"). `Decimal(string:)` alone accepts a number
+    /// followed by junk ("0x10" reads as 0), which a hand-made file could use to smuggle values in.
+    static func parse(_ text: String) -> Decimal? {
+        guard text.range(of: #"^-?[0-9]+(\.[0-9]+)?$"#, options: .regularExpression) != nil else { return nil }
+        return Decimal(string: text, locale: posix)
+    }
 }
 
 extension KeyedDecodingContainer {
@@ -140,13 +146,32 @@ struct ExchangeFile: Codable {
     var settings: SettingsDTO?
     var conversions: [ConversionDTO]?
 
-    /// Every blessing must point at a listed person, and ids must be unique.
+    /// Sanity limits for files from other phones. A hand-made file must not be able to inject nonsense
+    /// (negative or absurd amounts, nameless people) or exhaust memory with a huge list.
+    enum Limits {
+        static let maxPeople = 100_000
+        static let maxEntries = 500_000
+        static let maxAmount = Decimal(1_000_000_000_000)      // one trillion
+        static let maxNameLength = 500
+        static let maxNoteLength = 20_000
+        static let maxFileBytes = 250_000_000
+    }
+
+    /// Every blessing must point at a listed person, ids must be unique, and every value must be plausible.
     func isConsistent() -> Bool {
+        guard blessers.count <= Limits.maxPeople, blessings.count <= Limits.maxEntries else { return false }
         let blesserIDs = Set(blessers.map(\.id))
         guard blesserIDs.count == blessers.count,
-              Set(blessings.map(\.id)).count == blessings.count
+              Set(blessings.map(\.id)).count == blessings.count,
+              blessers.allSatisfy({
+                  !$0.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && $0.name.count <= Limits.maxNameLength
+              })
         else { return false }
-        return blessings.allSatisfy { $0.blesserID.map(blesserIDs.contains) ?? true }
+        return blessings.allSatisfy {
+            ($0.blesserID.map(blesserIDs.contains) ?? true)
+                && $0.amount >= 0 && $0.amount <= Limits.maxAmount        // zero can appear after rounding a conversion
+                && $0.note.count <= Limits.maxNoteLength
+        }
     }
 }
 
@@ -338,6 +363,8 @@ enum ExchangeFileLoader {
         try await Task.detached(priority: .userInitiated) {
             let scoped = url.startAccessingSecurityScopedResource()
             defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+            let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? Int) ?? 0
+            guard size <= ExchangeFile.Limits.maxFileBytes else { throw ExportError.tooLarge }
             guard let data = try? Data(contentsOf: url) else { throw ExportError.unreadable }
             return try ExchangeFileCodec.decode(data, allowLegacy: allowLegacy)
         }.value
@@ -355,7 +382,7 @@ struct ExchangeShareItem: Transferable {
     static var transferRepresentation: some TransferRepresentation {
         FileRepresentation(exportedContentType: .blessingzExchange) { item in
             let url = FileManager.default.temporaryDirectory.appendingPathComponent(item.fileName)
-            try item.data.write(to: url, options: .atomic)
+            try item.data.write(to: url, options: [.atomic, .completeFileProtection])
             item.onShared()
             return SentTransferredFile(url)
         }

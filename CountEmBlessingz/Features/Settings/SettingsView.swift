@@ -3,6 +3,7 @@ import SwiftData
 
 struct SettingsView: View {
     @Environment(\.theme) private var theme
+    @Environment(\.dynamicTypeSize) private var typeSize
     @Environment(BiometricLock.self) private var lock
     @Environment(ToastCenter.self) private var toast
     @Environment(ReminderService.self) private var reminders
@@ -189,13 +190,18 @@ struct SettingsView: View {
     }
 
     private func row<Trailing: View>(_ title: LocalizedStringKey, @ViewBuilder trailing: () -> Trailing) -> some View {
-        HStack(spacing: 8) {
+        // Label and value share a line; at accessibility sizes the value moves below the label instead of squeezing it.
+        let layout = typeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 4))
+            : AnyLayout(HStackLayout(spacing: 8))
+        return layout {
             Text(title).foregroundStyle(theme.textPrimary)
-            Spacer()
-            trailing()
+            if !typeSize.isAccessibilitySize { Spacer() }
+            HStack(spacing: 8) { trailing() }
         }
         .font(theme.bodyFont(15, .regular))
-        .frame(minHeight: 44)
+        .padding(.vertical, typeSize.isAccessibilitySize ? 6 : 0)
+        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
         .contentShape(Rectangle())          // the whole row is tappable, not just the text
         .overlay(alignment: .bottom) { Rectangle().fill(theme.rowDivider).frame(height: 1) }
     }

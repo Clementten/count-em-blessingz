@@ -58,6 +58,7 @@ struct AvatarView: View {
         Text(initials)
             .font(theme.bodyFont(size * 0.4, .semibold))
             .foregroundStyle(theme.avatarText)
+            .dynamicTypeSize(...DynamicTypeSize.large)              // fixed-size badge: initials must not outgrow it
             .frame(width: size, height: size)
             .accessibilityHidden(true)
     }

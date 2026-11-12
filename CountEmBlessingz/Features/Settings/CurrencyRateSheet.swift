@@ -10,6 +10,9 @@ struct CurrencyRateSheet: View {
         case importRate(from: String, to: String, sampleTotal: Decimal, count: Int, onConfirm: (Decimal) -> Void)
     }
 
+    /// When amounts are hidden the preview shows dots instead of the pot's total.
+    private let hideAmounts: Bool
+
     @Environment(\.theme) private var theme
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -23,11 +26,14 @@ struct CurrencyRateSheet: View {
 
     init(settings: AppSettings, target: Country) {
         purpose = .switchCurrency(settings: settings, target: target)
+        hideAmounts = settings.hideAmounts
     }
 
     /// Rate for an import: `1 {from} = rate {to}`, with `sampleTotal` shown converted in the preview.
-    init(importFrom from: String, to: String, sampleTotal: Decimal, count: Int, onConfirm: @escaping (Decimal) -> Void) {
+    init(importFrom from: String, to: String, sampleTotal: Decimal, count: Int, hideAmounts: Bool = false,
+         onConfirm: @escaping (Decimal) -> Void) {
         purpose = .importRate(from: from, to: to, sampleTotal: sampleTotal, count: count, onConfirm: onConfirm)
+        self.hideAmounts = hideAmounts
     }
 
     private var isImport: Bool {
@@ -83,7 +89,9 @@ struct CurrencyRateSheet: View {
                 }
 
                 if let converted = entry.preview(total: total, to: to) {
-                    Text("\(from) \(MoneyFormatter.plain(total)) becomes \(to) \(MoneyFormatter.plain(converted))")
+                    Text(hideAmounts
+                         ? "\(from) •••• becomes \(to) ••••"
+                         : "\(from) \(MoneyFormatter.plain(total)) becomes \(to) \(MoneyFormatter.plain(converted))")
                         .font(theme.bodyFont(15, .semibold)).foregroundStyle(theme.textPrimary)
                 }
 

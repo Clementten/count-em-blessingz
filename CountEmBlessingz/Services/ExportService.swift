@@ -63,6 +63,7 @@ enum ExportError: LocalizedError, Equatable {
     case unreadable
     case olderBackup
     case notAFullBackup
+    case tooLarge
 
     var errorDescription: String? {
         switch self {
@@ -76,6 +77,8 @@ enum ExportError: LocalizedError, Equatable {
             String(localized: "That file couldn't be read.")
         case .olderBackup:
             String(localized: "This is an older backup. Use Restore from backup instead.")
+        case .tooLarge:
+            String(localized: "That file is too large to be a Count 'Em Blessingz file.")
         case .notAFullBackup:
             String(localized: "This file only has some entries, so it can't replace everything. Use Import from file to merge it.")
         }
@@ -124,7 +127,7 @@ struct ExportService {
 
     func writeCSV(now: Date = .now) throws -> URL {
         let url = Self.tempURL(name: "CountEmBlessingz-\(Self.dayStamp(now)).csv")
-        try csv().write(to: url, atomically: true, encoding: .utf8)
+        try Data(csv().utf8).write(to: url, options: [.atomic, .completeFileProtection])
         return url
     }
 
@@ -198,7 +201,7 @@ struct ExportService {
 
     func writeBackup(now: Date = .now) throws -> URL {
         let url = Self.tempURL(name: "CountEmBlessingz-backup-\(Self.dayStamp(now)).\(ExchangeFile.fileExtension)")
-        try backupData(now: now).write(to: url, options: .atomic)
+        try backupData(now: now).write(to: url, options: [.atomic, .completeFileProtection])
         return url
     }
 

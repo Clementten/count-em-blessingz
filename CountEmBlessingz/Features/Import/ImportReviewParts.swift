@@ -131,7 +131,7 @@ struct ImportEntryRow: View {
                         Text(item.entry.note).font(theme.bodyFont(13, .regular)).foregroundStyle(theme.textPrimary)
                     }
                     if let fileCurrency, item.dto.currencyCode == fileCurrency {
-                        Text("Was \(fileCurrency) \(item.dto.amount.formatted())")
+                        Text("Was \(fileCurrency) \(money.hidden ? "••••" : item.dto.amount.formatted())")
                             .font(theme.bodyFont(12, .regular)).foregroundStyle(theme.textMuted)
                     }
                     detail

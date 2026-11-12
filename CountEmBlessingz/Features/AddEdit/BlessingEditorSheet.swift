@@ -189,6 +189,13 @@ struct BlessingEditorSheet: View {
         }
     }
 
+    /// "Saved: Aunt Mei, MYR 88", or without the amount when amounts are hidden.
+    static func savedMessage(name: String, amount: Decimal, currency: String, hideAmounts: Bool) -> String {
+        hideAmounts
+            ? String(localized: "Saved: \(name)")
+            : String(localized: "Saved: \(name), \(MoneyFormatter.format(amount, currency: currency))")
+    }
+
     private func save() {
         attempted = true
         guard draft.problems().isEmpty else { return }
@@ -196,7 +203,8 @@ struct BlessingEditorSheet: View {
         do {
             let name = draft.name.trimmingCharacters(in: .whitespacesAndNewlines)
             let amount = draft.parsedAmount() ?? 0
-            var message = String(localized: "Saved: \(name), \(MoneyFormatter.format(amount, currency: settings.currencyCode))")
+            var message = Self.savedMessage(name: name, amount: amount, currency: settings.currencyCode,
+                                            hideAmounts: settings.hideAmounts)
             if let editing {
                 try service.update(editing, with: draft)
             } else {

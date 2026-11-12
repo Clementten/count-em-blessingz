@@ -35,7 +35,8 @@ struct PotProvider: TimelineProvider {
         let blessings = (try? context.fetch(FetchDescriptor<Blessing>())) ?? []
         return PotEntry(
             date: .now, total: blessings.reduce(0) { $0 + $1.amount }, goal: settings.goal,
-            currency: settings.currencyCode, hideAmounts: settings.hideAmounts, themeID: settings.themeID
+            // The app lock must not be bypassed by a widget: with Face ID lock on, the total stays hidden.
+            currency: settings.currencyCode, hideAmounts: settings.hideAmounts || settings.faceIDEnabled, themeID: settings.themeID
         )
     }
 }

@@ -21,6 +21,7 @@
 		11A9EC378E868505B8AD1217 /* Phase5Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEAC5D4C52CABEA6972F48D /* Phase5Tests.swift */; };
 		11E025728A0A7DB22D05823C /* ThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15872A1FC29A7C7DD0B0F684 /* ThemeTests.swift */; };
 		135464AFBBCFCCC5D2F02864 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 05C24EEA67E508DC517E0D5C /* Montserrat-Medium.ttf */; };
+		1632677BBA87985C2FC0F856 /* HardeningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76065B64F8EFE3785FF1ECB0 /* HardeningTests.swift */; };
 		1738B0A5FD09471D91B8C8CD /* Jost-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6E9379DB1A08309BF655E0D /* Jost-ExtraBold.ttf */; };
 		1DD9BAFCDB645468F31F65A3 /* PodiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616F260644EA6D6B57BEE739 /* PodiumView.swift */; };
 		211904357A78918A706AAD41 /* HallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A68C7D6514639F098EA0AE6 /* HallView.swift */; };
@@ -225,6 +226,7 @@
 		6FF559B54EA672566D24257B /* OFL-jost.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-jost.txt"; sourceTree = "<group>"; };
 		708A8D649814F58EE5F3F4E5 /* ThemeGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeGalleryView.swift; sourceTree = "<group>"; };
 		715BD1EB9F85398FED341860 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		76065B64F8EFE3785FF1ECB0 /* HardeningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardeningTests.swift; sourceTree = "<group>"; };
 		771A52D229AFC2562DF4506A /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		7883577D17E113C95880B4C0 /* PaymentMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethod.swift; sourceTree = "<group>"; };
 		7C769CC702A10DDA26B0B4F6 /* ImportReviewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportReviewModelTests.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 			children = (
 				2ED2A8A04C85DF623501E5E2 /* DuplicateDetectorTests.swift */,
 				A6DA767D37ACA041444D51C5 /* ExchangeFileTests.swift */,
+				76065B64F8EFE3785FF1ECB0 /* HardeningTests.swift */,
 				7C769CC702A10DDA26B0B4F6 /* ImportReviewModelTests.swift */,
 				F9DDEA282EED72364A605920 /* ImportServiceTests.swift */,
 				1005C6A4018724C601562638 /* MergeModelTests.swift */,
@@ -834,6 +837,7 @@
 			files = (
 				ADA68AC0F87EABBAAE1E6D59 /* DuplicateDetectorTests.swift in Sources */,
 				81343C836751BCBD92F8FFB6 /* ExchangeFileTests.swift in Sources */,
+				1632677BBA87985C2FC0F856 /* HardeningTests.swift in Sources */,
 				92412239AB6671D9B55CE56B /* ImportReviewModelTests.swift in Sources */,
 				E2679BC0934CAB5C203ED151 /* ImportServiceTests.swift in Sources */,
 				855CAB5ED0CE66D4A7687052 /* MergeModelTests.swift in Sources */,

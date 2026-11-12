@@ -68,6 +68,11 @@ final class ImportCoordinator {
     private(set) var isLoading = false
 
     func receive(_ url: URL) {
+        // Only files: any other kind of link opened in the app is ignored politely.
+        guard url.isFileURL else {
+            errorMessage = ExportError.notABackup.errorDescription
+            return
+        }
         pendingURL = url
     }
 

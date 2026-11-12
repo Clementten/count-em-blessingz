@@ -54,19 +54,23 @@ struct InsightsView: View {
         .contentMargins(.bottom, 80, for: .scrollContent)
     }
 
+    /// Scrolls sideways when the labels don't fit (large text), and never breaks a word.
     private var rangeChips: some View {
-        HStack(spacing: 8) {
-            ForEach(InsightRange.allCases) { option in
-                let selected = range == option
-                Button { range = option } label: {
-                    Text(option.title).font(theme.bodyFont(13, .medium))
-                        .foregroundStyle(selected ? theme.onAccent : theme.textPrimary)
-                        .padding(.horizontal, 10).frame(minHeight: 44)
-                        .background(selected ? theme.accent : theme.surface,
-                                    in: RoundedRectangle(cornerRadius: theme.controlRadius))
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(InsightRange.allCases) { option in
+                    let selected = range == option
+                    Button { range = option } label: {
+                        Text(option.title).font(theme.bodyFont(13, .medium))
+                            .foregroundStyle(selected ? theme.onAccent : theme.textPrimary)
+                            .fixedSize()
+                            .padding(.horizontal, 12).frame(minHeight: 44)
+                            .background(selected ? theme.accent : theme.surface,
+                                        in: RoundedRectangle(cornerRadius: theme.controlRadius))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(selected ? .isSelected : [])
                 }
-                .buttonStyle(.plain)
-                .accessibilityAddTraits(selected ? .isSelected : [])
             }
         }
     }

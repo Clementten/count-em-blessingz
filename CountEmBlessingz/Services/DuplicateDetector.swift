@@ -119,9 +119,11 @@ enum DuplicateDetector {
             guard other.count >= fuzzyMinimumLength else { continue }
             let distance = editDistance(key, other)
             guard distance <= 2 || key.contains(other) || other.contains(key) else { continue }
-            if best == nil || distance < best!.distance || (distance == best!.distance && person.name < best!.person.name) {
-                best = (person, distance)
+            if let current = best,
+               distance > current.distance || (distance == current.distance && person.name >= current.person.name) {
+                continue
             }
+            best = (person, distance)
         }
         return best.map { .similar($0.person) } ?? .new
     }

@@ -36,6 +36,7 @@ struct DonutChart: View {
                 Text(centerText)
                     .font(theme.displayFont(22, .bold)).foregroundStyle(theme.textPrimary)
                     .minimumScaleFactor(0.5).lineLimit(1)
+                    .dynamicTypeSize(...DynamicTypeSize.xLarge)          // it sits in a fixed-size ring
                     .frame(width: size * innerRatio * 0.8)
                     .privacySensitive()
             }

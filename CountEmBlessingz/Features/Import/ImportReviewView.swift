@@ -70,7 +70,8 @@ struct ImportReviewView: View {
         .sheet(isPresented: $choosingRate) {
             CurrencyRateSheet(
                 importFrom: plan.source.fileCurrency, to: plan.localCurrency,
-                sampleTotal: plan.items.reduce(0) { $0 + $1.dto.amount }, count: plan.items.count
+                sampleTotal: plan.items.reduce(0) { $0 + $1.dto.amount }, count: plan.items.count,
+                hideAmounts: settings.hideAmounts
             ) { model.plan.setCurrency(.rate($0)) }
             .environment(toast)
         }
