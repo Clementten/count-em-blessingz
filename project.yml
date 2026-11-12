@@ -95,6 +95,17 @@ targets:
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
         SKIP_INSTALL: YES
+  CountEmBlessingzUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - CountEmBlessingzUITests
+    dependencies:
+      - target: CountEmBlessingz
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.countemblessingz.uitests
+        GENERATE_INFOPLIST_FILE: YES
   CountEmBlessingzTests:
     type: bundle.unit-test
     platform: iOS
@@ -115,3 +126,10 @@ schemes:
     test:
       targets:
         - CountEmBlessingzTests
+  CountEmBlessingzUI:
+    build:
+      targets:
+        CountEmBlessingz: all
+    test:
+      targets:
+        - CountEmBlessingzUITests

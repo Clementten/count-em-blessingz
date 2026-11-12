@@ -62,6 +62,7 @@
 		858E27A73C095BE381530987 /* CurrencyConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE3D894EC1A88F49F462BFC /* CurrencyConverter.swift */; };
 		85B45F0C7611486BF56FCEE5 /* ExchangeFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B2B804D3BB9075C399D43 /* ExchangeFile.swift */; };
 		882ED10BA6F285C03E24AF02 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BF18553B76DFA9D6A645AC /* Haptics.swift */; };
+		89AA6A6E5E196E02F8A60C71 /* SharePreparation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F830BC710CD372881068D82 /* SharePreparation.swift */; };
 		89B26E4473FD7BF7FFA2EC45 /* SeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DDB943D2DE254C19A7B6DC /* SeedData.swift */; };
 		8A690B72BFEED5CDA411982D /* DuplicateDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D03A8C4A22F3D1E7AEB135 /* DuplicateDetector.swift */; };
 		8D974D6027921610476059BC /* ImportReviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAC8E4E74F1893E0850265F /* ImportReviewModel.swift */; };
@@ -87,6 +88,7 @@
 		B21D53C6898427A37192876E /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0FADAEB13C5BD987957281 /* AppTheme.swift */; };
 		B4847AC7781C2CF2837B95B7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3F777C3CD3877260C2FAEE /* HomeView.swift */; };
 		B4CA216A0A75CD2B495F941C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35C888F04A5DDB4F1C190E9C /* Assets.xcassets */; };
+		B6D4428520FFB080595F63B5 /* CoreFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD7552D3A1D6173A2ED7BD7 /* CoreFlowUITests.swift */; };
 		BB494E3CE8E8DD5930E1F82A /* PaymentMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7883577D17E113C95880B4C0 /* PaymentMethod.swift */; };
 		BC17C31145FF504AAD41C6CE /* BiometricLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A4383F232C0E42CDD8652E /* BiometricLock.swift */; };
 		BE2FF203336C8A4D9AB31377 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0FADAEB13C5BD987957281 /* AppTheme.swift */; };
@@ -133,6 +135,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = CA75A2D90B3F61B86C816AB7;
 			remoteInfo = CountEmBlessingzWidget;
+		};
+		3606C67949A14E9D7F6BD713 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 44346DBBE895C1A2301398BA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E5954F8DC8E482DC621537A4;
+			remoteInfo = CountEmBlessingz;
 		};
 		5F3D56A564D06769BD40689B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -221,6 +230,7 @@
 		7C769CC702A10DDA26B0B4F6 /* ImportReviewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportReviewModelTests.swift; sourceTree = "<group>"; };
 		7E0E514789EEEECD285EFDEF /* InsightsLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsLogic.swift; sourceTree = "<group>"; };
 		7E48667ABB2A521F930578FA /* ChapterCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterCardView.swift; sourceTree = "<group>"; };
+		7F830BC710CD372881068D82 /* SharePreparation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePreparation.swift; sourceTree = "<group>"; };
 		82317C8A189E00D5868871D5 /* CurrencyRateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRateSheet.swift; sourceTree = "<group>"; };
 		82FE56539A94C48A4DD74EF9 /* MilestoneStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneStrip.swift; sourceTree = "<group>"; };
 		85DE8D0BFB18739830F803DB /* ImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportService.swift; sourceTree = "<group>"; };
@@ -235,6 +245,7 @@
 		9A68C7D6514639F098EA0AE6 /* HallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HallView.swift; sourceTree = "<group>"; };
 		9CEEEF13420194786A5E451B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9EFA73C8BB41D4F3AB53F2D6 /* Phase1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase1Tests.swift; sourceTree = "<group>"; };
+		A2AB24B3BAF8F71FD67A664C /* CountEmBlessingzUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CountEmBlessingzUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A58D6B3EC25A11EB2AF5654B /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		A6DA767D37ACA041444D51C5 /* ExchangeFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeFileTests.swift; sourceTree = "<group>"; };
 		AFC4A0E2F44AD4F42CAF8EAE /* ImportReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportReviewView.swift; sourceTree = "<group>"; };
@@ -249,6 +260,7 @@
 		C108D2950D5F8F6FCB5BFA0A /* CountryCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCatalog.swift; sourceTree = "<group>"; };
 		C3A9E95A20408FED7FE4414D /* Phase6Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase6Tests.swift; sourceTree = "<group>"; };
 		CB8AE59657274FB933D7158F /* Jost-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Jost-Regular.ttf"; sourceTree = "<group>"; };
+		CBD7552D3A1D6173A2ED7BD7 /* CoreFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFlowUITests.swift; sourceTree = "<group>"; };
 		CD82A6165122FFE8DD8AAD8A /* PlayfairDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-Bold.ttf"; sourceTree = "<group>"; };
 		CFB75A5A18EC9FCA6206D8EF /* LockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockView.swift; sourceTree = "<group>"; };
 		D93B6C862E8C0CAAFE790C5A /* CountEmBlessingzWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = CountEmBlessingzWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -384,6 +396,7 @@
 			children = (
 				1F50654ECAF2C8A7D902168D /* CountEmBlessingz.app */,
 				1C1134C40713746E330FD699 /* CountEmBlessingzTests.xctest */,
+				A2AB24B3BAF8F71FD67A664C /* CountEmBlessingzUITests.xctest */,
 				D93B6C862E8C0CAAFE790C5A /* CountEmBlessingzWidget.appex */,
 			);
 			name = Products;
@@ -404,6 +417,7 @@
 				82317C8A189E00D5868871D5 /* CurrencyRateSheet.swift */,
 				0C1DA1607D82B8D8720CFDF0 /* DataSection.swift */,
 				9CEEEF13420194786A5E451B /* SettingsView.swift */,
+				7F830BC710CD372881068D82 /* SharePreparation.swift */,
 				771A52D229AFC2562DF4506A /* ShareSheet.swift */,
 				EC90A2A2C31AA94979972DA7 /* VibePicker.swift */,
 			);
@@ -506,6 +520,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		AC76DEE01CE99A1F73B27A79 /* CountEmBlessingzUITests */ = {
+			isa = PBXGroup;
+			children = (
+				CBD7552D3A1D6173A2ED7BD7 /* CoreFlowUITests.swift */,
+			);
+			path = CountEmBlessingzUITests;
+			sourceTree = "<group>";
+		};
 		BA2886FB88DFC510A0EBD686 /* Import */ = {
 			isa = PBXGroup;
 			children = (
@@ -522,6 +544,7 @@
 			children = (
 				6CD686EBE7A554203C15A80E /* CountEmBlessingz */,
 				14189836B2B37340FA66D259 /* CountEmBlessingzTests */,
+				AC76DEE01CE99A1F73B27A79 /* CountEmBlessingzUITests */,
 				D5EAD3E66354F402A5DD6CF3 /* CountEmBlessingzWidget */,
 				276AAA4E2740C9BBFF827DE9 /* Products */,
 			);
@@ -588,6 +611,24 @@
 			productReference = 1C1134C40713746E330FD699 /* CountEmBlessingzTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		9AED5831496CF44FB4F439FD /* CountEmBlessingzUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3C1CAAF668D358FF101C2DC /* Build configuration list for PBXNativeTarget "CountEmBlessingzUITests" */;
+			buildPhases = (
+				F30BE56CC1BADC4360E941A4 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CA21444D1A246921E97AB668 /* PBXTargetDependency */,
+			);
+			name = CountEmBlessingzUITests;
+			packageProductDependencies = (
+			);
+			productName = CountEmBlessingzUITests;
+			productReference = A2AB24B3BAF8F71FD67A664C /* CountEmBlessingzUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		CA75A2D90B3F61B86C816AB7 /* CountEmBlessingzWidget */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 176CDAD00AC83AAB586B8A49 /* Build configuration list for PBXNativeTarget "CountEmBlessingzWidget" */;
@@ -634,6 +675,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					9AED5831496CF44FB4F439FD = {
+						TestTargetID = E5954F8DC8E482DC621537A4;
+					};
 				};
 			};
 			buildConfigurationList = 4EBFE3CEE073F1DF2C40A1E5 /* Build configuration list for PBXProject "CountEmBlessingz" */;
@@ -652,6 +696,7 @@
 			targets = (
 				E5954F8DC8E482DC621537A4 /* CountEmBlessingz */,
 				CA75A2D90B3F61B86C816AB7 /* CountEmBlessingzWidget */,
+				9AED5831496CF44FB4F439FD /* CountEmBlessingzUITests */,
 				6906F07DE14F692A49E3E5B1 /* CountEmBlessingzTests */,
 			);
 		};
@@ -750,6 +795,7 @@
 				FE94252F35E964537CEDA6A8 /* RootView.swift in Sources */,
 				89B26E4473FD7BF7FFA2EC45 /* SeedData.swift in Sources */,
 				765D74D028AC169CF42A241D /* SettingsView.swift in Sources */,
+				89AA6A6E5E196E02F8A60C71 /* SharePreparation.swift in Sources */,
 				C66567DB5CBACE56C9B65718 /* ShareSheet.swift in Sources */,
 				F527100949A56DCD47BC7416 /* SharedStore.swift in Sources */,
 				C8FD1CF1FB5C7F266F1544C3 /* ThemeEnvironment.swift in Sources */,
@@ -805,6 +851,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F30BE56CC1BADC4360E941A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6D4428520FFB080595F63B5 /* CoreFlowUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -817,6 +871,11 @@
 			isa = PBXTargetDependency;
 			target = CA75A2D90B3F61B86C816AB7 /* CountEmBlessingzWidget */;
 			targetProxy = 1EB23E3F88CD252666022E09 /* PBXContainerItemProxy */;
+		};
+		CA21444D1A246921E97AB668 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E5954F8DC8E482DC621537A4 /* CountEmBlessingz */;
+			targetProxy = 3606C67949A14E9D7F6BD713 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -881,6 +940,23 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		846DC9D4FEF9CBA6F861CFF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.countemblessingz.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CountEmBlessingz;
+			};
+			name = Release;
 		};
 		90A3DD5FB556ACACF62A4984 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1027,6 +1103,23 @@
 			};
 			name = Release;
 		};
+		C43E0CE7E84918DC71440135 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.countemblessingz.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CountEmBlessingz;
+			};
+			name = Debug;
+		};
 		ED66F6889931E7778ED44527 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1099,6 +1192,15 @@
 			buildConfigurations = (
 				8177B365DA90D88ACAE5D8B1 /* Debug */,
 				B9CB79B54F4994E5CDED7105 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E3C1CAAF668D358FF101C2DC /* Build configuration list for PBXNativeTarget "CountEmBlessingzUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C43E0CE7E84918DC71440135 /* Debug */,
+				846DC9D4FEF9CBA6F861CFF1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
