@@ -1,6 +1,6 @@
 name: CountEmBlessingz
 options:
-  bundleIdPrefix: com.example
+  bundleIdPrefix: com.clemzzz
   deploymentTarget:
     iOS: "17.0"
 settings:
