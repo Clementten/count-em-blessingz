@@ -13,6 +13,7 @@
 		02B681A87F5CA7CD540C755C /* RateEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BE3E10B65CA98ABBABA29F /* RateEntry.swift */; };
 		05763713FFB66F63ECB026C3 /* Blessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CDC94A50D4BCFBAFCE85FA /* Blessing.swift */; };
 		0622D110BD4370F64679C1B8 /* Phase7Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A574FA32D47B28635F6D81 /* Phase7Tests.swift */; };
+		0708C86808BDF9A317AC4456 /* DeviceFamilyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D3FA4CC99762EC698FA561 /* DeviceFamilyTests.swift */; };
 		071223A657DCB55ED540CF72 /* Phase9Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3CA9025CDC149B2B4B1305 /* Phase9Tests.swift */; };
 		09EE5BDD39A62CE93ABA5E92 /* LockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB75A5A18EC9FCA6206D8EF /* LockView.swift */; };
 		0D89324F1EE0EF25F2B78D98 /* ImportReviewSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B01B00EEBD0BB03574060A7 /* ImportReviewSamples.swift */; };
@@ -278,6 +279,7 @@
 		BA4A9AEAA7D56945C59B5469 /* ThemeEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeEnvironment.swift; sourceTree = "<group>"; };
 		C108D2950D5F8F6FCB5BFA0A /* CountryCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCatalog.swift; sourceTree = "<group>"; };
 		C3A9E95A20408FED7FE4414D /* Phase6Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase6Tests.swift; sourceTree = "<group>"; };
+		C9D3FA4CC99762EC698FA561 /* DeviceFamilyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceFamilyTests.swift; sourceTree = "<group>"; };
 		CB8AE59657274FB933D7158F /* Jost-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Jost-Regular.ttf"; sourceTree = "<group>"; };
 		CBD7552D3A1D6173A2ED7BD7 /* CoreFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFlowUITests.swift; sourceTree = "<group>"; };
 		CD82A6165122FFE8DD8AAD8A /* PlayfairDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-Bold.ttf"; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 		14189836B2B37340FA66D259 /* CountEmBlessingzTests */ = {
 			isa = PBXGroup;
 			children = (
+				C9D3FA4CC99762EC698FA561 /* DeviceFamilyTests.swift */,
 				2ED2A8A04C85DF623501E5E2 /* DuplicateDetectorTests.swift */,
 				A6DA767D37ACA041444D51C5 /* ExchangeFileTests.swift */,
 				76065B64F8EFE3785FF1ECB0 /* HardeningTests.swift */,
@@ -869,6 +872,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0708C86808BDF9A317AC4456 /* DeviceFamilyTests.swift in Sources */,
 				ADA68AC0F87EABBAAE1E6D59 /* DuplicateDetectorTests.swift in Sources */,
 				81343C836751BCBD92F8FFB6 /* ExchangeFileTests.swift in Sources */,
 				1632677BBA87985C2FC0F856 /* HardeningTests.swift in Sources */,
@@ -941,7 +945,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.clemzzz.countemblessingz.widget;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -957,7 +961,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.clemzzz.countemblessingz.tests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CountEmBlessingz.app/CountEmBlessingz";
 			};
 			name = Release;
@@ -983,7 +987,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.clemzzz.countemblessingz;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -999,7 +1003,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.clemzzz.countemblessingz.uitests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = CountEmBlessingz;
 			};
 			name = Release;
@@ -1146,7 +1150,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.clemzzz.countemblessingz;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1162,7 +1166,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.clemzzz.countemblessingz.uitests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = CountEmBlessingz;
 			};
 			name = Debug;
@@ -1179,7 +1183,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.clemzzz.countemblessingz.tests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CountEmBlessingz.app/CountEmBlessingz";
 			};
 			name = Debug;
@@ -1201,7 +1205,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.clemzzz.countemblessingz.widget;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
