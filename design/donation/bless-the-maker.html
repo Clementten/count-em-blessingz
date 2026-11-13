@@ -1,0 +1,285 @@
+<title>Bless the Maker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;500;600;700&family=Jost:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Ma+Shan+Zheng&text=%E7%A6%8F&display=swap">
+<style>
+/* Layout: one long page. Concepts, then a clickable phone prototype with controls, then flow and spec. */
+:root{
+  --bg:#F3F5F4; --card:#FFFFFF; --fg:#14201B; --muted:#586861; --line:#D5DDD9;
+  --accent:#1F6B52; --on-accent:#FFFFFF; --warn-bg:#FBEFD5; --warn-fg:#6B4A06; --good-bg:#DDF0E6; --good-fg:#14573C; --bad-bg:#F8E1DE; --bad-fg:#8A2A1E;
+  --f-body:'Inter',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1613; --card:#16201B; --fg:#E6EFEA; --muted:#94A69C; --line:#25332D;
+  --accent:#6FBF9B; --on-accent:#08140F; --warn-bg:#3A2E10; --warn-fg:#F0D08A; --good-bg:#17382B; --good-fg:#9AE0BD; --bad-bg:#3E1D19; --bad-fg:#F2AFA6; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1613; --card:#16201B; --fg:#E6EFEA; --muted:#94A69C; --line:#25332D;
+  --accent:#6FBF9B; --on-accent:#08140F; --warn-bg:#3A2E10; --warn-fg:#F0D08A; --good-bg:#17382B; --good-fg:#9AE0BD; --bad-bg:#3E1D19; --bad-fg:#F2AFA6; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--f-body);margin:0;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;margin:0 0 10px;letter-spacing:-.02em;text-wrap:balance}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.01em}
+h3{font-size:16px;margin:0}
+p{margin:0}
+.lede{color:var(--muted);max-width:62ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+nav.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+nav.chips a{color:var(--fg);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:500}
+nav.chips a:hover,nav.chips a:focus-visible{border-color:var(--accent);outline:none}
+section{display:flex;flex-direction:column;gap:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.pick{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.pill{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:999px}
+.pill.good{background:var(--good-bg);color:var(--good-fg)}.pill.warn{background:var(--warn-bg);color:var(--warn-fg)}.pill.bad{background:var(--bad-bg);color:var(--bad-fg)}
+.card ul{margin:0;padding-left:18px;color:var(--muted);font-size:13.5px}
+/* prototype */
+.proto{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:start}
+@media (max-width:760px){.proto{grid-template-columns:minmax(0,1fr)}.stage{order:-1;justify-self:center}}
+.controls{display:flex;flex-direction:column;gap:18px}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl label,.ctl .lbl{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,select{font:inherit;font-size:13.5px;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:600}
+.seg button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.notes{font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:14px}
+.notes b{color:var(--fg)}
+/* phone, themed with the app's real tokens */
+.stage{display:flex;flex-direction:column;align-items:center;gap:12px}
+.disc{max-width:300px;font-size:12px;color:var(--muted);text-align:center}
+.phone{--bg:#0B3B2E;--sf:#123F33;--tx:#F6EBCB;--mu:#D9CDA8;--ac:#D4AF37;--onac:#06241B;--ln:#2A6B57;--dg:#FF9C8F;--hero:#123F33;--tab:#06241B;--tabon:#D4AF37;--env:#C8362C;--seal:#D4AF37;--ring:#C8362C;--bw:1px;--rad:12px;--fd:'Playfair Display',Georgia,serif;--fb:'Montserrat',system-ui,sans-serif;
+  width:300px;height:620px;border-radius:40px;border:8px solid #0a0a0a;position:relative;overflow:hidden;background:var(--bg);color:var(--tx);font-family:var(--fb);font-size:13px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.phone[data-vibe="grand"]{--bg:#FFE9EE;--sf:#F7C6D0;--tx:#3D1D40;--mu:#5A2D55;--ac:#B3223B;--onac:#FFE9EE;--ln:#3D1D40;--dg:#A3162B;--hero:#5B2A5E;--tab:#5B2A5E;--tabon:#E8B04A;--env:#B3223B;--seal:#B3223B;--ring:#E8B04A;--bw:2px;--rad:6px;--fd:'Jost',system-ui,sans-serif;--fb:'Jost',system-ui,sans-serif}
+.phone[data-vibe="quiet"]{--bg:#15171A;--sf:#1F2226;--tx:#EDE6D6;--mu:#A9ADB5;--ac:#B08D57;--onac:#15171A;--ln:#3A3F46;--dg:#E59A9A;--hero:#15171A;--tab:#0D0F11;--tabon:#EDE6D6;--env:#A65A5A;--seal:#B08D57;--ring:#15171A;--bw:1px;--rad:10px;--fd:'Cormorant Garamond',Georgia,serif;--fb:'Inter',system-ui,sans-serif}
+.scr{height:100%;display:flex;flex-direction:column}
+.status{height:34px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 22px 4px;font-size:11px;font-weight:600;color:var(--tx);flex:none}
+.body{flex:1;overflow:auto;padding:6px 16px 16px;display:flex;flex-direction:column;gap:14px;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+.ph-h{font-family:var(--fd);font-size:28px;font-weight:700;line-height:1.1;margin:4px 0 0}
+.grp{display:flex;flex-direction:column;gap:6px}
+.grp>.t{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);font-weight:700}
+.box{background:var(--sf);border:var(--bw) solid var(--ln);border-radius:var(--rad);display:flex;flex-direction:column}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 12px;min-height:44px;border:0;background:none;color:var(--tx);font:inherit;text-align:left;width:100%}
+.row+.row{border-top:1px solid var(--ln)}
+.row small{display:block;color:var(--mu);font-size:11px}
+button.row{cursor:pointer}
+button.row:focus-visible,.tier:focus-visible,.pbtn:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
+.tg{width:34px;height:20px;border-radius:99px;background:var(--ac);position:relative;flex:none}
+.tg::after{content:"";position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:50%;background:var(--onac)}
+.tg.off{background:var(--ln)}.tg.off::after{right:auto;left:2px}
+.chev{color:var(--mu);font-size:16px}
+.fine{font-size:11px;color:var(--mu)}
+.tabs{flex:none;background:var(--tab);display:flex;justify-content:space-around;padding:8px 0 16px;font-size:10px;color:var(--mu)}
+.tabs span{display:flex;flex-direction:column;align-items:center;gap:3px}
+.tabs i{width:16px;height:16px;border-radius:5px;border:1.5px solid currentColor;display:block}
+.tabs .on{color:var(--tabon);font-weight:700}.tabs .on i{background:currentColor}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-top:var(--bw) solid var(--ln);border-radius:22px 22px 0 0;padding:8px 16px 22px;display:flex;flex-direction:column;gap:10px;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);max-height:92%;overflow:auto}
+.sheet.show{transform:none}
+.grab{width:36px;height:4px;border-radius:9px;background:var(--ln);align-self:center}
+.sheet h3{font-family:var(--fd);font-size:22px;text-align:center;margin:2px 0 0}
+.sheet .sub{text-align:center;color:var(--mu);font-size:12px;line-height:1.45}
+.env{width:64px;height:52px;align-self:center;overflow:visible}
+.env .flap{transform-box:fill-box;transform-origin:top;transition:transform .5s ease}
+.env.open .flap{transform:scaleY(-1)}
+.tier{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:52px;padding:8px 12px;background:var(--sf);border:var(--bw) solid var(--ln);border-radius:var(--rad);color:var(--tx);font:inherit;text-align:left;cursor:pointer;width:100%}
+.tier b{display:block;font-size:13px}.tier small{color:var(--mu);font-size:11px}
+.tier .pr{font-weight:700;color:var(--ac);white-space:nowrap}
+.tier[disabled]{opacity:.5;cursor:default}
+.tier.pick{border-color:var(--ac)}
+.pbtn{min-height:44px;border-radius:var(--rad);border:var(--bw) solid var(--ac);background:var(--ac);color:var(--onac);font:inherit;font-weight:700;cursor:pointer;width:100%}
+.pbtn.ghost{background:none;color:var(--mu);border-color:transparent;font-weight:500;min-height:36px}
+.skel{height:52px;border-radius:var(--rad);background:linear-gradient(90deg,var(--sf),var(--ln),var(--sf));background-size:200% 100%;animation:sh 1.2s linear infinite;opacity:.6}
+@keyframes sh{to{background-position:-200% 0}}
+.msg{background:var(--sf);border:var(--bw) dashed var(--ln);border-radius:var(--rad);padding:10px 12px;font-size:12px;color:var(--mu);text-align:center}
+.toast{position:absolute;left:16px;right:16px;bottom:18px;background:var(--tx);color:var(--bg);border-radius:var(--rad);padding:10px 12px;font-size:12px;text-align:center;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+.hero{background:var(--hero);border:var(--bw) solid var(--ac);border-radius:var(--rad);padding:16px;display:flex;flex-direction:column;gap:4px;position:relative}
+.hero .k{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);font-weight:700}
+.hero .big{font-family:var(--fd);font-size:34px;font-weight:700;line-height:1.1;color:#F6EBCB}
+.phone[data-vibe="grand"] .hero .big,.phone[data-vibe="grand"] .hero .m{color:#FFE9EE}
+.hero .m{color:var(--mu);font-size:12px}
+.seal{position:absolute;right:12px;top:10px;width:38px;height:38px;border-radius:7px;transform:rotate(-8deg);background:var(--seal);color:var(--ring);display:grid;place-items:center;font:400 25px/1 'Ma Shan Zheng','Kaiti SC','STKaiti',serif;box-shadow:inset 0 0 0 2px var(--ring),inset 0 0 0 4px var(--seal),inset 0 0 0 5px var(--ring),0 2px 0 rgba(0,0,0,.28);animation:stamp .4s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes stamp{from{transform:rotate(-20deg) scale(1.8);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:1}}
+.prompt{display:flex;flex-direction:column;gap:8px;background:var(--sf);border:var(--bw) solid var(--ln);border-radius:var(--rad);padding:12px}
+.prompt .a{display:flex;gap:8px}.prompt .a .pbtn{min-height:38px}
+.opt{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--mu);text-align:left}
+.opt input{margin-top:2px;accent-color:var(--ac)}
+/* spec tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:var(--bg);padding:1px 5px;border-radius:4px}
+.mm{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto}
+@media (prefers-reduced-motion:reduce){.seal{animation:none}.sheet,.scrim,.env .flap,.toast{transition:none}.skel{animation:none}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Count 'Em Blessingz · next step</div>
+  <h1>Bless the Maker</h1>
+  <p class="lede">A donation option for a private, offline app. No ads, no unlocks, no accounts. Four ideas, a clickable prototype in all three Vibes, the flow, and the build spec.</p>
+  <nav class="chips" aria-label="Sections"><a href="#ideas">Ideas</a><a href="#prototype">Prototype</a><a href="#flow">Flow</a><a href="#spec">Spec</a></nav>
+</header>
+
+<section id="ideas">
+  <div><h2>Four ways to ask</h2><p class="lede">All four keep the app's promise: nothing is gated and nobody is nagged.</p></div>
+  <div class="grid">
+    <article class="card pick"><span class="pill good">Build this</span><h3>A. Tip jar in Settings</h3>
+      <p>A "Support" group with one row, "Feed the developer". It opens a sheet with five fixed amounts, bought as consumable in-app purchases.</p>
+      <ul><li>Fits Apple's rule for tipping the developer</li><li>SGD is the base price; other currencies follow Apple's own price points</li><li>Near-zero code, no server</li></ul></article>
+    <article class="card pick"><span class="pill good">Add to A</span><h3>B. One quiet moment</h3>
+      <p>After someone shares their Year in Review, a single line appears under the card with two buttons. It shows once per year, and not at all in a year they have already tipped.</p>
+      <ul><li>Asks when the app has just delivered value</li><li>Once a year, never on launch</li><li>One local flag</li></ul></article>
+    <article class="card"><span class="pill good">Include</span><h3>C. Fortune seal, in each Vibe's colors</h3>
+      <p>After any tip, offer a red-chop style 福 (fortune) seal on the Year in Review card. It stamps in once. Cosmetic only, off unless the user ticks it.</p>
+      <ul><li>Gives thanks a visible form</li><li>Local flag, no entitlement check</li><li>Gold on Jade &amp; Gold, crimson and gold on The Grand Ledger, bronze on Quiet Fortune</li></ul></article>
+    <article class="card"><span class="pill bad">Avoid</span><h3>D. Link to Ko-fi, DuitNow or PayNow</h3>
+      <p>Pointing out of the app to take money for the developer risks rejection under guideline 3.1.1 in most storefronts.</p>
+      <ul><li>Confirm the current wording before relying on it</li><li>Keep all giving inside the app, through Apple</li></ul></article>
+  </div>
+</section>
+
+<section id="prototype">
+  <div><h2>Clickable prototype</h2><p class="lede">Real theme colours and fonts from <code>Themes.swift</code>. Tap rows and tiers inside the phone, or jump with the controls.</p></div>
+  <div class="proto">
+    <div class="controls">
+      <div class="ctl"><span class="lbl" id="l-screen">Screen</span>
+        <div class="seg" role="group" aria-labelledby="l-screen" id="c-screen"></div></div>
+      <div class="ctl"><span class="lbl" id="l-vibe">Vibe</span>
+        <div class="seg" role="group" aria-labelledby="l-vibe" id="c-vibe"></div></div>
+      <div class="ctl"><label for="c-state">Store state</label>
+        <select id="c-state"><option value="ready">Ready</option><option value="loading">Loading prices</option><option value="offline">Offline or store unavailable</option><option value="pending">Purchase pending approval</option><option value="cancelled">Cancelled by user</option></select></div>
+      
+      <div class="notes">
+        <p><b>Placement.</b> Between Gratitude and Data, so it sits near the end of Settings and never on Home.</p>
+        <p><b>Tone.</b> The app's own vocabulary: blessings, not donations.</p>
+        <p><b>Honesty line.</b> The sheet says plainly that nothing changes in the app after a tip.</p>
+      </div>
+    </div>
+    <div class="stage"><div class="phone" id="phone" data-vibe="jade" aria-label="App prototype"><div class="scr" id="scr"></div></div><p class="disc">Prices are shown in Singapore dollars for this preview only. In the app, the App Store shows each price in the user's own currency.</p></div>
+  </div>
+</section>
+
+<section id="flow">
+  <div><h2>Flow and states</h2><p class="lede">Every store outcome has a calm landing, and the user can always back out.</p></div>
+  <div class="mm"><pre class="mermaid">
+flowchart TD
+  A[Settings] -->|tap Feed the developer| B[Tip sheet opens]
+  Y[Year in Review shared] -->|once a year| P[Soft prompt line]
+  P -->|Bless| B
+  P -->|Dismiss| X[Skipped until next year]
+  B --> C{Load products}
+  C -->|slow| D[Skeleton tiers]
+  C -->|failed| E[Offline note and Try again]
+  C -->|ok| F[Five tiers]
+  D --> F
+  F -->|choose| G[Apple purchase sheet]
+  G -->|paid| H[Thank you and open envelope]
+  G -->|cancelled| F
+  G -->|ask to buy| I[Pending note]
+  H --> J{Seal?}
+  J -->|opt in| K[Seal on Year in Review]
+  J -->|no| L[Done]
+  K --> L
+  </pre></div>
+</section>
+
+<section id="spec">
+  <div><h2>Spec</h2><p class="lede">The full build plan, App Store Connect steps and review notes are in <code>DONATION_PLAN.md</code>.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Product ID</th><th>Name</th><th>Subtitle</th><th>SGD</th><th>Type</th></tr></thead>
+    <tbody>
+      <tr><td><code>tip.small</code></td><td>Tiny blessing</td><td>A pat on the head</td><td>0.88</td><td>Consumable</td></tr>
+      <tr><td><code>tip.good</code></td><td>Good blessing</td><td>One (1) kopi</td><td>2.88</td><td>Consumable</td></tr>
+      <tr><td><code>tip.auspicious</code></td><td>Auspicious blessing</td><td>A whole nasi lemak</td><td>8.88</td><td>Consumable</td></tr>
+      <tr><td><code>tip.grand</code></td><td>Grand blessing</td><td>Bubble tea, extra pearls, no regrets</td><td>18.98</td><td>Consumable</td></tr>
+      <tr><td><code>tip.fortune</code></td><td>Fortune blessing</td><td>I will tell my mum about you</td><td>88.00</td><td>Consumable</td></tr>
+    </tbody></table></div>
+  <div class="tbl"><table>
+    <thead><tr><th>State</th><th>What the user sees</th><th>Recovery</th></tr></thead>
+    <tbody>
+      <tr><td>Loading</td><td>Skeleton tiers</td><td>Resolves on its own</td></tr>
+      <tr><td>Offline or unavailable</td><td>"Can't reach the App Store right now. Nothing was charged."</td><td>Try again button, sheet stays open</td></tr>
+      <tr><td>Cancelled</td><td>Tiers again, quiet toast "No charge made"</td><td>None needed</td></tr>
+      <tr><td>Pending (Ask to Buy)</td><td>"Waiting for approval. We'll say thanks when it goes through."</td><td>Close the sheet; handled on next launch</td></tr>
+      <tr><td>Success</td><td>Envelope opens, "Thank you. Your blessing is counted."</td><td>Done returns to Settings</td></tr>
+    </tbody></table></div>
+  <div class="grid">
+    <div class="card"><h3>Accessibility</h3><ul><li>Tiers are real buttons, at least 44pt tall</li><li>VoiceOver reads "Tiny blessing, 99 cents, button"</li><li>Dynamic Type: tiers wrap, sheet scrolls</li><li>Reduce Motion: envelope swaps without animation</li></ul></div>
+    <div class="card"><h3>Privacy</h3><ul><li>No analytics, no receipt upload, no identifiers</li><li>Only the Apple purchase sheet touches the network</li><li>Listing line "no network code" needs rewording</li></ul></div>
+    <div class="card"><h3>Not included</h3><ul><li>No locked features, no Pro tier</li><li>No custom amounts (the App Store does not allow them)</li><li>No reminders to donate</li></ul></div>
+  </div>
+</section>
+</div>
+
+<script>
+(function(){
+  var TIERS=[
+    {id:'small',name:'Tiny blessing',line:'A pat on the head',p:'S$0.88'},
+    {id:'good',name:'Good blessing',line:'One (1) kopi',p:'S$2.88'},
+    {id:'auspicious',name:'Auspicious blessing',line:'A whole nasi lemak',pick:true,p:'S$8.88'},
+    {id:'grand',name:'Grand blessing',line:'Bubble tea, extra pearls, no regrets',p:'S$18.98'},
+    {id:'fortune',name:'Fortune blessing',line:'I will tell my mum about you',p:'S$88'}];
+  var SCREENS=[['settings','Settings'],['sheet','Tip sheet'],['thanks','Thank you'],['review','Year in Review']];
+  var VIBES=[['jade','Jade & Gold'],['grand','The Grand Ledger'],['quiet','Quiet Fortune']];
+  var S={screen:'settings',vibe:'jade',state:'ready',seal:false,toast:'',dismissed:false,busy:false};
+  var $=function(id){return document.getElementById(id)};
+
+  function envSvg(open){return '<svg class="env'+(open?' open':'')+'" viewBox="0 0 64 52" aria-hidden="true"><rect x="2" y="12" width="60" height="38" rx="5" fill="var(--env)"/><path class="flap" d="M2 14 L32 34 L62 14 Z" fill="var(--env)" stroke="var(--ac)" stroke-width="1.5"/><circle cx="32" cy="34" r="6" fill="var(--ac)"/></svg>'}
+  function status(){return '<div class="status"><span>9:41</span><span>●●●</span></div>'}
+  function tabs(on){var t=['Home','Insights','Fame','Settings'];return '<div class="tabs">'+t.map(function(x){return '<span class="'+(x===on?'on':'')+'"><i></i>'+x+'</span>'}).join('')+'</div>'}
+
+  function settings(){return status()+'<div class="body"><h1 class="ph-h">Settings</h1>'+
+   '<div class="grp"><div class="t">Privacy</div><div class="box"><div class="row">Face ID lock<span class="tg"></span></div><div class="row">Hide amounts by default<span class="tg off"></span></div></div></div>'+
+   '<div class="grp"><div class="t">Gratitude</div><div class="box"><div class="row">Reminder delay<span class="chev">3 days ›</span></div></div></div>'+
+   '<div class="grp"><div class="t">Support</div><div class="box"><button class="row" data-go="sheet"><span>Feed the developer<small>Optional. Unlocks nothing.</small></span><span class="chev">›</span></button></div></div>'+
+   '<div class="grp"><div class="t">Data (stays on this device)</div><div class="box"><div class="row">Export CSV<span class="chev">›</span></div><div class="row">Back up to a file<span class="chev">›</span></div></div></div>'+
+   '<p class="fine">No cloud, no account. Back up regularly: if you lose this phone, the honeypot is gone.</p></div>'+tabs('Settings')}
+
+  function review(){var p=S.dismissed?'':'<div class="prompt"><span>Glad this helped you keep count. If you like, send the maker a small blessing back.</span><div class="a"><button class="pbtn" data-go="sheet">Send a blessing</button><button class="pbtn ghost" data-dismiss="1">No thanks</button></div></div>';
+   return status()+'<div class="body"><h1 class="ph-h">2026 in blessings</h1><div class="hero">'+(S.seal?'<span class="seal" title="Supporter seal">福</span>':'')+'<span class="k">Total received</span><span class="big">'+'S$1,540'+'</span><span class="m">37 blessings from 12 people</span></div><button class="pbtn" style="min-height:40px">Share my year</button>'+p+'</div>'+tabs('Fame')}
+
+  function tiersHtml(){
+    if(S.state==='loading')return '<div class="skel"></div><div class="skel"></div><div class="skel"></div>';
+    if(S.state==='offline')return '<div class="msg">Can\'t reach the App Store right now. Nothing was charged.</div><button class="pbtn" data-state="ready">Try again</button>';
+    var h=TIERS.map(function(t){return '<button class="tier'+(t.pick?' pick':'')+'" data-buy="'+t.id+'" aria-label="'+t.name+', '+t.p+'"><span><b>'+t.name+'</b><small>'+t.line+'</small></span><span class="pr">'+t.p+'</span></button>'}).join('');
+    if(S.state==='pending')h='<div class="msg">Waiting for approval. We\'ll say thanks when it goes through.</div>'+h;
+    return h}
+
+  function sheet(){var thanks=S.screen==='thanks';
+    if(thanks)return '<div class="grab"></div>'+envSvg(true)+'<h3>Thank you.</h3><p class="sub">'+(S.last==='fortune'?'Eighty-eight! Very auspicious. I will tell my mum.':'A small celebration is happening somewhere. It is quiet and involves snacks.')+' Nothing changes in the app.</p><label class="opt"><input type="checkbox" id="seal"'+(S.seal?' checked':'')+'><span>Show a small seal on my Year in Review card</span></label><button class="pbtn" data-go="settings">Back to counting</button>';
+    return '<div class="grab"></div>'+envSvg(false)+'<h3>Feed the developer</h3><p class="sub">No ads, no tracking, no business plan. Powered by a laptop, a lot of daydreaming and the occasional bubble tea.</p>'+tiersHtml()+'<p class="fine" style="text-align:center">Unlocks nothing. Changes nothing. Just vibes and a suspicious number of eights.</p><button class="pbtn ghost" data-go="'+(S.from||'settings')+'">Maybe later</button>'}
+
+  function render(){
+    var sc=S.screen,under=(sc==='review'||S.from==='review')?review():settings();
+    var open=(sc==='sheet'||sc==='thanks');
+    $('phone').setAttribute('data-vibe',S.vibe);
+    $('scr').innerHTML=under+'<div class="scrim'+(open?' show':'')+'"></div><div class="sheet'+(open?' show':'')+'" role="dialog" aria-label="Feed the developer">'+(open?sheet():'')+'</div><div class="toast'+(S.toast?' show':'')+'" role="status">'+S.toast+'</div>';
+    $('c-screen').innerHTML=SCREENS.map(function(x){return '<button aria-pressed="'+(sc===x[0])+'" data-s="'+x[0]+'">'+x[1]+'</button>'}).join('');
+    $('c-vibe').innerHTML=VIBES.map(function(x){return '<button aria-pressed="'+(S.vibe===x[0])+'" data-v="'+x[0]+'">'+x[1]+'</button>'}).join('');
+    $('c-state').value=S.state}
+
+  function toast(m){S.toast=m;render();setTimeout(function(){S.toast='';render()},1800)}
+
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-s],[data-v],[data-go],[data-buy],[data-state],[data-dismiss]');if(!b)return;
+    if(b.dataset.s){S.screen=b.dataset.s;S.from=b.dataset.s==='sheet'?'settings':undefined;if(S.screen==='review'){S.from=undefined}}
+    else if(b.dataset.v){S.vibe=b.dataset.v}
+    else if(b.dataset.state){S.state=b.dataset.state}
+    else if(b.dataset.dismiss){S.dismissed=true}
+    else if(b.dataset.go){var from=S.screen==='review'||S.from==='review';S.from=b.dataset.go==='sheet'&&from?'review':undefined;S.screen=b.dataset.go==='sheet'?'sheet':(from&&b.dataset.go==='settings'?'review':b.dataset.go)}
+    else if(b.dataset.buy){
+      if(S.state==='cancelled'){render();return toast('No charge made')}
+      if(S.state==='pending'){return toast('Sent for approval')}
+      S.last=b.dataset.buy;S.screen='thanks'}
+    render()});
+  $('c-state').addEventListener('change',function(e){S.state=e.target.value;render()});
+  document.addEventListener('change',function(e){if(e.target.id==='seal'){S.seal=e.target.checked}});
+  render();
+})();
+</script>
