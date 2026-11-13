@@ -51,6 +51,7 @@ How the merge works, the file format and the duplicate rules are in **section 18
 ## Documents
 
 - **[NEXT_STEPS.md](NEXT_STEPS.md)** is the checklist of what only the owner can do: GitHub, signing, real-device testing and the App Store, in order.
+- **[RELEASE_1_1_PLAN.md](RELEASE_1_1_PLAN.md)** is the build brief for 1.1 (tip jar, wishes and prayers, photo fixes). **[DONATION_PLAN.md](DONATION_PLAN.md)** has the tip jar detail.
 - **[BLUEPRINT.md](BLUEPRINT.md)** is the original design and plan, with the implementation status, deviations and known limitations at the top, and the as-built merge import (section 18) and quality status (section 19).
 - **[release/](release/)** has the detail behind the checklist: a fill-in sheet, the submission guide, the listing text, 18 ready screenshots, a real-device test checklist, a script that sets your bundle id, and a sample import file for App Review.
 - **[docs/](docs/)** holds the public privacy policy and support pages (published with GitHub Pages).

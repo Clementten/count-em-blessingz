@@ -1,6 +1,7 @@
 # Donation option ("Feed the developer")
 
 Status: proposed, not built. Targets version 1.1, after 1.0 clears review.
+Part of [RELEASE_1_1_PLAN.md](RELEASE_1_1_PLAN.md), the master brief for 1.1.
 Prototype: `design/donation/bless-the-maker.html` (published copy: https://claude.ai/artifact/EsmrL5QkLCWTdhqG9f1PVv)
 
 ## Decision
