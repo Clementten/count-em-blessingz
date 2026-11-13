@@ -190,7 +190,7 @@ A full-screen cover, `PhotoPreviewView`.
 
 ### Save
 
-Two native options in the preview's toolbar.
+Two small round icon buttons (44 pt, translucent, icon only) centered under the photo, like the system Photos viewer. No text labels, so they stay light. Each has an accessibility label ("Share" and "Save to Photos").
 
 1. **Share:** a `ShareLink` with the image. The system share sheet already includes Save Image, Copy, AirDrop, Messages and so on. This needs no permission.
 2. **Save:** a button with the download arrow that writes straight to Photos using add-only access (`PHPhotoLibrary`, `.addOnly`). It shows a toast "Saved to Photos", or "Photos access is off. You can turn it on in Settings" with a link to the Settings page if the user declined.

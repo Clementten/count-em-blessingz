@@ -95,9 +95,11 @@ textarea.inp{padding:10px 12px;min-height:84px;resize:none;line-height:1.4}
 .pv .img{flex:1;display:grid;place-items:center;overflow:hidden;touch-action:none}
 .pv .img .frame{width:100%;aspect-ratio:3/4;transition:transform .25s ease;cursor:zoom-in}
 .pv .img .frame.z{transform:scale(2.2);cursor:zoom-out}
-.pv .tools{display:flex;justify-content:space-around;padding:8px 8px 26px;background:#0b0b0b}
-.pv .tools button{background:none;border:0;color:#fff;font:inherit;font-size:11px;min-width:80px;min-height:52px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
-.pv .zh{position:absolute;left:0;right:0;bottom:112px;text-align:center;font-size:11px;color:#bbb;pointer-events:none}
+.pv .tools{display:flex;justify-content:center;gap:14px;padding:6px 8px 22px;background:#000}
+.pv .tools button{background:rgba(255,255,255,.14);border:0;color:#fff;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
+.pv .tools button:hover,.pv .tools button:focus-visible{background:rgba(255,255,255,.24);outline:none}
+.pv .tools svg{width:20px;height:20px}
+.pv .zh{position:absolute;left:0;right:0;bottom:82px;text-align:center;font-size:11px;color:#bbb;pointer-events:none}
 .ios{position:absolute;left:0;right:0;bottom:0;background:#F2F2F7;color:#000;border-radius:16px 16px 0 0;padding:10px 12px 22px;z-index:7;display:flex;flex-direction:column;gap:6px;font-family:system-ui,-apple-system,sans-serif}
 .ios b{text-align:center;font-size:12px;color:#555;font-weight:500}
 .ios button{background:#fff;border:0;border-radius:10px;min-height:44px;font:inherit;font-size:15px;color:#0a60ff;cursor:pointer;text-align:left;padding:0 14px}
@@ -220,7 +222,7 @@ function preview(){
      title=S.pid==='draft'?'New blessing':(e?e.name:''),date=S.pid==='draft'?'Now':(e?e.date:'');
  return '<div class="pv"><div class="bar"><button class="ico" data-close="1" aria-label="Close">'+I.x+'</button><div class="ttl">'+esc(title)+'<small>'+date+'</small></div><span style="width:44px"></span></div>'+
   '<div class="img"><div class="frame'+(S.zoom?' z':'')+'" id="frame" aria-label="Photo, double tap to zoom">'+pic(kind||'env')+'</div></div><div class="zh">'+(S.zoom?'Double tap to zoom out':'Double tap to zoom')+'</div>'+
-  '<div class="tools"><button data-share="1" aria-label="Share">'+I.share+'Share</button><button data-savephoto="1" aria-label="Save to Photos">'+I.save+'Save</button></div></div>'+
+  '<div class="tools"><button data-share="1" aria-label="Share">'+I.share+'</button><button data-savephoto="1" aria-label="Save to Photos">'+I.save+'</button></div></div>'+
   (S.share?'<div class="ios" role="dialog" aria-label="Share sheet"><b>Share photo</b><button data-saveimg="1">Save Image</button><button data-x="Copied">Copy</button><button data-x="AirDrop opens here">AirDrop</button><button data-x="Messages opens here">Messages</button><button data-noshare="1" style="color:#000;text-align:center;font-weight:600">Cancel</button></div>':'')}
 
 function render(){
