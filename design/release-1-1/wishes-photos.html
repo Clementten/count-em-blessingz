@@ -1,0 +1,282 @@
+<title>Wishes and Photos Preview</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;700&family=Montserrat:wght@400;500;600;700&family=Jost:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=Caveat:wght@600&display=swap">
+<style>
+/* Layout: controls and notes on the left, one clickable phone on the right, change summary below. Phone uses the app's real theme tokens. */
+:root{--bg:#F3F5F4;--card:#FFFFFF;--fg:#14201B;--muted:#586861;--line:#D5DDD9;--accent:#1F6B52;--on-accent:#fff;--good-bg:#DDF0E6;--good-fg:#14573C;--f-body:'Inter',system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F1613;--card:#16201B;--fg:#E6EFEA;--muted:#94A69C;--line:#25332D;--accent:#6FBF9B;--on-accent:#08140F;--good-bg:#17382B;--good-fg:#9AE0BD;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1613;--card:#16201B;--fg:#E6EFEA;--muted:#94A69C;--line:#25332D;--accent:#6FBF9B;--on-accent:#08140F;--good-bg:#17382B;--good-fg:#9AE0BD;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--f-body);margin:0;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;margin:0 0 10px;letter-spacing:-.02em}
+h2{font-size:22px;margin:0 0 6px}h3{font-size:16px;margin:0}p{margin:0}
+.lede{color:var(--muted);max-width:66ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+section{display:flex;flex-direction:column;gap:18px}
+.proto{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:start}
+@media (max-width:780px){.proto{grid-template-columns:minmax(0,1fr)}.stage{order:-1;justify-self:center}}
+.controls{display:flex;flex-direction:column;gap:16px}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.lbl{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:13.5px;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:600}
+.seg button:focus-visible,.chk input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px}.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.notes{font-size:13.5px;color:var(--muted);display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:14px}.notes b{color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card p,.card li{color:var(--muted);font-size:13.5px}.card ul{margin:0;padding-left:18px}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--good-bg);color:var(--good-fg);margin-left:6px;vertical-align:1px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:var(--bg);padding:1px 5px;border-radius:4px}
+.stage{display:flex;justify-content:center}
+/* phone */
+.phone{--bg:#0B3B2E;--sf:#123F33;--tx:#F6EBCB;--mu:#D9CDA8;--ac:#D4AF37;--onac:#06241B;--ln:#2A6B57;--dg:#FF9C8F;--hero:#123F33;--tab:#06241B;--tabon:#D4AF37;--av:#C8362C;--bw:1px;--rad:12px;--fd:'Playfair Display',Georgia,serif;--fb:'Montserrat',system-ui,sans-serif;
+ width:320px;height:660px;border-radius:42px;border:8px solid #0a0a0a;position:relative;overflow:hidden;background:var(--bg);color:var(--tx);font-family:var(--fb);font-size:13px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.phone[data-vibe="grand"]{--bg:#FFE9EE;--sf:#F7C6D0;--tx:#3D1D40;--mu:#5A2D55;--ac:#B3223B;--onac:#FFE9EE;--ln:#3D1D40;--dg:#A3162B;--hero:#5B2A5E;--tab:#5B2A5E;--tabon:#E8B04A;--av:#5B2A5E;--bw:2px;--rad:6px;--fd:'Jost',system-ui,sans-serif;--fb:'Jost',system-ui,sans-serif}
+.phone[data-vibe="quiet"]{--bg:#15171A;--sf:#1F2226;--tx:#EDE6D6;--mu:#A9ADB5;--ac:#B08D57;--onac:#15171A;--ln:#3A3F46;--dg:#E59A9A;--hero:#15171A;--tab:#0D0F11;--tabon:#EDE6D6;--av:#3A3F46;--bw:1px;--rad:10px;--fd:'Cormorant Garamond',Georgia,serif;--fb:'Inter',system-ui,sans-serif}
+.scr{height:100%;display:flex;flex-direction:column;position:relative}
+.status{height:34px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 24px 4px;font-size:11px;font-weight:600;flex:none}
+.body{flex:1;overflow:auto;padding:6px 16px 18px;display:flex;flex-direction:column;gap:12px;scrollbar-width:none}.body::-webkit-scrollbar{display:none}
+.body>*{flex:none}
+.body:has(+ .fab){padding-bottom:84px}
+.ph-h{font-family:var(--fd);font-size:26px;font-weight:700;line-height:1.1;margin:2px 0 0}
+.top{display:flex;justify-content:space-between;align-items:center}
+.ico{width:44px;height:44px;display:grid;place-items:center;border:0;background:none;color:var(--mu);cursor:pointer;margin:-8px}
+.hero{background:var(--hero);border:var(--bw) solid var(--ac);border-radius:var(--rad);padding:14px;display:flex;flex-direction:column;gap:2px}
+.hero .k{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);font-weight:700}
+.hero .big{font-family:var(--fd);font-size:32px;font-weight:700;line-height:1.1;color:#F6EBCB}
+.phone[data-vibe="grand"] .hero .big,.phone[data-vibe="grand"] .hero .m{color:#FFE9EE}
+.hero .m{font-size:11.5px;color:var(--mu)}
+.chips{display:flex;gap:6px}
+.chips button{font:inherit;font-size:12px;border:var(--bw) solid var(--ln);background:none;color:var(--tx);border-radius:99px;padding:0 12px;min-height:32px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--ac);color:var(--onac);border-color:var(--ac);font-weight:600}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--ln);min-height:56px;cursor:pointer}
+.av{width:36px;height:36px;border-radius:50%;background:var(--av);color:#FFE9EE;display:grid;place-items:center;font-weight:700;flex:none}
+.mid{flex:1;min-width:0}.mid b{display:block;font-size:14px;font-weight:600}
+.sub{display:flex;align-items:center;gap:4px;color:var(--mu);font-size:11.5px;min-height:16px}
+.sub span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amt{font-family:var(--fd);font-size:17px;font-weight:700;color:var(--ac);white-space:nowrap}
+.wish{color:var(--ac);display:grid;place-items:center}
+.tag{width:44px;height:44px;margin:-14px -8px -14px -14px;display:grid;place-items:center;border:0;background:none;color:var(--ac);cursor:pointer;flex:none}
+.hit .tag{outline:1.5px dashed #ff4d6d;outline-offset:-1px;background:rgba(255,77,109,.14)}
+.fab{position:absolute;right:16px;bottom:78px;width:52px;height:52px;border-radius:50%;background:var(--ac);color:var(--onac);border:var(--bw) solid var(--ln);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+.tabs{flex:none;background:var(--tab);display:flex;justify-content:space-around;padding:8px 0 16px;font-size:10px;color:var(--mu)}
+.tabs span{display:flex;flex-direction:column;align-items:center;gap:3px}.tabs i{width:16px;height:16px;border-radius:5px;border:1.5px solid currentColor;display:block}
+.tabs .on{color:var(--tabon);font-weight:700}.tabs .on i{background:currentColor}
+/* editor */
+.fld{display:flex;flex-direction:column;gap:6px}.fld>.t{font-size:11px;font-weight:600;color:var(--mu)}
+.inp{background:var(--sf);border:var(--bw) solid transparent;border-radius:var(--rad);color:var(--tx);font:inherit;font-size:15px;padding:0 12px;min-height:44px;width:100%}
+.inp:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+textarea.inp{padding:10px 12px;min-height:84px;resize:none;line-height:1.4}
+.seg2{display:grid;grid-template-columns:1fr 1fr;border:var(--bw) solid var(--ln);border-radius:var(--rad);overflow:hidden}
+.seg2 button{font:inherit;font-size:13px;font-weight:600;border:0;background:none;color:var(--tx);min-height:44px;cursor:pointer}
+.seg2 button[aria-pressed="true"]{background:var(--ac);color:var(--onac)}
+.amtbox{display:flex;align-items:center;gap:6px;background:var(--sf);border-radius:var(--rad);padding:6px 12px}
+.amtbox span{font-family:var(--fd);font-size:26px;color:var(--mu)}
+.amtbox input{background:none;border:0;color:var(--ac);font-family:var(--fd);font-size:28px;font-weight:700;width:100%;outline:0}
+.occ{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.occ button{font:inherit;font-size:12px;min-height:40px;border-radius:var(--rad);border:0;background:var(--sf);color:var(--tx);cursor:pointer}
+.occ button[aria-pressed="true"]{background:var(--ac);color:var(--onac);font-weight:600}
+.err{color:var(--dg);font-size:11.5px}.hint{color:var(--mu);font-size:11.5px}
+.pbtn{min-height:46px;border-radius:var(--rad);border:var(--bw) solid var(--ac);background:var(--ac);color:var(--onac);font:inherit;font-weight:700;cursor:pointer;width:100%}
+.link{background:none;border:0;color:var(--ac);font:inherit;font-weight:600;cursor:pointer;min-height:44px;display:flex;align-items:center;gap:6px;padding:0}
+.thumb{width:64px;height:64px;border-radius:var(--rad);overflow:hidden;border:0;padding:0;cursor:pointer;position:relative;flex:none}
+.thumb svg,.pv svg{width:100%;height:100%;display:block}
+.spin{width:64px;height:64px;border-radius:var(--rad);background:var(--sf);display:grid;place-items:center}
+.spin i{width:22px;height:22px;border-radius:50%;border:3px solid var(--ln);border-top-color:var(--ac);animation:r .8s linear infinite}
+@keyframes r{to{transform:rotate(360deg)}}
+.rm{color:var(--dg);background:none;border:0;font:inherit;cursor:pointer;min-height:44px}
+/* preview */
+.pv{position:absolute;inset:0;background:#000;color:#fff;display:flex;flex-direction:column;z-index:5}
+.pv .bar{display:flex;align-items:center;justify-content:space-between;padding:38px 8px 6px}
+.pv .bar .ico{color:#fff}.pv .ttl{text-align:center;font-size:13px;line-height:1.25}.pv .ttl small{display:block;color:#aaa;font-size:11px}
+.pv .img{flex:1;display:grid;place-items:center;overflow:hidden;touch-action:none}
+.pv .img .frame{width:100%;aspect-ratio:3/4;transition:transform .25s ease;cursor:zoom-in}
+.pv .img .frame.z{transform:scale(2.2);cursor:zoom-out}
+.pv .tools{display:flex;justify-content:space-around;padding:8px 8px 26px;background:#0b0b0b}
+.pv .tools button{background:none;border:0;color:#fff;font:inherit;font-size:11px;min-width:80px;min-height:52px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+.pv .zh{position:absolute;left:0;right:0;bottom:112px;text-align:center;font-size:11px;color:#bbb;pointer-events:none}
+.ios{position:absolute;left:0;right:0;bottom:0;background:#F2F2F7;color:#000;border-radius:16px 16px 0 0;padding:10px 12px 22px;z-index:7;display:flex;flex-direction:column;gap:6px;font-family:system-ui,-apple-system,sans-serif}
+.ios b{text-align:center;font-size:12px;color:#555;font-weight:500}
+.ios button{background:#fff;border:0;border-radius:10px;min-height:44px;font:inherit;font-size:15px;color:#0a60ff;cursor:pointer;text-align:left;padding:0 14px}
+.toast{position:absolute;left:14px;right:14px;bottom:84px;background:var(--tx);color:var(--bg);border-radius:var(--rad);padding:10px 12px;font-size:12px;text-align:center;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:none}
+.sec{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);font-weight:700;margin-top:6px}
+@media (prefers-reduced-motion:reduce){.pv .img .frame,.toast{transition:none}.spin i{animation:none}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Count 'Em Blessingz · release 1.1</div>
+  <h1>Wishes and Photos Preview</h1>
+  <p class="lede">Clickable preview of two changes: blessings that are wishes or prayers with no amount, and photos that show a tag, open full screen and can be saved. Everything below is a prototype. It is not the app.</p>
+</header>
+
+<section>
+  <div class="proto">
+    <div class="controls">
+      <div class="ctl"><span class="lbl" id="l1">Screen</span><div class="seg" id="c-screen" role="group" aria-labelledby="l1"></div></div>
+      <div class="ctl"><span class="lbl" id="l2">Vibe</span><div class="seg" id="c-vibe" role="group" aria-labelledby="l2"></div></div>
+      <div class="ctl"><span class="lbl" id="l3">Photo loading</span><div class="seg" id="c-load" role="group" aria-labelledby="l3"></div></div>
+      <div class="ctl"><span class="lbl" id="l4">Photos permission</span><div class="seg" id="c-perm" role="group" aria-labelledby="l4"></div></div>
+      <label class="chk"><input type="checkbox" id="hit"> Show the 44 pt tap area of the photo tag</label>
+      <div class="notes">
+        <p><b>Try this:</b> on Home, tap the photo tag on a row to open the preview. Tap the "+" button, switch to "Wish or prayer", and press Save with nothing filled in to see the checks.</p>
+        <p><b>1.0 behavior:</b> a photo was only a 64 pt thumbnail inside the editor. Nothing in the list showed it, and nothing opened it.</p>
+        <p><b>Prototype only:</b> the photo is a drawing, the share sheet is a mock, and the entries reset when you reload.</p>
+      </div>
+    </div>
+    <div class="stage"><div class="phone" id="phone" data-vibe="jade"><div class="scr" id="scr"></div></div></div>
+  </div>
+</section>
+
+<section>
+  <div><h2>What changes</h2></div>
+  <div class="grid">
+    <div class="card"><h3>Wish or prayer <span class="pill">New</span></h3><ul><li>A switch at the top of the editor: Money or Wish or prayer</li><li>No amount and no method for wishes</li><li>The wish text is required, or a photo of a card</li><li>List row shows a sparkle where the amount would be</li><li>Money totals, charts and the widget ignore wishes</li></ul></div>
+    <div class="card"><h3>Photo tag <span class="pill">Fix</span></h3><ul><li>Any entry with a photo shows a small photo mark before the date</li><li>The mark is its own 44 pt button</li><li>Tapping the rest of the row still opens the editor</li><li>Works in Home and in a person's profile</li></ul></div>
+    <div class="card"><h3>Preview and save <span class="pill">Fix</span></h3><ul><li>Full-screen preview from the tag or from the editor thumbnail</li><li>Double tap or pinch to zoom, swipe down to close</li><li>Share opens the system sheet, which includes Save Image</li><li>Save puts it straight in Photos, with a clear message if permission is off</li></ul></div>
+    <div class="card"><h3>Hall of Fame</h3><ul><li>Ranked by money only</li><li>People who only gave wishes are listed below the ranking</li></ul></div>
+  </div>
+  <p class="lede">The build details, migration and tests are in <code>RELEASE_1_1_PLAN.md</code>.</p>
+</section>
+</div>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+var V=[['jade','Jade & Gold'],['grand','The Grand Ledger'],['quiet','Quiet Fortune']];
+var SC=[['home','Home'],['addMoney','Add: money'],['addWish','Add: wish'],['preview','Photo preview'],['hall','Hall of Fame']];
+var I={
+ photo:'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm2.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3ZM4 17h16v-1.6l-4.2-4.2-4.3 4.3-2-2L4 16.3V17Z"/></svg>',
+ spark:'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.2 6.3L21 10l-6.8 1.7L12 18l-2.2-6.3L3 10l6.8-1.7L12 2Zm7 12l1 2.6 2.6 1-2.6 1L19 21l-1-2.4-2.6-1 2.6-1L19 14Z"/></svg>',
+ x:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+ plus:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+ share:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m0 0L8 7m4-4 4 4M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>',
+ save:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>'};
+function pic(kind){
+ if(kind==='card')return '<svg viewBox="0 0 300 400" role="img" aria-label="A handwritten wish card on a table"><rect width="300" height="400" fill="#4a3426"/><rect width="300" height="400" fill="#000" opacity=".12"/><g transform="rotate(-4 150 200)"><rect x="34" y="60" width="232" height="280" rx="8" fill="#F6EBCB"/><rect x="34" y="60" width="232" height="280" rx="8" fill="none" stroke="#C8362C" stroke-width="4"/><text x="150" y="130" text-anchor="middle" font-family="Caveat,cursive" font-weight="600" font-size="30" fill="#3b2a2a">Wishing you</text><text x="150" y="172" text-anchor="middle" font-family="Caveat,cursive" font-weight="600" font-size="30" fill="#3b2a2a">good health,</text><text x="150" y="214" text-anchor="middle" font-family="Caveat,cursive" font-weight="600" font-size="30" fill="#3b2a2a">peace and a</text><text x="150" y="256" text-anchor="middle" font-family="Caveat,cursive" font-weight="600" font-size="30" fill="#3b2a2a">fruitful year</text><circle cx="150" cy="304" r="14" fill="#C8362C"/></g></svg>';
+ return '<svg viewBox="0 0 300 400" role="img" aria-label="A red envelope on a table"><rect width="300" height="400" fill="#3b2a22"/><rect y="250" width="300" height="150" fill="#5a4030"/><g transform="rotate(8 150 210)"><rect x="70" y="120" width="160" height="210" rx="10" fill="#C8362C"/><path d="M70 130Q70 120 80 120L220 120Q230 120 230 130L150 215Z" fill="#A82A22"/><circle cx="150" cy="215" r="24" fill="#D4AF37"/></g></svg>'}
+var S={screen:'home',vibe:'jade',filter:'all',kind:'money',load:'ok',perm:'allowed',hit:false,prev:'home',pid:null,zoom:false,share:false,toast:'',err:{},busy:false,editPhoto:null,
+ d:{name:'',amount:'',wish:'',occ:'Chinese New Year'},nid:10,
+ E:[{id:1,name:'Auntie Lim',kind:'money',amount:88,occ:'Chinese New Year',date:'2 Feb',photo:'env'},
+    {id:2,name:'Grandma',kind:'wish',occ:'Chinese New Year',date:'2 Feb',wish:'Good health and a peaceful year',photo:'card'},
+    {id:3,name:'Uncle Raj',kind:'money',amount:50,occ:'Hari Raya',date:'10 Apr',pending:true},
+    {id:4,name:'Pastor Dan',kind:'wish',occ:'Christmas',date:'25 Dec',wish:'May this house be full of peace'},
+    {id:5,name:'Cousin Mei',kind:'money',amount:28,occ:'Birthday',date:'3 Mar',photo:'env'},
+    {id:6,name:'Auntie Lim',kind:'money',amount:188,occ:'Wedding',date:'18 Jan'},
+    {id:7,name:'Pastor Dan',kind:'wish',occ:'Birthday',date:'6 Aug',wish:'Strength for every season'}]};
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function fmt(n){return 'S$'+Number(n).toLocaleString('en-US')}
+function status(){return '<div class="status"><span>9:41</span><span>●●●</span></div>'}
+function tabs(on){return '<div class="tabs">'+['Home','Insights','Fame','Settings'].map(function(t){return '<span class="'+(t===on?'on':'')+'"><i></i>'+t+'</span>'}).join('')+'</div>'}
+
+function home(){
+ var money=S.E.filter(function(e){return e.kind==='money'}),wishes=S.E.filter(function(e){return e.kind==='wish'});
+ var total=money.reduce(function(a,e){return a+e.amount},0);
+ var list=S.E.filter(function(e){return S.filter==='all'||(S.filter==='money'?e.kind==='money':e.kind==='wish')});
+ var rows=list.map(function(e){
+  var tag=e.photo?'<button class="tag" data-photo="'+e.id+'" aria-label="Has photo, button">'+I.photo+'</button>':'';
+  var line=e.kind==='wish'?'Wish · '+esc(e.wish):esc(e.occ)+' · '+e.date+(e.pending?' · thank-you pending':'');
+  var right=e.kind==='wish'?'<span class="wish" aria-label="Wish">'+I.spark+'</span>':'<span class="amt">+'+e.amount+'</span>';
+  return '<div class="row" data-row="'+e.id+'"><span class="av">'+esc(e.name[0])+'</span><div class="mid"><b>'+esc(e.name)+'</b><div class="sub">'+tag+'<span>'+line+'</span></div></div>'+right+'</div>'}).join('');
+ return status()+'<div class="body"><div class="top"><h1 class="ph-h">Blessings</h1></div>'+
+  '<div class="hero"><span class="k">Total received</span><span class="big">'+fmt(total)+'</span><span class="m">'+S.E.length+' blessings · '+money.length+' gifts, '+wishes.length+' wishes</span></div>'+
+  '<div class="chips" role="group" aria-label="Filter">'+[['all','All'],['money','Money'],['wish','Wishes']].map(function(c){return '<button data-f="'+c[0]+'" aria-pressed="'+(S.filter===c[0])+'">'+c[1]+'</button>'}).join('')+'</div>'+
+  '<div>'+rows+'</div></div><button class="fab" data-go="addMoney" aria-label="Add blessing">'+I.plus+'</button>'+tabs('Home')}
+
+function editor(){
+ var w=S.kind==='wish',d=S.d,er=S.err;
+ var chips=['Chinese New Year','Birthday','Wedding','Hari Raya'].map(function(o){return '<button data-occ="'+o+'" aria-pressed="'+(d.occ===o)+'">'+o+'</button>'}).join('');
+ var photo;
+ if(S.busy)photo='<div class="spin" aria-label="Loading photo"><i></i></div>';
+ else if(S.editPhoto)photo='<div style="display:flex;align-items:center;gap:12px"><button class="thumb" data-photo="draft" aria-label="Attached photo, tap to preview">'+pic(S.editPhoto)+'</button><button class="rm" data-rmphoto="1">Remove</button></div>';
+ else photo='<button class="link" data-addphoto="1">'+I.photo+' Add photo</button>';
+ return status()+'<div class="body"><div class="top"><h1 class="ph-h">Add blessing</h1><button class="ico" data-go="home" aria-label="Close">'+I.x+'</button></div>'+
+  '<div class="seg2" role="group" aria-label="Kind"><button data-kind="money" aria-pressed="'+(!w)+'">Money</button><button data-kind="wish" aria-pressed="'+w+'">Wish or prayer</button></div>'+
+  '<div class="fld"><span class="t">Name</span><input class="inp" id="f-name" value="'+esc(d.name)+'" placeholder="Who blessed you?" aria-label="Name">'+(er.name?'<span class="err">Name is required</span>':'')+'</div>'+
+  (w?'':'<div class="fld"><span class="t">Amount</span><div class="amtbox"><span>S$</span><input id="f-amt" inputmode="decimal" placeholder="0" value="'+esc(d.amount)+'" aria-label="Amount"></div>'+(er.amount?'<span class="err">Amount must be greater than 0</span>':'')+'</div>')+
+  '<div class="fld"><span class="t">Occasion</span><div class="occ">'+chips+'</div></div>'+
+  '<div class="fld"><span class="t">Date and time</span><div class="inp" style="display:flex;align-items:center">Now · 13 Nov, 10:54</div></div>'+
+  (w?'':'<div class="fld"><span class="t">Method</span><div class="inp" style="display:flex;align-items:center;justify-content:space-between">Cash<span class="hint">⌃⌄</span></div></div>')+
+  '<div class="fld"><span class="t">'+(w?'Their wish for you':'Note (optional)')+'</span><textarea class="inp" id="f-wish" placeholder="'+(w?'Good health, happiness and a fruitful year':'Add a note')+'" aria-label="'+(w?'Their wish for you':'Note')+'">'+esc(d.wish)+'</textarea>'+
+  (w?'<span class="hint">Wishes have no amount. Add the wish, or a photo of the card.</span>':'')+(er.wish?'<span class="err">Add the wish or a photo</span>':'')+'</div>'+
+  '<div class="fld"><span class="t">Photo (optional)</span>'+photo+'</div>'+
+  '<button class="pbtn" data-save="1">Save</button></div>'}
+
+function hall(){
+ var by={};S.E.forEach(function(e){var p=by[e.name]||(by[e.name]={name:e.name,total:0,gifts:0,wishes:0});if(e.kind==='money'){p.total+=e.amount;p.gifts++}else p.wishes++});
+ var all=Object.keys(by).map(function(k){return by[k]});
+ var ranked=all.filter(function(p){return p.gifts>0}).sort(function(a,b){return b.total-a.total});
+ var only=all.filter(function(p){return p.gifts===0});
+ var r=ranked.map(function(p,i){return '<div class="row"><span class="av">'+(i+1)+'</span><div class="mid"><b>'+esc(p.name)+'</b><div class="sub"><span>'+p.gifts+' gift'+(p.gifts>1?'s':'')+(p.wishes?' · '+p.wishes+' wish'+(p.wishes>1?'es':''):'')+'</span></div></div><span class="amt">'+fmt(p.total)+'</span></div>'}).join('');
+ var o=only.map(function(p){return '<div class="row"><span class="av">'+esc(p.name[0])+'</span><div class="mid"><b>'+esc(p.name)+'</b><div class="sub"><span>'+p.wishes+' wish'+(p.wishes>1?'es':'')+'</span></div></div><span class="wish">'+I.spark+'</span></div>'}).join('');
+ return status()+'<div class="body"><h1 class="ph-h">Hall of Fame</h1><div class="sec">Ranked by money</div><div>'+r+'</div>'+(only.length?'<div class="sec">Wishes only</div><div>'+o+'</div><p class="hint">People who have only sent wishes are not ranked.</p>':'')+'</div>'+tabs('Fame')}
+
+function preview(){
+ var e=S.E.filter(function(x){return x.id===S.pid})[0],kind=S.pid==='draft'?S.editPhoto:(e&&e.photo),
+     title=S.pid==='draft'?'New blessing':(e?e.name:''),date=S.pid==='draft'?'Now':(e?e.date:'');
+ return '<div class="pv"><div class="bar"><button class="ico" data-close="1" aria-label="Close">'+I.x+'</button><div class="ttl">'+esc(title)+'<small>'+date+'</small></div><span style="width:44px"></span></div>'+
+  '<div class="img"><div class="frame'+(S.zoom?' z':'')+'" id="frame" aria-label="Photo, double tap to zoom">'+pic(kind||'env')+'</div></div><div class="zh">'+(S.zoom?'Double tap to zoom out':'Double tap to zoom')+'</div>'+
+  '<div class="tools"><button data-share="1" aria-label="Share">'+I.share+'Share</button><button data-savephoto="1" aria-label="Save to Photos">'+I.save+'Save</button></div></div>'+
+  (S.share?'<div class="ios" role="dialog" aria-label="Share sheet"><b>Share photo</b><button data-saveimg="1">Save Image</button><button data-x="Copied">Copy</button><button data-x="AirDrop opens here">AirDrop</button><button data-x="Messages opens here">Messages</button><button data-noshare="1" style="color:#000;text-align:center;font-weight:600">Cancel</button></div>':'')}
+
+function render(){
+ var h=S.screen==='home'?home():(S.screen==='hall'?hall():(S.screen==='preview'?preview():editor()));
+ var ph=$('phone');ph.setAttribute('data-vibe',S.vibe);ph.classList.toggle('hit',S.hit);
+ $('scr').innerHTML=h+'<div class="toast'+(S.toast?' show':'')+'" role="status">'+esc(S.toast)+'</div>';
+ function seg(id,items,cur,attr){$(id).innerHTML=items.map(function(x){return '<button '+attr+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+x[1]+'</button>'}).join('')}
+ seg('c-screen',SC,S.screen,'data-s');seg('c-vibe',V,S.vibe,'data-v');
+ seg('c-load',[['ok','Works'],['slow','Slow'],['fail','Fails']],S.load,'data-load');
+ seg('c-perm',[['allowed','Allowed'],['denied','Denied']],S.perm,'data-perm');
+ $('hit').checked=S.hit}
+function toast(m){S.toast=m;render();clearTimeout(toast.t);toast.t=setTimeout(function(){S.toast='';render()},2200)}
+function open(id){S.prev=S.screen==='preview'?S.prev:S.screen;S.pid=id==='draft'?'draft':Number(id);S.zoom=false;S.share=false;S.screen='preview';render()}
+function doSave(){
+ if(S.perm==='denied')return toast('Photos access is off. You can turn it on in Settings.');
+ S.share=false;toast('Saved to Photos')}
+
+document.addEventListener('input',function(e){
+ if(e.target.id==='f-name')S.d.name=e.target.value;
+ if(e.target.id==='f-amt')S.d.amount=e.target.value;
+ if(e.target.id==='f-wish')S.d.wish=e.target.value});
+document.addEventListener('dblclick',function(e){if(e.target.closest('#frame')){S.zoom=!S.zoom;render()}});
+$('hit').addEventListener('change',function(e){S.hit=e.target.checked;render()});
+document.addEventListener('click',function(e){
+ var b=e.target.closest('button,[data-row]');if(!b)return;var d=b.dataset;
+ if(d.s){S.screen=d.s;S.err={};if(d.s==='addMoney')S.kind='money';if(d.s==='addWish')S.kind='wish';if(d.s==='preview'){S.pid=1;S.prev='home';S.zoom=false;S.share=false}}
+ else if(d.v){S.vibe=d.v}
+ else if(d.load){S.load=d.load}
+ else if(d.perm){S.perm=d.perm}
+ else if(d.f){S.filter=d.f}
+ else if(d.go){S.screen=d.go;S.err={};if(d.go==='addMoney'){S.kind='money'}}
+ else if(d.kind){S.kind=d.kind;S.screen=d.kind==='wish'?'addWish':'addMoney';S.err={};if(S.editPhoto)S.editPhoto=d.kind==='wish'?'card':'env'}
+ else if(d.occ){S.d.occ=d.occ}
+ else if(d.photo){return open(d.photo)}
+ else if(d.row){return toast('Opens the editor, as before')}
+ else if(d.addphoto){
+   if(S.load==='fail')return toast("Couldn't load that photo. Try another one.");
+   S.busy=true;render();setTimeout(function(){S.busy=false;S.editPhoto=S.kind==='wish'?'card':'env';render()},S.load==='slow'?1800:600);return}
+ else if(d.rmphoto){S.editPhoto=null}
+ else if(d.close){S.screen=S.prev;S.share=false;S.zoom=false}
+ else if(d.share){S.share=true}
+ else if(d.noshare){S.share=false}
+ else if(d.saveimg||d.savephoto){return doSave()}
+ else if(d.x){S.share=false;return toast(d.x)}
+ else if(d.save){
+   var w=S.kind==='wish',dd=S.d,er={};
+   if(!dd.name.trim())er.name=1;
+   if(!w){var n=parseFloat(String(dd.amount).replace(/,/g,''));if(!(n>0))er.amount=1}
+   else if(!dd.wish.trim()&&!S.editPhoto)er.wish=1;
+   S.err=er;
+   if(Object.keys(er).length){render();return}
+   var ent={id:S.nid++,name:dd.name.trim(),kind:S.kind,occ:dd.occ,date:'Today',photo:S.editPhoto||null};
+   if(w)ent.wish=dd.wish.trim()||'Photo of a card';else{ent.amount=parseFloat(String(dd.amount).replace(/,/g,''));ent.pending=true}
+   S.E.unshift(ent);S.d={name:'',amount:'',wish:'',occ:'Chinese New Year'};S.editPhoto=null;S.screen='home';
+   render();return toast(w?'Saved: '+ent.name+"'s wish":'Saved: '+ent.name+', '+fmt(ent.amount));}
+ render()});
+render();
+})();
+</script>
