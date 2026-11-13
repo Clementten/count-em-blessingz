@@ -1,0 +1,193 @@
+<title>Header Art Options</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&family=Montserrat:wght@500;600&family=Ma+Shan+Zheng&text=%E7%A6%8F&display=swap">
+<style>
+/* Layout: brief and psychology first, five artboards drawn to the real 5244x2950 canvas, then a scorecard and a pick. */
+:root{--bg:#F3F5F4;--card:#FFFFFF;--fg:#14201B;--muted:#586861;--line:#D5DDD9;--accent:#1F6B52;--on-accent:#fff;--good-bg:#DDF0E6;--good-fg:#14573C;--f-body:'Inter',system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0F1613;--card:#16201B;--fg:#E6EFEA;--muted:#94A69C;--line:#25332D;--accent:#6FBF9B;--on-accent:#08140F;--good-bg:#17382B;--good-fg:#9AE0BD;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1613;--card:#16201B;--fg:#E6EFEA;--muted:#94A69C;--line:#25332D;--accent:#6FBF9B;--on-accent:#08140F;--good-bg:#17382B;--good-fg:#9AE0BD;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--f-body);margin:0;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1.1;margin:0 0 10px;letter-spacing:-.02em}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.01em}
+h3{font-size:16px;margin:0}
+p{margin:0}.lede{color:var(--muted);max-width:68ch}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+section{display:flex;flex-direction:column;gap:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card p{color:var(--muted);font-size:13.5px}
+.boards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:24px}
+figure{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+figure svg{width:100%;height:auto;aspect-ratio:16/9;display:block;border-radius:8px;border:1px solid var(--line)}
+.safe{display:none}.on .safe{display:block}
+.tools{display:flex;gap:10px;align-items:center;font-size:14px}
+.tools input{accent-color:var(--accent);width:18px;height:18px}
+figcaption{display:flex;flex-direction:column;gap:4px;font-size:13.5px;color:var(--muted)}
+figcaption b{color:var(--fg);font-size:15px}
+.pill{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--good-bg);color:var(--good-fg);margin-left:6px;vertical-align:1px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:13.5px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:center}
+th:first-child,td:first-child{text-align:left}
+th{font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}tr.best td{background:var(--good-bg);color:var(--good-fg);font-weight:600}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:var(--bg);padding:1px 5px;border-radius:4px}
+/* artwork type */
+.pf{font-family:'Playfair Display',Georgia,serif;font-weight:700}.mo{font-family:'Montserrat',system-ui,sans-serif;font-weight:500}.mo6{font-family:'Montserrat',system-ui,sans-serif;font-weight:600}
+.fu{font-family:'Ma Shan Zheng','Kaiti SC','STKaiti',serif}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0B3B2E"/><stop offset="1" stop-color="#06241B"/></linearGradient>
+  <radialGradient id="glow"><stop offset="0" stop-color="#D4AF37" stop-opacity=".22"/><stop offset="1" stop-color="#D4AF37" stop-opacity="0"/></radialGradient>
+  <pattern id="rings" width="300" height="300" patternUnits="userSpaceOnUse"><circle cx="150" cy="150" r="120" fill="none" stroke="#D4AF37" stroke-opacity=".09" stroke-width="6"/><circle cx="150" cy="150" r="70" fill="none" stroke="#D4AF37" stroke-opacity=".07" stroke-width="6"/></pattern>
+  <g id="base"><rect width="5244" height="2950" fill="url(#bg)"/><rect width="5244" height="2950" fill="url(#rings)"/><circle cx="2622" cy="1141" r="1100" fill="url(#glow)"/></g>
+  <g id="env">
+    <circle cx="250" cy="40" r="64" fill="#D4AF37"/><circle cx="250" cy="40" r="40" fill="none" stroke="#9A7A1E" stroke-width="5"/>
+    <circle cx="450" cy="30" r="64" fill="#D4AF37"/><circle cx="450" cy="30" r="40" fill="none" stroke="#9A7A1E" stroke-width="5"/>
+    <rect x="0" y="40" width="700" height="460" rx="36" fill="#C8362C"/>
+    <path d="M0 76Q0 40 36 40L664 40Q700 40 700 76L350 300Z" fill="#A82A22"/>
+    <circle cx="350" cy="300" r="70" fill="#D4AF37"/><circle cx="350" cy="300" r="56" fill="none" stroke="#9A7A1E" stroke-width="5"/>
+    <text x="350" y="328" text-anchor="middle" font-size="76" fill="#8E1F18" class="fu">福</text>
+  </g>
+</defs></svg>
+
+<div class="wrap" id="wrap">
+<header>
+  <div class="eyebrow">Count 'Em Blessingz · App Store header</div>
+  <h1>Header Art Options</h1>
+  <p class="lede">One Universal asset for the product page header and the search results. 16:9, 5244 × 2950 px, PNG, no transparency. Five concepts below, drawn on the real canvas. The dashed box is Apple's art safe area (1402 × 962 px). Anything that matters stays inside it.</p>
+</header>
+
+<section>
+  <div><h2>What gets someone to download, and to stay</h2><p class="lede">The asset has about a second. It also sets an expectation, and the app has to meet it.</p></div>
+  <div class="grid">
+    <div class="card"><h3>Understood in one second</h3><p>People decide fast, and clutter loses them. One image and one line that says what the app is for.</p></div>
+    <div class="card"><h3>"That's for me"</h3><p>A red envelope is instantly recognised by the people who give and receive angpao. Naming the occasion (angpao, duit raya) makes the right person feel seen.</p></div>
+    <div class="card"><h3>Trust with money</h3><p>A list of who gave what is personal. Saying "private, no account" removes the fear that stops people installing.</p></div>
+    <div class="card"><h3>Retention starts here</h3><p>Promise only what the 1.0 app does. A mismatch between the art and the app is the fastest way to a delete. The thank-you list and year-in-review are what bring people back each season.</p></div>
+  </div>
+  <p class="lede">Rules from Apple that shape every option: no prices or discounts, no website addresses, no copyright symbols, no award claims, and it must read as 4+. The tip jar and fortune seal are not in 1.0, so they do not appear.</p>
+</section>
+
+<section>
+  <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:end">
+    <div><h2>Five concepts</h2><p class="lede">All use the Jade &amp; Gold look so the page matches your icon and screenshots.</p></div>
+    <label class="tools"><input type="checkbox" id="safe" checked> Show art safe area</label>
+  </div>
+
+  <div class="boards">
+  <figure><svg viewBox="0 0 5244 2950" role="img" aria-label="Concept A: open red envelope with gold coins and the line Count every blessing">
+    <use href="#base"/>
+    <use href="#env" transform="translate(2272 700)"/>
+    <text x="2622" y="1400" text-anchor="middle" font-size="108" fill="#F6EBCB" class="pf">Count every blessing.</text>
+    <text x="2622" y="1495" text-anchor="middle" font-size="54" fill="#D9CDA8" class="mo">Angpao, duit raya and every gift.</text>
+    <rect class="safe" x="1921" y="660" width="1402" height="962" fill="none" stroke="#7FE3FF" stroke-width="10" stroke-dasharray="40 24"/>
+  </svg><figcaption><b>A. The envelope <span class="pill">Top pick</span></b>
+    <span><b style="font-size:13.5px">Why it works:</b> instant recognition and warmth. The envelope is the whole story, so it is understood in under a second.</span>
+    <span><b style="font-size:13.5px">Watch out:</b> says little about what the app does, so the line carries that.</span></figcaption></figure>
+
+  <figure><svg viewBox="0 0 5244 2950" role="img" aria-label="Concept B: phone showing the home screen with the line Know who blessed you">
+    <use href="#base"/>
+    <rect x="1975" y="670" width="450" height="940" rx="76" fill="#06241B" stroke="#D4AF37" stroke-width="8"/>
+    <rect x="1995" y="690" width="410" height="900" rx="58" fill="#0B3B2E"/>
+    <rect x="2025" y="790" width="350" height="190" rx="26" fill="#123F33" stroke="#D4AF37" stroke-width="4"/>
+    <text x="2050" y="842" font-size="24" fill="#D4AF37" class="mo6" letter-spacing="3">TOTAL RECEIVED</text>
+    <text x="2050" y="925" font-size="80" fill="#F6EBCB" class="pf">4,880</text>
+    <text x="2050" y="965" font-size="26" fill="#D9CDA8" class="mo">37 blessings</text>
+    <g><circle cx="2065" cy="1060" r="30" fill="#C8362C"/><rect x="2115" y="1045" width="150" height="20" rx="10" fill="#F6EBCB" opacity=".85"/><rect x="2115" y="1075" width="90" height="14" rx="7" fill="#D9CDA8" opacity=".6"/><rect x="2300" y="1050" width="70" height="22" rx="11" fill="#D4AF37"/></g>
+    <g><circle cx="2065" cy="1170" r="30" fill="#C8362C"/><rect x="2115" y="1155" width="120" height="20" rx="10" fill="#F6EBCB" opacity=".85"/><rect x="2115" y="1185" width="100" height="14" rx="7" fill="#D9CDA8" opacity=".6"/><rect x="2310" y="1160" width="60" height="22" rx="11" fill="#D4AF37"/></g>
+    <g><circle cx="2065" cy="1280" r="30" fill="#C8362C"/><rect x="2115" y="1265" width="165" height="20" rx="10" fill="#F6EBCB" opacity=".85"/><rect x="2115" y="1295" width="80" height="14" rx="7" fill="#D9CDA8" opacity=".6"/><rect x="2290" y="1270" width="80" height="22" rx="11" fill="#D4AF37"/></g>
+    <text x="2520" y="975" font-size="112" fill="#F6EBCB" class="pf">Know who</text>
+    <text x="2520" y="1095" font-size="112" fill="#F6EBCB" class="pf">blessed you.</text>
+    <text x="2520" y="1205" font-size="44" fill="#D9CDA8" class="mo">Every angpao and every giver,</text>
+    <text x="2520" y="1265" font-size="44" fill="#D9CDA8" class="mo">in one private list.</text>
+    <rect class="safe" x="1921" y="660" width="1402" height="962" fill="none" stroke="#7FE3FF" stroke-width="10" stroke-dasharray="40 24"/>
+  </svg><figcaption><b>B. The ledger</b>
+    <span><b style="font-size:13.5px">Why it works:</b> shows the real interface, so the purpose is clear and the app matches the art.</span>
+    <span><b style="font-size:13.5px">Watch out:</b> a phone is small inside the safe area, and it looks like every other app.</span></figcaption></figure>
+
+  <figure><svg viewBox="0 0 5244 2950" role="img" aria-label="Concept C: donut chart with 37 blessings and the line Your year, counted">
+    <use href="#base"/>
+    <g fill="none" stroke-width="80" transform="rotate(-90 2230 1141)">
+      <circle cx="2230" cy="1141" r="250" stroke="#D4AF37" stroke-dasharray="585 986" stroke-dashoffset="0"/>
+      <circle cx="2230" cy="1141" r="250" stroke="#C8362C" stroke-dasharray="412 1159" stroke-dashoffset="-597"/>
+      <circle cx="2230" cy="1141" r="250" stroke="#6FBF9B" stroke-dasharray="302 1269" stroke-dashoffset="-1021"/>
+      <circle cx="2230" cy="1141" r="250" stroke="#F6EBCB" stroke-dasharray="224 1347" stroke-dashoffset="-1335"/>
+    </g>
+    <text x="2230" y="1200" text-anchor="middle" font-size="200" fill="#D4AF37" class="pf">37</text>
+    <text x="2230" y="1262" text-anchor="middle" font-size="44" fill="#D9CDA8" class="mo">blessings</text>
+    <text x="2600" y="1075" font-size="100" fill="#F6EBCB" class="pf">Your year,</text>
+    <text x="2600" y="1185" font-size="100" fill="#F6EBCB" class="pf">counted.</text>
+    <text x="2600" y="1275" font-size="44" fill="#D9CDA8" class="mo">See who blessed you most.</text>
+    <rect class="safe" x="1921" y="660" width="1402" height="962" fill="none" stroke="#7FE3FF" stroke-width="10" stroke-dasharray="40 24"/>
+  </svg><figcaption><b>C. The tally</b>
+    <span><b style="font-size:13.5px">Why it works:</b> curiosity about your own numbers, and it previews the shareable year-in-review.</span>
+    <span><b style="font-size:13.5px">Watch out:</b> reads as a finance chart, so the warmth of the occasion is lost.</span></figcaption></figure>
+
+  <figure><svg viewBox="0 0 5244 2950" role="img" aria-label="Concept D: gold padlock with a red envelope and the line Private by design">
+    <use href="#base"/>
+    <path d="M2532 1010V930a90 90 0 0 1 180 0V1010" fill="none" stroke="#D4AF37" stroke-width="46" stroke-linecap="round"/>
+    <rect x="2442" y="1010" width="360" height="300" rx="44" fill="#D4AF37"/>
+    <rect x="2584" y="1060" width="76" height="190" rx="14" fill="#C8362C"/>
+    <circle cx="2622" cy="1135" r="26" fill="#D4AF37"/>
+    <text x="2622" y="1445" text-anchor="middle" font-size="108" fill="#F6EBCB" class="pf">Private by design.</text>
+    <text x="2622" y="1535" text-anchor="middle" font-size="48" fill="#D9CDA8" class="mo">No account. No cloud. No tracking.</text>
+    <rect class="safe" x="1921" y="660" width="1402" height="962" fill="none" stroke="#7FE3FF" stroke-width="10" stroke-dasharray="40 24"/>
+  </svg><figcaption><b>D. The private keep</b>
+    <span><b style="font-size:13.5px">Why it works:</b> a strong trust signal for a list of personal money, and a real difference from cloud apps.</span>
+    <span><b style="font-size:13.5px">Watch out:</b> emotionally cold. It sells safety and not the joy of the occasion.</span></figcaption></figure>
+
+  <figure><svg viewBox="0 0 5244 2950" role="img" aria-label="Concept E: thank-you list with thanked and pending givers and the line Say thanks, properly">
+    <use href="#base"/>
+    <rect x="2022" y="680" width="1200" height="500" rx="36" fill="#123F33" stroke="#2A6B57" stroke-width="6"/>
+    <line x1="2062" y1="855" x2="3182" y2="855" stroke="#1F5A49" stroke-width="4"/><line x1="2062" y1="1008" x2="3182" y2="1008" stroke="#1F5A49" stroke-width="4"/>
+    <g class="mo6" font-size="46" fill="#F6EBCB">
+      <circle cx="2110" cy="775" r="40" fill="#C8362C"/><text x="2110" y="791" text-anchor="middle" font-size="40">A</text>
+      <text x="2180" y="770">Auntie Lim</text><text x="2180" y="812" font-size="30" fill="#D9CDA8" class="mo">Chinese New Year</text>
+      <rect x="2900" y="743" width="270" height="64" rx="32" fill="#6FBF9B"/><text x="3035" y="788" text-anchor="middle" font-size="32" fill="#06241B">Thanked</text>
+      <circle cx="2110" cy="930" r="40" fill="#C8362C"/><text x="2110" y="946" text-anchor="middle" font-size="40">U</text>
+      <text x="2180" y="925">Uncle Raj</text><text x="2180" y="967" font-size="30" fill="#D9CDA8" class="mo">Hari Raya</text>
+      <rect x="2900" y="898" width="270" height="64" rx="32" fill="none" stroke="#D4AF37" stroke-width="4"/><text x="3035" y="943" text-anchor="middle" font-size="32" fill="#D4AF37">Say thanks</text>
+      <circle cx="2110" cy="1085" r="40" fill="#C8362C"/><text x="2110" y="1101" text-anchor="middle" font-size="40">G</text>
+      <text x="2180" y="1080">Grandma</text><text x="2180" y="1122" font-size="30" fill="#D9CDA8" class="mo">Birthday</text>
+      <rect x="2900" y="1053" width="270" height="64" rx="32" fill="none" stroke="#D4AF37" stroke-width="4"/><text x="3035" y="1098" text-anchor="middle" font-size="32" fill="#D4AF37">Say thanks</text>
+    </g>
+    <text x="2622" y="1375" text-anchor="middle" font-size="104" fill="#F6EBCB" class="pf">Say thanks. Properly.</text>
+    <text x="2622" y="1465" text-anchor="middle" font-size="48" fill="#D9CDA8" class="mo">Reminders, so nobody is forgotten.</text>
+    <rect class="safe" x="1921" y="660" width="1402" height="962" fill="none" stroke="#7FE3FF" stroke-width="10" stroke-dasharray="40 24"/>
+  </svg><figcaption><b>E. The thank-you list</b>
+    <span><b style="font-size:13.5px">Why it works:</b> gratitude is the app's own ritual, and the list gives people a reason to return after each occasion.</span>
+    <span><b style="font-size:13.5px">Watch out:</b> busier than A, and it is less obvious at a glance what the app counts.</span></figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <div><h2>Scorecard</h2><p class="lede">Scored 1 to 5 against what the asset has to do. These are my judgment, not measured results.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Concept</th><th>Clear in a second</th><th>Emotional pull</th><th>Trust</th><th>Return habit</th><th>Fits safe area</th><th>Total</th></tr></thead>
+    <tbody>
+      <tr class="best"><td>A. The envelope</td><td>5</td><td>5</td><td>3</td><td>3</td><td>5</td><td>21</td></tr>
+      <tr><td>E. The thank-you list</td><td>3</td><td>4</td><td>3</td><td>5</td><td>4</td><td>19</td></tr>
+      <tr><td>D. The private keep</td><td>4</td><td>2</td><td>5</td><td>2</td><td>5</td><td>18</td></tr>
+      <tr><td>B. The ledger</td><td>4</td><td>3</td><td>3</td><td>3</td><td>4</td><td>17</td></tr>
+      <tr><td>C. The tally</td><td>3</td><td>4</td><td>2</td><td>4</td><td>4</td><td>17</td></tr>
+    </tbody></table></div>
+</section>
+
+<section>
+  <div><h2>My pick</h2></div>
+  <div class="grid">
+    <div class="card"><h3>Go with A for the header</h3><p>It wins on attracting people: instant, warm and recognisable to exactly the people who give and receive angpao. The rest of the listing (screenshots, description) already covers trust and features.</p></div>
+    <div class="card"><h3>Keep E as the runner-up</h3><p>It is the best at seeding a return habit. If your goal leans toward retention over first impressions, E is the swap.</p></div>
+    <div class="card"><h3>Line options for A</h3><p>"Count every blessing." (shown) · "Every blessing, counted." · "Remember who blessed you." · "Your angpao, remembered."</p></div>
+  </div>
+  <p class="lede">Next step, once you choose: I export the winner as a 5244 × 2950 PNG with no transparency into <code>release/</code>, and a version without text so you can compare. Nothing is exported yet.</p>
+</section>
+</div>
+
+<script>
+(function(){var w=document.getElementById('wrap'),c=document.getElementById('safe');function s(){w.classList.toggle('on',c.checked)}c.addEventListener('change',s);s()})();
+</script>
